@@ -31,7 +31,7 @@ const Sidebar = () => {
           <li>
             <PersonOutlineOutlinedIcon /> <span>Users</span>
           </li>
-          <li>
+          {/* <li>
             <StoreMallDirectoryOutlinedIcon /> <span>Products</span>
           </li>
           <li>
@@ -39,7 +39,7 @@ const Sidebar = () => {
           </li>
           <li>
             <LocalShippingOutlinedIcon /> <span>Delivery</span>
-          </li>
+          </li> */}
           <p className="title">USEFUL</p>
           <li>
             <InsertChartOutlinedIcon /> <span>Stats</span>
@@ -48,9 +48,9 @@ const Sidebar = () => {
             <NotificationsNoneOutlinedIcon /> <span>Notifications</span>
           </li>
           <p className="title">SERVICE</p>
-          <li>
+          {/* <li>
             <SettingsSystemDaydreamOutlinedIcon /> <span>System Health</span>
-          </li>
+          </li> */}
           <li>
             <PsychologyOutlinedIcon /> <span>Logs</span>
           </li>

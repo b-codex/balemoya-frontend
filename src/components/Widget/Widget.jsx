@@ -30,11 +30,11 @@ const Widget = ({ type }) => {
         ),
       };
       break;
-    case "order":
+    case "employment rate":
       data = {
-        title: "ORDERS",
+        title: "EMPLOYMENT RATE",
         isMoney: false,
-        link: "Display all orders",
+        link: "Show details",
         icon: (
           <ShoppingCartOutlinedIcon
             className="icon"
@@ -62,9 +62,9 @@ const Widget = ({ type }) => {
         ),
       };
       break;
-    case "balance":
+    case "revenue":
       data = {
-        title: "BALALNCE",
+        title: "REVENUE",
         isMoney: true,
         link: "See details",
         icon: (

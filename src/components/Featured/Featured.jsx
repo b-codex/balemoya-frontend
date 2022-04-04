@@ -17,31 +17,31 @@ const Featured = () => {
         <div className="featured_chart">
           <CircularProgressbar value={69} text={"69%"} strokeWidth={3} />
         </div>
-        <p className="title">Total sales made today</p>
-        <p className="amount">$420</p>
+        <p className="title">Total percent of users who signed up today</p>
+        <p className="amount">32</p>
         <p className="desc">
-          Previous transactions processing. Last payments may not be included.
+          {/* Previous transactions processing. Last payments may not be included. */}
         </p>
         <div className="summary">
           <div className="item">
-            <div className="item_title">Target</div>
-            <div className="item_result negative">
-              <KeyboardArrowDownIcon fontSize="small" />
-              <div className="result_amount">$12.9k</div>
+            <div className="item_title">Overall</div>
+            <div className="item_result positive">
+              <KeyboardArrowUpIcon fontSize="small" />
+              <div className="result_amount">62</div>
             </div>
           </div>
           <div className="item">
             <div className="item_title">Last Week</div>
-            <div className="item_result positive">
-              <KeyboardArrowUpIcon fontSize="small" />
-              <div className="result_amount">$12.9k</div>
+            <div className="item_result negative">
+              <KeyboardArrowDownIcon fontSize="small" />
+              <div className="result_amount">-6</div>
             </div>
           </div>
           <div className="item">
             <div className="item_title">Last Month</div>
             <div className="item_result positive">
               <KeyboardArrowUpIcon fontSize="small" />
-              <div className="result_amount">$12.9k</div>
+              <div className="result_amount">150</div>
             </div>
           </div>
         </div>
