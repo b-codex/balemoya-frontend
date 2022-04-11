@@ -1,6 +1,8 @@
-import 'package:balemoya/auth/register/screens/register_screen.dart';
-import 'package:balemoya/intro_screen.dart';
+import 'package:BaleMoya/auth/register/screens/register_screen.dart';
+import 'package:BaleMoya/intro_screen.dart';
+import 'package:BaleMoya/job/home/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,12 +15,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'BaleMoya',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.teal,
+        textTheme: GoogleFonts.montserratTextTheme(),
       ),
       debugShowCheckedModeBanner: false,
       home: IntroScreen(),
       routes: {
-        '/register': (context) => const RegisterScreen()
+        '/register': (context) => const RegisterScreen(),
+        '/home' : (context) => const HomeScreen(),
       },
     );
   }

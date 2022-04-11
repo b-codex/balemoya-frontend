@@ -1,4 +1,4 @@
-import 'package:balemoya/auth/login/screens/login_screen.dart';
+import 'package:BaleMoya/auth/login/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
@@ -9,39 +9,39 @@ class IntroScreen extends StatelessWidget {
           pages: [
             PageViewModel(
               title: 'BaleMoya',
-              body: 'tagline',
-              image: buildImage('assets/manthumbs.png'),
+              body: 'Find The Right Person For The Right Job',
+              image: buildImage('assets/start_screen.png'),
               decoration: getPageDecoration(),
             ),
             PageViewModel(
               title: 'Find Jobs With Ease',
               body: 'The jobs can be one-time, part-time or full-time',
-              image: buildImage('assets/manthumbs.png'),
+              image: buildImage('assets/find_jobs_with_ease.png'),
               decoration: getPageDecoration(),
             ),
             PageViewModel(
               title: 'Organization',
               body: 'As an organization, you can create or delete job posts and look for qualified employees',
-              image: buildImage('assets/manthumbs.png'),
+              image: buildImage('assets/organization.png'),
               decoration: getPageDecoration(),
             ),
             PageViewModel(
               title: 'Individual',
               body: 'As an individual, you can upload your CV and search for jobs of your preference',
-              image: buildImage('assets/manthumbs.png'),
+              image: buildImage('assets/individual.png'),
               decoration: getPageDecoration(),
             ),
             PageViewModel(
               title: 'Notifications',
               body: 'Get notified when jobs are available in your area',
-              image: buildImage('assets/manthumbs.png'),
+              image: buildImage('assets/notification.png'),
               decoration: getPageDecoration(),
             ),
             PageViewModel(
               title: 'Verification',
               body:
                   'Increase your chances of being found by verifying your account',
-              image: buildImage('assets/manthumbs.png'),
+              image: buildImage('assets/verified.png'),
               decoration: getPageDecoration(),
             ),
             // PageViewModel(
@@ -58,7 +58,7 @@ class IntroScreen extends StatelessWidget {
               //   text: 'Start Reading',
               //   onClicked: () => gotoLogin(context),
               // ),
-              image: buildImage('assets/manthumbs.png'),
+              image: buildImage('assets/start_using_now.png'),
               decoration: getPageDecoration(),
             ),
           ],

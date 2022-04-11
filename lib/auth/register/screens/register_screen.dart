@@ -28,13 +28,22 @@ class RegisterScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                _registerImageAndText(),
                 _fullname(_fullnameController),
                 _username(_usernameController),
                 _email(_emailController),
                 _phone(_phoneController),
                 _password(_passwordController),
                 _dropDownMenu(_dropdownValue),
-                _registerButton(),
+                OutlinedButton(
+                  child: Text("Register"),
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      print('validated');
+                    }
+                  },
+                  style: ButtonStyle(),
+                ),
               ],
             ),
           ),
@@ -44,51 +53,95 @@ class RegisterScreen extends StatelessWidget {
   }
 }
 
+Widget _registerImageAndText() {
+  return Container(
+    margin: EdgeInsets.only(
+      bottom: 45,
+    ),
+    child: Column(
+      children: [
+        Container(
+          margin: EdgeInsets.only(
+            bottom: 10,
+          ),
+          child: Image.asset(
+            'assets/register.png',
+            height: 100,
+          ),
+        ),
+        Text(
+          'Register',
+          style: TextStyle(
+            fontSize: 29,
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
 Widget _fullname(_fullnameController) {
   return Container(
     margin: EdgeInsets.symmetric(vertical: 5),
-    child: _formField(_fullnameController, "Fullname", Icon(Icons.person),
-        false, TextInputType.text),
+    child: _formField(
+      _fullnameController,
+      "Fullname",
+      Icon(Icons.person),
+      false,
+      TextInputType.text,
+    ),
   );
 }
 
 Widget _username(_usernameController) {
   return Container(
     margin: EdgeInsets.symmetric(vertical: 5),
-    child: _formField(_usernameController, "Username",
-        Icon(Icons.alternate_email), false, TextInputType.text),
+    child: _formField(
+      _usernameController,
+      "Username",
+      Icon(Icons.alternate_email),
+      false,
+      TextInputType.text,
+    ),
   );
 }
 
 Widget _email(_emailController) {
   return Container(
     margin: EdgeInsets.symmetric(vertical: 5),
-    child: _formField(_emailController, "Email", Icon(Icons.email), false,
-        TextInputType.emailAddress),
+    child: _formField(
+      _emailController,
+      "Email",
+      Icon(Icons.email),
+      false,
+      TextInputType.emailAddress,
+    ),
   );
 }
 
 Widget _phone(_phoneController) {
   return Container(
     margin: EdgeInsets.symmetric(vertical: 5),
-    child: _formField(_phoneController, "Phone Number",
-        Icon(Icons.phone_android), false, TextInputType.phone),
+    child: _formField(
+      _phoneController,
+      "Phone Number",
+      Icon(Icons.phone_android),
+      false,
+      TextInputType.phone,
+    ),
   );
 }
 
 Widget _password(_passwordController) {
   return Container(
     margin: EdgeInsets.symmetric(vertical: 5),
-    child: _formField(_passwordController, "Password", Icon(Icons.lock), true,
-        TextInputType.visiblePassword),
-  );
-}
-
-Widget _registerButton() {
-  return OutlinedButton(
-    child: Text("Register"),
-    onPressed: () {},
-    style: ButtonStyle(),
+    child: _formField(
+      _passwordController,
+      "Password",
+      Icon(Icons.lock),
+      true,
+      TextInputType.visiblePassword,
+    ),
   );
 }
 
@@ -105,6 +158,13 @@ Widget _formField(
       ),
     ),
     obscureText: _obscureText,
+    validator: (value) {
+      if (value!.isEmpty) {
+        return 'Field can\'t be empty.';
+      } else {
+        return null;
+      }
+    },
   );
 }
 
@@ -129,12 +189,14 @@ Widget _dropDownMenu(_dropdownValue) {
           // });
         },
         items: <String>['Individual', 'Organization/Company']
-            .map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
-        }).toList(),
+            .map<DropdownMenuItem<String>>(
+          (String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          },
+        ).toList(),
       ),
     ],
   );

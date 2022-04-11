@@ -23,9 +23,19 @@ class LoginScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                _loginImageAndText(),
                 _username(_usernameController),
                 _password(_passwordController),
-                _loginButton(),
+                OutlinedButton(
+                  child: Text("Login"),
+                  onPressed: () {
+                    // if (_formKey.currentState!.validate()) {
+                    //   print('validated');
+                    // }
+                    Navigator.of(context).pushNamed('/home');
+                  },
+                  style: ButtonStyle(),
+                ),
                 _dontHaveAnAccountButton(context),
               ],
             ),
@@ -34,6 +44,33 @@ class LoginScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget _loginImageAndText() {
+  return Container(
+    margin: EdgeInsets.only(
+      bottom: 45,
+    ),
+    child: Column(
+      children: [
+        Container(
+          margin: EdgeInsets.only(
+            bottom: 10,
+          ),
+          child: Image.asset(
+            'assets/login.png',
+            height: 180,
+          ),
+        ),
+        Text(
+          'Login',
+          style: TextStyle(
+            fontSize: 29,
+          ),
+        ),
+      ],
+    ),
+  );
 }
 
 Widget _username(_usernameController) {
@@ -57,14 +94,6 @@ Widget _password(_passwordController) {
       Icon(Icons.lock),
       true,
     ),
-  );
-}
-
-Widget _loginButton() {
-  return OutlinedButton(
-    child: Text("Login"),
-    onPressed: () {},
-    style: ButtonStyle(),
   );
 }
 
@@ -92,5 +121,12 @@ Widget _formField(_controller, _formLabel, _prefixIcon, _obscureText) {
       ),
     ),
     obscureText: _obscureText,
+    validator: (value) {
+      if (value!.isEmpty) {
+        return 'Field can\'t be empty.';
+      } else {
+        return null;
+      }
+    },
   );
 }
