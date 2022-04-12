@@ -8,7 +8,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _appBar(),
-      drawer: _drawer(),
+      drawer: _drawer(context),
       body: _body(),
     );
   }
@@ -27,7 +27,7 @@ PreferredSizeWidget _appBar() {
   );
 }
 
-Widget _drawer() {
+Widget _drawer(context) {
   return Drawer(
     child: Column(
       children: [
@@ -45,18 +45,33 @@ Widget _drawer() {
                   width: 100,
                 ),
               ),
+              Text(
+                'User',
+                style: TextStyle(
+                  fontSize: 18,
+                ),
+              )
             ],
           ),
         ),
         ListTile(
-          leading: Icon(Icons.account_circle),
-          title: Text('1'),
+          leading: Icon(Icons.home),
+          title: Text('Home'),
+          onTap: () {
+            Navigator.of(context).pushNamed('/home');
+          },
+        ),
+        ListTile(
+          leading: Icon(Icons.account_box),
+          title: Text('Account'),
           onTap: () {},
         ),
         ListTile(
-          leading: Icon(Icons.star),
-          title: Text('2'),
-          onTap: () {},
+          leading: Icon(Icons.bookmark),
+          title: Text('Bookmarks'),
+          onTap: () {
+            Navigator.of(context).pushNamed('/bookmarks');
+          },
         ),
         Expanded(
           child: Container(),
@@ -247,20 +262,40 @@ Widget _popularJobsCard() {
                 SizedBox(
                   height: 10,
                 ),
-                Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 5,
-                  ),
-                  decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 223, 218, 218),
-                      borderRadius: BorderRadius.circular(50)),
-                  child: Text(
-                    'Job Type',
-                    style: TextStyle(
-                      fontSize: 10,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 5,
+                      ),
+                      decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 223, 218, 218),
+                          borderRadius: BorderRadius.circular(50)),
+                      child: Text(
+                        'Job Type',
+                        style: TextStyle(
+                          fontSize: 10,
+                        ),
+                      ),
                     ),
-                  ),
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 5,
+                      ),
+                      decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 223, 218, 218),
+                          borderRadius: BorderRadius.circular(50)),
+                      child: Text(
+                        'Experience',
+                        style: TextStyle(
+                          fontSize: 10,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             )
@@ -313,26 +348,30 @@ Widget _latestJobs() {
 
 Widget _latestJobsCard() {
   return Container(
-    height: 128,
+    margin: EdgeInsets.symmetric(vertical: 1),
+    height: 138,
     child: Card(
       elevation: 5,
       child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Row(
-            children: [
-              Column(
-                children: [
-                  Image.asset(
-                    'assets/start_screen.png',
-                    height: 100,
-                  )
-                ],
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+        padding: const EdgeInsets.all(10.0),
+        child: Row(
+          children: [
+            Column(
+              children: [
+                Image.asset(
+                  'assets/start_screen.png',
+                  height: 100,
+                )
+              ],
+            ),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.max,
                     children: [
                       Text(
                         'Job Title',
@@ -342,6 +381,10 @@ Widget _latestJobsCard() {
                         overflow: TextOverflow.visible,
                         softWrap: true,
                       ),
+                      IconButton(
+                        onPressed: () {},
+                        icon: Icon(Icons.bookmark_add),
+                      ),
                     ],
                   ),
                   Row(
@@ -349,63 +392,68 @@ Widget _latestJobsCard() {
                       Text('Company Name'),
                     ],
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 3),
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 5,
-                        ),
-                        decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 223, 218, 218),
-                            borderRadius: BorderRadius.circular(50)),
-                        child: Text(
-                          '\$ Money',
-                          style: TextStyle(
-                            fontSize: 10,
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 3),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 5,
+                          ),
+                          decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 223, 218, 218),
+                              borderRadius: BorderRadius.circular(50)),
+                          child: Text(
+                            '\$ Money',
+                            style: TextStyle(
+                              fontSize: 10,
+                            ),
                           ),
                         ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 3),
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 5,
-                        ),
-                        decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 223, 218, 218),
-                            borderRadius: BorderRadius.circular(50)),
-                        child: Text(
-                          'Experience',
-                          style: TextStyle(
-                            fontSize: 10,
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 3),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 5,
+                          ),
+                          decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 223, 218, 218),
+                              borderRadius: BorderRadius.circular(50)),
+                          child: Text(
+                            'Experience',
+                            style: TextStyle(
+                              fontSize: 10,
+                            ),
                           ),
                         ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 3),
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 5,
-                        ),
-                        decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 223, 218, 218),
-                            borderRadius: BorderRadius.circular(50)),
-                        child: Text(
-                          'Job Type',
-                          style: TextStyle(
-                            fontSize: 10,
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 3),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 5,
+                          ),
+                          decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 223, 218, 218),
+                              borderRadius: BorderRadius.circular(50)),
+                          child: Text(
+                            'Job Type',
+                            style: TextStyle(
+                              fontSize: 10,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   )
                 ],
               ),
-            ],
-          )),
+            ),
+          ],
+        ),
+      ),
     ),
   );
 }

@@ -1,4 +1,4 @@
-import 'package:BaleMoya/auth/login/screens/login_screen.dart';
+import 'package:balemoya/auth/login/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
@@ -72,13 +72,14 @@ class IntroScreen extends StatelessWidget {
           dotsDecorator: getDotDecoration(),
           // onChange: (index) => print('Page $index selected'),
           globalBackgroundColor: Colors.white,
-          skipFlex: 0,
+          // skipFlex: 0,
+          dotsFlex: 4,
           nextFlex: 0,
           // isProgressTap: false,
           // isProgress: false,
           // showNextButton: false,
           // freeze: true,
-          // animationDuration: 1000,
+          animationDuration: 400,
         ),
       );
 
@@ -102,7 +103,11 @@ class IntroScreen extends StatelessWidget {
   PageDecoration getPageDecoration() => PageDecoration(
         titleTextStyle: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
         bodyTextStyle: TextStyle(fontSize: 20),
-        descriptionPadding: EdgeInsets.all(16).copyWith(bottom: 0),
+        // footerPadding: EdgeInsets.all(16).copyWith(bottom: 0),
+        // titlePadding: EdgeInsets.all(16).copyWith(bottom: 0),
+        bodyPadding: EdgeInsets.all(16).copyWith(bottom: 0),
+        
+        // descriptionPadding: EdgeInsets.all(16).copyWith(bottom: 0),
         imagePadding: EdgeInsets.all(24),
         pageColor: Colors.white,
       );

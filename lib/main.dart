@@ -1,6 +1,9 @@
-import 'package:BaleMoya/auth/register/screens/register_screen.dart';
-import 'package:BaleMoya/intro_screen.dart';
-import 'package:BaleMoya/job/home/home_screen.dart';
+import 'package:balemoya/auth/login/screens/login_screen.dart';
+import 'package:balemoya/auth/register/screens/register_screen.dart';
+import 'package:balemoya/intro_screen.dart';
+import 'package:balemoya/job/bookmarks/screens/bookmarks.dart';
+import 'package:balemoya/job/home/screens/home_screen.dart';
+import 'package:balemoya/job/job_detail/screens/job_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -22,7 +25,10 @@ class MyApp extends StatelessWidget {
       home: IntroScreen(),
       routes: {
         '/register': (context) => const RegisterScreen(),
+        '/login' : (context) => const LoginScreen(),
         '/home' : (context) => const HomeScreen(),
+        '/bookmarks' : (context) => const Bookmarks(),
+        '/job_detail' : (context) => const JobDetail(),
       },
     );
   }
