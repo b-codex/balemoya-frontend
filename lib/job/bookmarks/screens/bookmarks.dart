@@ -198,8 +198,9 @@ Widget _jobCard() {
                             vertical: 5,
                           ),
                           decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 223, 218, 218),
-                              borderRadius: BorderRadius.circular(50)),
+                            color: Color.fromARGB(255, 223, 218, 218),
+                            borderRadius: BorderRadius.circular(50),
+                          ),
                           child: Text(
                             'Job Type',
                             style: TextStyle(

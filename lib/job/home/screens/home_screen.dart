@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
-  static const routeName = 'home';
+  static const routeName = '/home';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _appBar(),
       drawer: _drawer(context),
-      body: _body(),
+      body: _body(context),
     );
   }
 }
@@ -90,7 +90,7 @@ Widget _drawer(context) {
   );
 }
 
-Widget _body() {
+Widget _body(context) {
   return SingleChildScrollView(
     scrollDirection: Axis.vertical,
     child: Column(
@@ -118,11 +118,11 @@ Widget _body() {
           ),
           child: _searchField(),
         ),
-        _popularJobs(),
+        _popularJobs(context),
         SizedBox(
           height: 10,
         ),
-        _latestJobs(),
+        _latestJobs(context),
       ],
     ),
   );
@@ -157,7 +157,7 @@ Widget _searchField() {
   );
 }
 
-Widget _popularJobs() {
+Widget _popularJobs(context) {
   return Container(
     padding: EdgeInsets.symmetric(
       horizontal: 8,
@@ -188,14 +188,14 @@ Widget _popularJobs() {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: [
-              _popularJobsCard(),
-              _popularJobsCard(),
-              _popularJobsCard(),
-              _popularJobsCard(),
-              _popularJobsCard(),
-              _popularJobsCard(),
-              _popularJobsCard(),
-              _popularJobsCard(),
+              _popularJobsCard(context),
+              _popularJobsCard(context),
+              _popularJobsCard(context),
+              _popularJobsCard(context),
+              _popularJobsCard(context),
+              _popularJobsCard(context),
+              _popularJobsCard(context),
+              _popularJobsCard(context),
             ],
           ),
         ),
@@ -204,109 +204,116 @@ Widget _popularJobs() {
   );
 }
 
-Widget _popularJobsCard() {
-  return Container(
-    height: 210,
-    width: 250,
-    child: Card(
-      elevation: 5,
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Image.asset(
-                  'assets/start_screen.png',
-                  height: 100,
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Company Name',
-                        style: TextStyle(
-                          fontSize: 22,
+Widget _popularJobsCard(context) {
+  return GestureDetector(
+    onTap: () {
+      Navigator.of(context).pushNamed('/job_detail');
+      print('popular jobs');
+    },
+    child: Container(
+      height: 210,
+      width: 250,
+      child: Card(
+        elevation: 5,
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Image.asset(
+                    'assets/start_screen.png',
+                    height: 100,
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Company Name',
+                          style: TextStyle(
+                            fontSize: 22,
+                          ),
+                          overflow: TextOverflow.visible,
+                          softWrap: true,
                         ),
-                        overflow: TextOverflow.visible,
-                        softWrap: true,
+                        Text(
+                          'Location',
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Job Title',
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    '\$ Money',
+                    style: TextStyle(
+                      fontSize: 13,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 5,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 223, 218, 218),
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        child: Text(
+                          'Job Type',
+                          style: TextStyle(
+                            fontSize: 10,
+                          ),
+                        ),
                       ),
-                      Text(
-                        'Location',
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 5,
+                        ),
+                        decoration: BoxDecoration(
+                            color: Color.fromARGB(255, 223, 218, 218),
+                            borderRadius: BorderRadius.circular(50)),
+                        child: Text(
+                          'Experience',
+                          style: TextStyle(
+                            fontSize: 10,
+                          ),
+                        ),
                       ),
                     ],
                   ),
-                )
-              ],
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Job Title',
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  '\$ Money',
-                  style: TextStyle(
-                    fontSize: 13,
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 5,
-                      ),
-                      decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 223, 218, 218),
-                          borderRadius: BorderRadius.circular(50)),
-                      child: Text(
-                        'Job Type',
-                        style: TextStyle(
-                          fontSize: 10,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 5,
-                      ),
-                      decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 223, 218, 218),
-                          borderRadius: BorderRadius.circular(50)),
-                      child: Text(
-                        'Experience',
-                        style: TextStyle(
-                          fontSize: 10,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            )
-          ],
+                ],
+              )
+            ],
+          ),
         ),
       ),
     ),
   );
 }
 
-Widget _latestJobs() {
+Widget _latestJobs(context) {
   return Container(
     margin: EdgeInsets.symmetric(
       horizontal: 7,
@@ -336,122 +343,129 @@ Widget _latestJobs() {
         SizedBox(
           height: 5,
         ),
-        _latestJobsCard(),
-        _latestJobsCard(),
-        _latestJobsCard(),
-        _latestJobsCard(),
-        _latestJobsCard(),
+        _latestJobsCard(context),
+        _latestJobsCard(context),
+        _latestJobsCard(context),
+        _latestJobsCard(context),
+        _latestJobsCard(context),
       ],
     ),
   );
 }
 
-Widget _latestJobsCard() {
-  return Container(
-    margin: EdgeInsets.symmetric(vertical: 1),
-    height: 138,
-    child: Card(
-      elevation: 5,
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Row(
-          children: [
-            Column(
-              children: [
-                Image.asset(
-                  'assets/start_screen.png',
-                  height: 100,
-                )
-              ],
-            ),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
+Widget _latestJobsCard(context) {
+  return GestureDetector(
+    onTap: () {
+      Navigator.of(context).pushNamed('/job_detail');
+      print('latest jobs');
+    },
+    child: Container(
+      margin: EdgeInsets.symmetric(vertical: 1),
+      height: 138,
+      child: Card(
+        elevation: 5,
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Row(
+            children: [
+              Column(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Text(
-                        'Job Title',
-                        style: TextStyle(
-                          fontSize: 22,
-                        ),
-                        overflow: TextOverflow.visible,
-                        softWrap: true,
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.bookmark_add),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text('Company Name'),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.symmetric(horizontal: 3),
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 10,
-                            vertical: 5,
-                          ),
-                          decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 223, 218, 218),
-                              borderRadius: BorderRadius.circular(50)),
-                          child: Text(
-                            '\$ Money',
-                            style: TextStyle(
-                              fontSize: 10,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.symmetric(horizontal: 3),
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 10,
-                            vertical: 5,
-                          ),
-                          decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 223, 218, 218),
-                              borderRadius: BorderRadius.circular(50)),
-                          child: Text(
-                            'Experience',
-                            style: TextStyle(
-                              fontSize: 10,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.symmetric(horizontal: 3),
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 10,
-                            vertical: 5,
-                          ),
-                          decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 223, 218, 218),
-                              borderRadius: BorderRadius.circular(50)),
-                          child: Text(
-                            'Job Type',
-                            style: TextStyle(
-                              fontSize: 10,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                  Image.asset(
+                    'assets/start_screen.png',
+                    height: 100,
                   )
                 ],
               ),
-            ),
-          ],
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Text(
+                          'Job Title',
+                          style: TextStyle(
+                            fontSize: 22,
+                          ),
+                          overflow: TextOverflow.visible,
+                          softWrap: true,
+                        ),
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.bookmark_add),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text('Company Name'),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.symmetric(horizontal: 3),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 5,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 223, 218, 218),
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                            child: Text(
+                              '\$ Money',
+                              style: TextStyle(
+                                fontSize: 10,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.symmetric(horizontal: 3),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 5,
+                            ),
+                            decoration: BoxDecoration(
+                                color: Color.fromARGB(255, 223, 218, 218),
+                                borderRadius: BorderRadius.circular(50)),
+                            child: Text(
+                              'Experience',
+                              style: TextStyle(
+                                fontSize: 10,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.symmetric(horizontal: 3),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 5,
+                            ),
+                            decoration: BoxDecoration(
+                                color: Color.fromARGB(255, 223, 218, 218),
+                                borderRadius: BorderRadius.circular(50)),
+                            child: Text(
+                              'Job Type',
+                              style: TextStyle(
+                                fontSize: 10,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     ),
