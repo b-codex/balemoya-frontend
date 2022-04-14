@@ -21,7 +21,7 @@ PreferredSizeWidget _appBar() {
         onPressed: () {
           // redirect to profile page
         },
-        icon: Image.asset('assets/start_screen.png'),
+        icon: Image.asset('assets/google.jpg'),
       )
     ],
   );
@@ -41,7 +41,7 @@ Widget _drawer(context) {
                 minRadius: 50,
                 backgroundColor: Colors.transparent,
                 child: Image.asset(
-                  'assets/start_screen.png',
+                  'assets/google.jpg',
                   width: 100,
                 ),
               ),
@@ -121,7 +121,7 @@ Widget _jobCard() {
             Column(
               children: [
                 Image.asset(
-                  'assets/start_screen.png',
+                  'assets/google.jpg',
                   height: 100,
                 )
               ],
@@ -169,7 +169,7 @@ Widget _jobCard() {
                               color: Color.fromARGB(255, 223, 218, 218),
                               borderRadius: BorderRadius.circular(50)),
                           child: Text(
-                            '\$ Money',
+                            '\Salary',
                             style: TextStyle(
                               fontSize: 10,
                             ),

@@ -21,7 +21,7 @@ PreferredSizeWidget _appBar() {
         onPressed: () {
           // redirect to profile page
         },
-        icon: Image.asset('assets/start_screen.png'),
+        icon: Image.asset('assets/google.jpg'),
       )
     ],
   );
@@ -41,7 +41,7 @@ Widget _drawer(context) {
                 minRadius: 50,
                 backgroundColor: Colors.transparent,
                 child: Image.asset(
-                  'assets/start_screen.png',
+                  'assets/google.jpg',
                   width: 100,
                 ),
               ),
@@ -71,6 +71,13 @@ Widget _drawer(context) {
           title: Text('Bookmarks'),
           onTap: () {
             Navigator.of(context).pushNamed('/bookmarks');
+          },
+        ),
+        ListTile(
+          // leading: Icon(Icons.bookmark),
+          title: Text('Create Job Post'),
+          onTap: () {
+            Navigator.of(context).pushNamed('/create_job_post');
           },
         ),
         Expanded(
@@ -146,11 +153,11 @@ Widget _searchField() {
           ),
         ),
         validator: (value) {
-          print(value);
+          // print(value);
           return '';
         },
         onChanged: (value) {
-          print(value);
+          // print(value);
         },
       ),
     ),
@@ -208,7 +215,6 @@ Widget _popularJobsCard(context) {
   return GestureDetector(
     onTap: () {
       Navigator.of(context).pushNamed('/job_detail');
-      print('popular jobs');
     },
     child: Container(
       height: 210,
@@ -223,7 +229,7 @@ Widget _popularJobsCard(context) {
               Row(
                 children: [
                   Image.asset(
-                    'assets/start_screen.png',
+                    'assets/google.jpg',
                     height: 100,
                   ),
                   Expanded(
@@ -259,7 +265,7 @@ Widget _popularJobsCard(context) {
                     height: 5,
                   ),
                   Text(
-                    '\$ Money',
+                    '\Salary',
                     style: TextStyle(
                       fontSize: 13,
                     ),
@@ -357,7 +363,6 @@ Widget _latestJobsCard(context) {
   return GestureDetector(
     onTap: () {
       Navigator.of(context).pushNamed('/job_detail');
-      print('latest jobs');
     },
     child: Container(
       margin: EdgeInsets.symmetric(vertical: 1),
@@ -371,7 +376,7 @@ Widget _latestJobsCard(context) {
               Column(
                 children: [
                   Image.asset(
-                    'assets/start_screen.png',
+                    'assets/google.jpg',
                     height: 100,
                   )
                 ],
@@ -420,7 +425,7 @@ Widget _latestJobsCard(context) {
                               borderRadius: BorderRadius.circular(50),
                             ),
                             child: Text(
-                              '\$ Money',
+                              '\Salary',
                               style: TextStyle(
                                 fontSize: 10,
                               ),

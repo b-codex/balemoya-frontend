@@ -177,7 +177,7 @@ Widget _body(context) {
                 borderRadius: BorderRadius.circular(50),
               ),
               child: Text(
-                '\$ Money',
+                '\Salary',
                 style: TextStyle(
                   fontSize: 13,
                 ),
