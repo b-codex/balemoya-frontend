@@ -64,7 +64,9 @@ Widget _drawer(context) {
         ListTile(
           leading: Icon(Icons.account_box),
           title: Text('Account'),
-          onTap: () {},
+          onTap: () {
+            Navigator.of(context).pushNamed('/profile_screen');
+          },
         ),
         ListTile(
           leading: Icon(Icons.bookmark),

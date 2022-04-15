@@ -64,7 +64,9 @@ Widget _drawer(context) {
         ListTile(
           leading: Icon(Icons.account_box),
           title: Text('Account'),
-          onTap: () {},
+          onTap: () {
+            Navigator.of(context).pushNamed('/profile_screen');
+          },
         ),
         ListTile(
           leading: Icon(Icons.bookmark),
@@ -295,9 +297,48 @@ Widget _body(context) {
                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus dignissim hendrerit arcu, ut malesuada leo congue id. Nullam pulvinar ligula eu justo sollicitudin, sit amet.'),
               ),
             ),
+            // Apply Button
+            _applyButton(context),
           ],
-        )
+        ),
       ],
+    ),
+  );
+}
+
+Widget _applyButton(context) {
+  return Container(
+    margin: EdgeInsets.symmetric(
+      vertical: 10,
+      horizontal: 7,
+    ),
+    child: ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        fixedSize: const Size(400, 50),
+      ),
+      onPressed: () {
+        var _alertDialog = AlertDialog(
+          title: Text('Confirm'),
+          content: Text('Apply to this job post?'),
+          actions: [
+            TextButton(
+              onPressed: () {},
+              child: Text('Yes'),
+            ),
+            TextButton(
+              onPressed: () {},
+              child: Text('No'),
+            ),
+          ],
+        );
+        showDialog(
+          context: context,
+          builder: (BuildContext ctx) {
+            return _alertDialog;
+          },
+        );
+      },
+      child: Text('Apply'),
     ),
   );
 }
