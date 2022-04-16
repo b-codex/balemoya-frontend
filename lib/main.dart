@@ -1,4 +1,5 @@
 import 'package:balemoya/account/profile/screens/profile_screen.dart';
+import 'package:balemoya/account/reset_password/screens/reset_password.dart';
 import 'package:balemoya/auth/login/screens/login_screen.dart';
 import 'package:balemoya/auth/register/screens/register_screen.dart';
 import 'package:balemoya/intro_screen.dart';
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
         '/job_detail': (context) => const JobDetail(),
         '/create_job_post': (context) => const CreateJobPost(),
         '/profile_screen': (context) => const ProfileScreen(),
+        '/reset_password': (context) => const ResetPassword(),
       },
     );
   }

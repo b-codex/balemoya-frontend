@@ -25,60 +25,68 @@ PreferredSizeWidget _appBar(context) {
         itemBuilder: (context) {
           return <PopupMenuEntry>[
             PopupMenuItem(
-              child: TextButton(
-                onPressed: () {},
-                child: Text(
-                  'Change Profile Picture',
-                  style: TextStyle(color: Colors.black),
-                ),
+              value: 'Change Profile Picture',
+              child: Text(
+                'Change Profile Picture',
+                style: TextStyle(color: Colors.black),
               ),
             ),
             PopupMenuItem(
-              child: TextButton(
-                onPressed: () {},
-                child: Text(
-                  'Resume Builder',
-                  style: TextStyle(color: Colors.black),
-                ),
+              value: 'Resume Builder',
+              child: Text(
+                'Resume Builder',
+                style: TextStyle(color: Colors.black),
               ),
             ),
             PopupMenuItem(
-              child: TextButton(
-                onPressed: () {
-                  var _alertDialog = AlertDialog(
-                    title: Text('Confirm'),
-                    content:
-                        Text('Are you sure you want to delete your account?'),
-                    actions: [
-                      TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          'Yes',
-                          style: TextStyle(color: Colors.red),
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Text('No'),
-                      ),
-                    ],
-                  );
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext ctx) {
-                      return _alertDialog;
-                    },
-                  );
-                },
-                child: Text(
-                  'Delete Account',
-                  style: TextStyle(color: Colors.red),
-                ),
+              value: 'Reset Password',
+              child: Text(
+                'Reset Password',
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+            PopupMenuItem(
+              value: 'Delete Account',
+              child: Text(
+                'Delete Account',
+                style: TextStyle(color: Colors.red),
               ),
             ),
           ];
+        },
+        onSelected: (clicked) {
+          if (clicked == 'Change Profile Picture') {}
+          if (clicked == 'Resume Builder') {}
+          if (clicked == 'Reset Password') {
+            Navigator.of(context).pushNamed('/reset_password');
+          }
+          if (clicked == 'Delete Account') {
+            var _alertDialog = AlertDialog(
+              title: Text('Confirm'),
+              content: Text('Are you sure you want to delete your account?'),
+              actions: [
+                TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    'Yes',
+                    style: TextStyle(color: Colors.red),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('No'),
+                ),
+              ],
+            );
+            showDialog(
+              context: context,
+              builder: (BuildContext ctx) {
+                return _alertDialog;
+              },
+            );
+          }
         },
       ),
     ],

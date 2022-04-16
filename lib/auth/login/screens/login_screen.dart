@@ -38,6 +38,7 @@ class LoginScreen extends StatelessWidget {
                   style: ButtonStyle(),
                 ),
                 _dontHaveAnAccountButton(context),
+                _resetAccountButton(context),
               ],
             ),
           ),
@@ -100,12 +101,27 @@ Widget _password(_passwordController) {
 
 Widget _dontHaveAnAccountButton(context) {
   return Container(
-    margin: EdgeInsets.all(7),
+    margin: EdgeInsets.only(
+      top: 7,
+    ),
     padding: EdgeInsets.all(3),
     child: TextButton(
       onPressed: () => Navigator.pushNamed(context, '/register'),
       child: Text(
         'Don\'t Have An Account?',
+      ),
+    ),
+  );
+}
+
+Widget _resetAccountButton(context) {
+  return Container(
+    // margin: EdgeInsets.all(7),
+    padding: EdgeInsets.all(3),
+    child: TextButton(
+      onPressed: () => Navigator.pushNamed(context, '/reset_password'),
+      child: Text(
+        'Forgot Password?',
       ),
     ),
   );
