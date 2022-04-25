@@ -1,3 +1,4 @@
+import 'package:filter_list/filter_list.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -7,21 +8,54 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _appBar(),
+      appBar: _appBar(context),
       drawer: _drawer(context),
       body: _body(context),
     );
   }
 }
 
-PreferredSizeWidget _appBar() {
+class SearchCategory {
+  final String? category;
+
+  SearchCategory({this.category});
+}
+
+PreferredSizeWidget _appBar(context) {
   return AppBar(
     actions: [
       IconButton(
         onPressed: () {
-          // redirect to profile page
+          List<SearchCategory> searchCategories = [
+            SearchCategory(category: 'One-time'),
+            SearchCategory(category: 'Contractual'),
+            SearchCategory(category: 'Permanent'),
+          ];
+          List<SearchCategory> selectedUserList = [];
+          String queryString = "";
+          FilterListDialog.display<SearchCategory>(
+            context,
+            listData: searchCategories,
+            selectedListData: selectedUserList,
+            choiceChipLabel: (category) => category!.category,
+            validateSelectedItem: (list, val) => list!.contains(val),
+            onItemSearch: (category, query) {
+              // print(query);
+              queryString = query;
+              return true;
+              // return category.category!
+              //     .toLowerCase()
+              //     .contains(query.toLowerCase());
+            },
+            onApplyButtonClick: (list) {
+              selectedUserList = List.from(list!);
+              selectedUserList.forEach((c) => print(c.category));
+              print(queryString);
+              Navigator.pop(context);
+            },
+          );
         },
-        icon: Image.asset('assets/google.jpg'),
+        icon: Icon(Icons.search),
       )
     ],
   );
@@ -82,6 +116,13 @@ Widget _drawer(context) {
             Navigator.of(context).pushNamed('/create_job_post');
           },
         ),
+        ListTile(
+          // leading: Icon(Icons.bookmark),
+          title: Text('Search Results'),
+          onTap: () {
+            Navigator.of(context).pushNamed('/search_results');
+          },
+        ),
         Expanded(
           child: Container(),
         ),
@@ -118,15 +159,15 @@ Widget _body(context) {
             ),
           ),
         ),
-        Container(
-          margin: EdgeInsets.only(
-            top: 15,
-            bottom: 30,
-            left: 20,
-            right: 20,
-          ),
-          child: _searchField(),
-        ),
+        // Container(
+        //   margin: EdgeInsets.only(
+        //     top: 15,
+        //     bottom: 30,
+        //     left: 20,
+        //     right: 20,
+        //   ),
+        //   child: _searchField(context),
+        // ),
         _popularJobs(context),
         SizedBox(
           height: 10,
@@ -137,7 +178,7 @@ Widget _body(context) {
   );
 }
 
-Widget _searchField() {
+Widget _searchField(context) {
   GlobalKey<FormState> _formKey = GlobalKey();
 
   return Form(

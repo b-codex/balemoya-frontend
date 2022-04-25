@@ -75,6 +75,13 @@ Widget _drawer(context) {
             Navigator.of(context).pushNamed('/bookmarks');
           },
         ),
+        ListTile(
+          // leading: Icon(Icons.bookmark),
+          title: Text('Create Job Post'),
+          onTap: () {
+            Navigator.of(context).pushNamed('/create_job_post');
+          },
+        ),
         Expanded(
           child: Container(),
         ),

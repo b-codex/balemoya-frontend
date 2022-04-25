@@ -1,3 +1,4 @@
+import 'package:balemoya/auth/login/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
 class ResetPassword extends StatelessWidget {
@@ -127,11 +128,16 @@ Widget _submitButton(context) {
       onPressed: () {
         var _alertDialog = AlertDialog(
           title: Text('Confirmation'),
-          content: Text('The information you entered has been sent to the admin.\nWe will be in touch soon.'),
+          content: Text(
+              'The information you entered has been sent to the admin.\nWe will be in touch soon.'),
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.of(context).pushReplacementNamed('/login');
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (BuildContext ctx) => LoginScreen(),
+                  ),
+                );
               },
               child: Text('Ok'),
             ),

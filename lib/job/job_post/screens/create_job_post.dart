@@ -67,7 +67,7 @@ Widget _drawer(context) {
                 minRadius: 50,
                 backgroundColor: Colors.transparent,
                 child: Image.asset(
-                  'assets/start_screen.png',
+                  'assets/google.jpg',
                   width: 100,
                 ),
               ),
@@ -101,6 +101,13 @@ Widget _drawer(context) {
             Navigator.of(context).pushNamed('/bookmarks');
           },
         ),
+        ListTile(
+          // leading: Icon(Icons.bookmark),
+          title: Text('Create Job Post'),
+          onTap: () {
+            Navigator.of(context).pushNamed('/create_job_post');
+          },
+        ),
         Expanded(
           child: Container(),
         ),
@@ -130,7 +137,7 @@ Widget _body(context, _controllers) {
         _requirements(_controllers[4]),
         _jobType(),
         _companyLogo(),
-        _postButton(),
+        _postButton(context),
         _helpText(),
       ],
     ),
@@ -290,13 +297,34 @@ Widget _helpText() {
   );
 }
 
-Widget _postButton() {
+Widget _postButton(context) {
   return Container(
     margin: EdgeInsets.only(
       top: 35,
     ),
     child: ElevatedButton(
-      onPressed: () {},
+      onPressed: () {
+        var _alertDialog = AlertDialog(
+          title: Text('Confirmation'),
+          content: Text(
+            'Job Posted',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Ok'),
+            ),
+          ],
+        );
+        showDialog(
+          context: context,
+          builder: (BuildContext ctx) {
+            return _alertDialog;
+          },
+        );
+      },
       child: Text("Post"),
       style: ElevatedButton.styleFrom(
         fixedSize: const Size(400, 50),
@@ -332,9 +360,9 @@ Widget _companyLogo() {
 }
 
 Future _chooseImage() async {
-   final ImagePicker _picker = ImagePicker();
-    // Pick an image
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+  final ImagePicker _picker = ImagePicker();
+  // Pick an image
+  final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
   print(image.toString());
 }
 

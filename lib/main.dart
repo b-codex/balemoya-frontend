@@ -7,6 +7,7 @@ import 'package:balemoya/job/bookmarks/screens/bookmarks.dart';
 import 'package:balemoya/job/home/screens/home_screen.dart';
 import 'package:balemoya/job/job_detail/screens/job_detail.dart';
 import 'package:balemoya/job/job_post/screens/create_job_post.dart';
+import 'package:balemoya/job/search_results/screens/search_results.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
         '/create_job_post': (context) => const CreateJobPost(),
         '/profile_screen': (context) => const ProfileScreen(),
         '/reset_password': (context) => const ResetPassword(),
+        '/search_results': (context) => const SearchResults(),
       },
     );
   }

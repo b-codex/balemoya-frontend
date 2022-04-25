@@ -9,87 +9,12 @@ class JobDetail extends StatelessWidget {
     return Scaffold(
       appBar: _appBar(context),
       body: _body(context),
-      drawer: _drawer(context),
     );
   }
 }
 
 PreferredSizeWidget _appBar(context) {
-  return AppBar(
-    actions: [
-      IconButton(
-        onPressed: () {
-          // redirect to profile page
-        },
-        icon: Image.asset('assets/start_screen.png'),
-      )
-    ],
-  );
-}
-
-Widget _drawer(context) {
-  return Drawer(
-    child: Column(
-      children: [
-        DrawerHeader(
-          decoration: BoxDecoration(
-            color: Colors.transparent,
-          ),
-          child: Column(
-            children: [
-              CircleAvatar(
-                minRadius: 50,
-                backgroundColor: Colors.transparent,
-                child: Image.asset(
-                  'assets/start_screen.png',
-                  width: 100,
-                ),
-              ),
-              Text(
-                'User',
-                style: TextStyle(
-                  fontSize: 18,
-                ),
-              )
-            ],
-          ),
-        ),
-        ListTile(
-          leading: Icon(Icons.home),
-          title: Text('Home'),
-          onTap: () {
-            Navigator.of(context).pushNamed('/home');
-          },
-        ),
-        ListTile(
-          leading: Icon(Icons.account_box),
-          title: Text('Account'),
-          onTap: () {
-            Navigator.of(context).pushNamed('/profile_screen');
-          },
-        ),
-        ListTile(
-          leading: Icon(Icons.bookmark),
-          title: Text('Bookmarks'),
-          onTap: () {
-            Navigator.of(context).pushNamed('/bookmarks');
-          },
-        ),
-        Expanded(
-          child: Container(),
-        ),
-        Column(
-          children: [
-            ListTile(
-              leading: Icon(Icons.exit_to_app),
-              title: Text('Logout'),
-              onTap: () {},
-            ),
-          ],
-        ),
-      ],
-    ),
-  );
+  return AppBar();
 }
 
 Widget _body(context) {
