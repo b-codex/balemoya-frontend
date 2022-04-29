@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
 class IntroScreen extends StatelessWidget {
+  static const routeName = "/";
+
   @override
   Widget build(BuildContext context) => SafeArea(
         child: IntroductionScreen(
@@ -21,13 +23,15 @@ class IntroScreen extends StatelessWidget {
             ),
             PageViewModel(
               title: 'Organization',
-              body: 'As an organization, you can create or delete job posts and look for qualified employees',
+              body:
+                  'As an organization, you can create or delete job posts and look for qualified employees',
               image: buildImage('assets/organization.png'),
               decoration: getPageDecoration(),
             ),
             PageViewModel(
               title: 'Individual',
-              body: 'As an individual, you can upload your CV and search for jobs of your preference',
+              body:
+                  'As an individual, you can upload your CV and search for jobs of your preference',
               image: buildImage('assets/individual.png'),
               decoration: getPageDecoration(),
             ),
@@ -106,7 +110,7 @@ class IntroScreen extends StatelessWidget {
         // footerPadding: EdgeInsets.all(16).copyWith(bottom: 0),
         // titlePadding: EdgeInsets.all(16).copyWith(bottom: 0),
         bodyPadding: EdgeInsets.all(16).copyWith(bottom: 0),
-        
+
         // descriptionPadding: EdgeInsets.all(16).copyWith(bottom: 0),
         imagePadding: EdgeInsets.all(24),
         pageColor: Colors.white,

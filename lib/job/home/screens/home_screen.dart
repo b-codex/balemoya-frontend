@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
-  static const routeName = '/home';
+  static const routeName = '/home_screen';
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ PreferredSizeWidget _appBar(context) {
           List<SearchCategory> searchCategories = [
             SearchCategory(category: 'One-time'),
             SearchCategory(category: 'Contractual'),
-            SearchCategory(category: 'Permanent'),
+            SearchCategory(category: 'Full-time'),
           ];
           List<SearchCategory> selectedUserList = [];
           String queryString = "";
@@ -149,7 +149,7 @@ Widget _body(context) {
         Container(
           margin: EdgeInsets.only(
             top: 15,
-            left: 15,
+            left: 8,
           ),
           child: Text(
             'Hey "User",',
@@ -260,8 +260,8 @@ Widget _popularJobsCard(context) {
       Navigator.of(context).pushNamed('/job_detail');
     },
     child: Container(
-      height: 210,
-      width: 250,
+      height: 205,
+      width: 300,
       child: Card(
         elevation: 5,
         child: Padding(
@@ -271,9 +271,12 @@ Widget _popularJobsCard(context) {
             children: [
               Row(
                 children: [
-                  Image.asset(
-                    'assets/google.jpg',
-                    height: 100,
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    child: Image.asset(
+                      'assets/google.jpg',
+                      height: 70,
+                    ),
                   ),
                   Expanded(
                     child: Column(
@@ -298,19 +301,25 @@ Widget _popularJobsCard(context) {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Job Title',
-                    style: TextStyle(
-                      fontSize: 20,
+                  Container(
+                    margin: EdgeInsets.only(left: 7),
+                    child: Text(
+                      'Job Title',
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
                     ),
                   ),
                   SizedBox(
                     height: 5,
                   ),
-                  Text(
-                    '\Salary',
-                    style: TextStyle(
-                      fontSize: 13,
+                  Container(
+                    margin: EdgeInsets.only(left: 7),
+                    child: Text(
+                      '\Salary',
+                      style: TextStyle(
+                        fontSize: 13,
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -417,10 +426,14 @@ Widget _latestJobsCard(context) {
           child: Row(
             children: [
               Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset(
-                    'assets/google.jpg',
-                    height: 100,
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 10),
+                    child: Image.asset(
+                      'assets/google.jpg',
+                      height: 70,
+                    ),
                   )
                 ],
               ),

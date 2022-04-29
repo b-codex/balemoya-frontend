@@ -94,6 +94,17 @@ Widget _results(context) {
     ),
     child: Column(
       children: [
+        _resultsCard(
+          context: context,
+          jobTitle: 'Senior Database Manager',
+          companyName: 'Google',
+          jobType: 'Full-time',
+          salary: '40,000',
+          postedDate: '2-22-2022',
+          experience: '2+ years',
+          location: 'Addis Ababa',
+          companyLogo: 'assets/google.jpg',
+        )
         // _resultsCard(context),
         // _resultsCard(context),
         // _resultsCard(context),
@@ -101,41 +112,40 @@ Widget _results(context) {
         // _resultsCard(context),
         // _resultsCard(context),
         // _resultsCard(context),
-        // _resultsCard(context),
-        buildCard(
-          title: "Senior Database Manager",
-          company: "Google",
-          companyLogo:
-              "https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-webinar-optimizing-for-success-google-business-webinar-13.png",
-          location: "Addis Ababa",
-          jobPosition: "Full Time",
-          salary: "40k",
-          date: "2012",
-          experience: "2+",
-        ),
-        buildCard(
-          title: "Senior Database Manager",
-          company: "Google",
-          companyLogo:
-              "https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-webinar-optimizing-for-success-google-business-webinar-13.png",
-          location: "Addis Ababa",
-          jobPosition: "Full Time",
-          salary: "40k",
-          date: "2012",
-          experience: "2+",
-        ),
-        buildCard(
-          title: "Senior Database Manager",
-          company: "Google",
-          companyLogo:
-              "https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-webinar-optimizing-for-success-google-business-webinar-13.png",
-          location: "Addis Ababa",
-          jobPosition: "Full Time",
-          salary: "40k",
-          date: "2012",
-          experience: "2+",
-        ),
-        buildCard(
+        // buildCard(
+        //   title: "Senior Database Manager",
+        //   company: "Google",
+        //   companyLogo:
+        //       "https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-webinar-optimizing-for-success-google-business-webinar-13.png",
+        //   location: "Addis Ababa",
+        //   jobPosition: "Full Time",
+        //   salary: "40k",
+        //   date: "2012",
+        //   experience: "2+",
+        // ),
+        // buildCard(
+        //   title: "Senior Database Manager",
+        //   company: "Google",
+        //   companyLogo:
+        //       "https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-webinar-optimizing-for-success-google-business-webinar-13.png",
+        //   location: "Addis Ababa",
+        //   jobPosition: "Full Time",
+        //   salary: "40k",
+        //   date: "2012",
+        //   experience: "2+",
+        // ),
+        // buildCard(
+        //   title: "Senior Database Manager",
+        //   company: "Google",
+        //   companyLogo:
+        //       "https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-webinar-optimizing-for-success-google-business-webinar-13.png",
+        //   location: "Addis Ababa",
+        //   jobPosition: "Full Time",
+        //   salary: "40k",
+        //   date: "2012",
+        //   experience: "2+",
+        // ),
+        ,buildCard(
           title: "Senior Database Manager",
           company: "Google",
           companyLogo:
@@ -151,7 +161,17 @@ Widget _results(context) {
   );
 }
 
-Widget _resultsCard(context) {
+Widget _resultsCard({
+  required context,
+  required String jobTitle,
+  required String companyName,
+  required String jobType,
+  required String salary,
+  required String postedDate,
+  required String experience,
+  required String location,
+  required String companyLogo,
+}) {
   return GestureDetector(
     onTap: () {
       Navigator.of(context).pushNamed('/job_detail');
@@ -166,10 +186,14 @@ Widget _resultsCard(context) {
           child: Row(
             children: [
               Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset(
-                    'assets/google.jpg',
-                    height: 100,
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 10),
+                    child: Image.asset(
+                      companyLogo,
+                      height: 70,
+                    ),
                   )
                 ],
               ),
@@ -183,9 +207,9 @@ Widget _resultsCard(context) {
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Text(
-                          'Job Title',
+                          jobTitle,
                           style: TextStyle(
-                            fontSize: 22,
+                            fontSize: 20,
                           ),
                           overflow: TextOverflow.visible,
                           softWrap: true,
@@ -197,8 +221,15 @@ Widget _resultsCard(context) {
                       ],
                     ),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Company Name'),
+                        Text(
+                          companyName,
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                        Text('Posted: $postedDate'),
                       ],
                     ),
                     Padding(
@@ -217,7 +248,7 @@ Widget _resultsCard(context) {
                               borderRadius: BorderRadius.circular(50),
                             ),
                             child: Text(
-                              '\Salary',
+                              '$salary ETB/Month',
                               style: TextStyle(
                                 fontSize: 10,
                               ),
@@ -233,7 +264,7 @@ Widget _resultsCard(context) {
                                 color: Color.fromARGB(255, 223, 218, 218),
                                 borderRadius: BorderRadius.circular(50)),
                             child: Text(
-                              'Experience',
+                              experience,
                               style: TextStyle(
                                 fontSize: 10,
                               ),
@@ -249,7 +280,7 @@ Widget _resultsCard(context) {
                                 color: Color.fromARGB(255, 223, 218, 218),
                                 borderRadius: BorderRadius.circular(50)),
                             child: Text(
-                              'Job Type',
+                              jobType,
                               style: TextStyle(
                                 fontSize: 10,
                               ),
