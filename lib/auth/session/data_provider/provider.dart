@@ -18,15 +18,6 @@ class SessionProvider {
     // if a value isn't found, status == false (meaning there is no user session)
     return status;
   }
-
-  // on login
-  Future<Object> saveUserSession(sessionInfo) async {
-    final sharedPreferences = SharedPreference();
-
-    // saving session
-    var response = await sharedPreferences.saveSession(name: '', sessionID: '');
-    return response;
-  }
 }
 
 _checkingUserSession(context) {

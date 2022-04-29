@@ -1,4 +1,9 @@
+import 'package:animated_snack_bar/animated_snack_bar.dart';
+import 'package:balemoya/auth/login/bloc/login_bloc.dart';
+import 'package:balemoya/auth/login/models/model.dart';
+import 'package:balemoya/static/widgets/snack_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -10,39 +15,77 @@ class LoginScreen extends StatelessWidget {
     var _usernameController = TextEditingController();
     var _passwordController = TextEditingController();
 
+    final bloc = BlocProvider.of<LoginBloc>(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: Text("BaleMoya"),
       ),
-      body: SafeArea(
-        child: Form(
-          key: _formKey,
-          child: Container(
-            margin: EdgeInsets.all(7),
-            padding: EdgeInsets.all(3),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _loginImageAndText(),
-                _username(_usernameController),
-                _password(_passwordController),
-                OutlinedButton(
-                  child: Text("Login"),
-                  onPressed: () {
-                    // if (_formKey.currentState!.validate()) {
-                    //   print('validated');
-                    // }
-                    Navigator.of(context).pushNamed('/home');
-                  },
-                  style: ButtonStyle(),
+      body: BlocConsumer<LoginBloc, LoginState>(
+        listener: (context, state) {
+          print(state);
+          // login success
+          if (state is LoginSuccess) {
+            animatedSnackBar(
+              context: context,
+              message: 'Login Success!',
+              animatedSnackBarType: AnimatedSnackBarType.success,
+              mobileSnackBarPosition: MobileSnackBarPosition.top,
+              duration: Duration(seconds: 5),
+            );
+            Navigator.of(context).pushReplacementNamed('/home_screen');
+          }
+          // login failure
+          if (state is LoginFailed) {
+            animatedSnackBar(
+              context: context,
+              message: 'Login Failed!',
+              animatedSnackBarType: AnimatedSnackBarType.error,
+              mobileSnackBarPosition: MobileSnackBarPosition.top,
+              duration: Duration(seconds: 5),
+            );
+          }
+        },
+        builder: (context, state) {
+          return Form(
+            key: _formKey,
+            child: Center(
+              child: Container(
+                margin: EdgeInsets.all(7),
+                padding: EdgeInsets.all(3),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      _loginImageAndText(),
+                      _username(_usernameController),
+                      _password(_passwordController),
+                      OutlinedButton(
+                        child: Text("Login"),
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            bloc.add(
+                              AttemptLogin(
+                                loginModel: LoginModel(
+                                  username: _usernameController.text,
+                                  password: _passwordController.text,
+                                ),
+                              ),
+                            );
+                          }
+                        },
+                        style: ButtonStyle(),
+                      ),
+                      _dontHaveAnAccountButton(context),
+                      _resetAccountButton(context),
+                    ],
+                  ),
                 ),
-                _dontHaveAnAccountButton(context),
-                _resetAccountButton(context),
-              ],
+              ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }
