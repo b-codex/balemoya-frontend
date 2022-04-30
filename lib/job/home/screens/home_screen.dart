@@ -115,7 +115,8 @@ Widget _drawer(context) {
               leading: Icon(Icons.home),
               title: Text('Home'),
               onTap: () {
-                Navigator.of(context).pushNamed('/home');
+                // Navigator.of(context).pushNamed('/home');
+                Navigator.of(context).pop();
               },
             ),
             ListTile(
@@ -123,6 +124,7 @@ Widget _drawer(context) {
               title: Text('Account'),
               onTap: () {
                 Navigator.of(context).pushNamed('/profile_screen');
+                // bloc.add(AccountButtonClick());
               },
             ),
             ListTile(

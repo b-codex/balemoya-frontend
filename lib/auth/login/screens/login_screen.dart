@@ -1,6 +1,7 @@
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:balemoya/auth/login/bloc/login_bloc.dart';
 import 'package:balemoya/auth/login/models/model.dart';
+import 'package:balemoya/functions/encrypt_password.dart';
 import 'package:balemoya/static/widgets/snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -69,7 +70,7 @@ class LoginScreen extends StatelessWidget {
                               AttemptLogin(
                                 loginModel: LoginModel(
                                   username: _usernameController.text,
-                                  password: _passwordController.text,
+                                  password: hashValue(password: _passwordController.text),
                                 ),
                               ),
                             );

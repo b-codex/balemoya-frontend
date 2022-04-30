@@ -5,7 +5,7 @@ import 'package:balemoya/auth/register/screens/register_screen.dart';
 import 'package:balemoya/job/bookmarks/screens/bookmarks.dart';
 import 'package:balemoya/job/home/screens/home_screen.dart';
 import 'package:balemoya/job/job_detail/screens/job_detail.dart';
-import 'package:balemoya/job/job_post/screens/create_job_post.dart';
+import 'package:balemoya/job/create_job_post/screens/create_job_post.dart';
 import 'package:balemoya/job/search_results/screens/search_results.dart';
 import 'package:balemoya/static/screens/intro_screen.dart';
 import 'package:balemoya/auth/session/screens/loading_screen.dart';

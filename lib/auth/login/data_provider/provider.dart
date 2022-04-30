@@ -1,9 +1,12 @@
 import 'package:balemoya/auth/login/models/model.dart';
+import 'package:balemoya/functions/encrypt_password.dart';
 import 'package:balemoya/static/shared_preference.dart';
 
 class LoginProvider {
   Future<Object> attemptLogin(LoginModel loginModel) async {
-    if (loginModel.username == 'bisrat' && loginModel.password == '123456') {
+    String dummyPassword = hashValue(password: '123456');
+    if (loginModel.username == 'bisrat' &&
+        loginModel.password == dummyPassword) {
       _saveSession(name: loginModel.username, sessionID: '895612894451');
       return {
         'status': 200,
