@@ -4,9 +4,14 @@ class HomeProvider {
   Future<Object> logout() async {
     bool sessionStatus = false;
     SharedPreference sharedPreference = SharedPreference();
-    await sharedPreference.clearSession().then((value) => sessionStatus = true);
+    await sharedPreference.clearSession().then((value) {
+      if (value != null) {
+        sessionStatus = true;
+      }
+      print(value);
+    });
 
-    print(sessionStatus);
+    // print(sessionStatus);
     if (sessionStatus) {
       return {
         'status': 200,

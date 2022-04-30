@@ -19,8 +19,6 @@ class LoadingScreen extends StatelessWidget {
               context: context,
               message: 'Session Found: Name',
               animatedSnackBarType: AnimatedSnackBarType.success,
-              mobileSnackBarPosition: MobileSnackBarPosition.top,
-              duration: Duration(seconds: 4),
             );
             Navigator.of(context).pushReplacementNamed('/home_screen');
           }
@@ -30,8 +28,6 @@ class LoadingScreen extends StatelessWidget {
               context: context,
               message: 'User Session Not Found',
               animatedSnackBarType: AnimatedSnackBarType.error,
-              mobileSnackBarPosition: MobileSnackBarPosition.top,
-              duration: Duration(seconds: 4),
             );
 
             Navigator.of(context).pushReplacementNamed('/');

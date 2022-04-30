@@ -9,7 +9,9 @@ class SessionProvider {
     await sharedPreferences.getSession().then(
       (value) {
         // if there exists a value, the status == true (meaning there is a user session)
-        status = true;
+        if (value != null) {
+          status = true;
+        }
       },
     );
     // if a value isn't found, status == false (meaning there is no user session)

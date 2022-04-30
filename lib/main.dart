@@ -1,6 +1,9 @@
 import 'package:balemoya/auth/login/bloc/login_bloc.dart';
 import 'package:balemoya/auth/login/data_provider/provider.dart';
 import 'package:balemoya/auth/login/repository/repository.dart';
+import 'package:balemoya/auth/register/bloc/register_bloc.dart';
+import 'package:balemoya/auth/register/data_provider/provider.dart';
+import 'package:balemoya/auth/register/repository/repository.dart';
 import 'package:balemoya/auth/session/bloc/user_session_bloc.dart';
 import 'package:balemoya/auth/session/data_provider/provider.dart';
 import 'package:balemoya/auth/session/repository/repository.dart';
@@ -29,6 +32,11 @@ class MyApp extends StatelessWidget {
     loginProvider: LoginProvider(),
   );
 
+  // register repository
+  final RegisterRepository registerRepository = RegisterRepository(
+    registerProvider: RegisterProvider(),
+  );
+
   // home repository
   final HomeRepository homeRepository = HomeRepository(
     homeProvider: HomeProvider(),
@@ -49,6 +57,11 @@ class MyApp extends StatelessWidget {
           ),
         ),
         BlocProvider(
+          create: (ctx) => RegisterBloc(
+            registerRepository: registerRepository,
+          ),
+        ),
+        BlocProvider(
           create: (ctx) => HomeBloc(
             homeRepository: homeRepository,
           ),
@@ -63,7 +76,7 @@ class MyApp extends StatelessWidget {
             textTheme: GoogleFonts.montserratTextTheme(),
           ),
           debugShowCheckedModeBanner: false,
-          initialRoute: RouteManager.loading_screen,
+          initialRoute: RouteManager.intro_screen,
           onGenerateRoute: RouteManager.generateRoute,
         ),
       ),

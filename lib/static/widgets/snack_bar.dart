@@ -29,13 +29,11 @@ animatedSnackBar({
   required context,
   required String message,
   required AnimatedSnackBarType animatedSnackBarType,
-  required MobileSnackBarPosition mobileSnackBarPosition,
-  required Duration duration,
 }) {
   return AnimatedSnackBar.material(
     message,
     type: animatedSnackBarType,
-    mobileSnackBarPosition: mobileSnackBarPosition,
-    duration: duration,
+    mobileSnackBarPosition: MobileSnackBarPosition.top,
+    duration: Duration(seconds: 5),
   ).show(context);
 }

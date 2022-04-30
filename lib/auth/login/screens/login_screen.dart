@@ -31,10 +31,9 @@ class LoginScreen extends StatelessWidget {
               context: context,
               message: 'Login Success!',
               animatedSnackBarType: AnimatedSnackBarType.success,
-              mobileSnackBarPosition: MobileSnackBarPosition.top,
-              duration: Duration(seconds: 5),
             );
-            Navigator.of(context).pushNamedAndRemoveUntil('/home_screen', (route) => false);
+            Navigator.of(context)
+                .pushNamedAndRemoveUntil('/home_screen', (route) => false);
           }
           // login failure
           if (state is LoginFailed) {
@@ -42,8 +41,6 @@ class LoginScreen extends StatelessWidget {
               context: context,
               message: 'Login Failed!',
               animatedSnackBarType: AnimatedSnackBarType.error,
-              mobileSnackBarPosition: MobileSnackBarPosition.top,
-              duration: Duration(seconds: 5),
             );
           }
         },
@@ -70,7 +67,8 @@ class LoginScreen extends StatelessWidget {
                               AttemptLogin(
                                 loginModel: LoginModel(
                                   username: _usernameController.text,
-                                  password: hashValue(password: _passwordController.text),
+                                  password: hashValue(
+                                      password: _passwordController.text),
                                 ),
                               ),
                             );

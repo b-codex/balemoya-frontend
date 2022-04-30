@@ -18,7 +18,9 @@ class SharedPreference {
   Future clearSession() async {
     final preferences = await SharedPreferences.getInstance();
     await preferences.clear();
-    
+    List? sessionInfo = preferences.getStringList('sessionInfo');
+    print(sessionInfo);
+
     return "Session Cleared";
   }
 }
