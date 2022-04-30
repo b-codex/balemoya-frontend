@@ -33,7 +33,7 @@ class LoginScreen extends StatelessWidget {
               mobileSnackBarPosition: MobileSnackBarPosition.top,
               duration: Duration(seconds: 5),
             );
-            Navigator.of(context).pushReplacementNamed('/home_screen');
+            Navigator.of(context).pushNamedAndRemoveUntil('/home_screen', (route) => false);
           }
           // login failure
           if (state is LoginFailed) {

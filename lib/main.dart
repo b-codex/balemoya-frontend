@@ -4,6 +4,9 @@ import 'package:balemoya/auth/login/repository/repository.dart';
 import 'package:balemoya/auth/session/bloc/user_session_bloc.dart';
 import 'package:balemoya/auth/session/data_provider/provider.dart';
 import 'package:balemoya/auth/session/repository/repository.dart';
+import 'package:balemoya/job/home/bloc/home_bloc.dart';
+import 'package:balemoya/job/home/data_provider/provider.dart';
+import 'package:balemoya/job/home/repository/repository.dart';
 import 'package:balemoya/static/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,6 +29,11 @@ class MyApp extends StatelessWidget {
     loginProvider: LoginProvider(),
   );
 
+  // home repository
+  final HomeRepository homeRepository = HomeRepository(
+    homeProvider: HomeProvider(),
+  );
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -38,6 +46,11 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (ctx) => LoginBloc(
             loginRepository: loginRepository,
+          ),
+        ),
+        BlocProvider(
+          create: (ctx) => HomeBloc(
+            homeRepository: homeRepository,
           ),
         ),
       ],
