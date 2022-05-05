@@ -269,7 +269,12 @@ Widget _password(_passwordController) {
 }
 
 Widget _formField(
-    _controller, _formLabel, _prefixIcon, _obscureText, _textInputType) {
+  _controller,
+  _formLabel,
+  _prefixIcon,
+  _obscureText,
+  _textInputType,
+) {
   return TextFormField(
     controller: _controller,
     keyboardType: _textInputType,
@@ -288,83 +293,5 @@ Widget _formField(
         return null;
       }
     },
-  );
-}
-
-Widget _dropDownMenu(_dropdownValue, context, x) {
-  final bloc = BlocProvider.of<RegisterBloc>(context);
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    children: [
-      Text("Register As: "),
-      BlocBuilder<RegisterBloc, RegisterState>(
-        builder: (context, state) {
-          if (state is UserTypeChanged) {
-            _dropdownValue = state.to;
-            print('here');
-            x = 2;
-            return DropdownButton<String>(
-              value: state.to,
-              icon: const Icon(Icons.keyboard_arrow_down),
-              elevation: 16,
-              // style: const TextStyle(color: Colors.deepPurple),
-              underline: Container(
-                // height: 2,
-                color: Colors.grey[400],
-              ),
-              onChanged: (String? newValue) {
-                bloc.add(
-                  ChangeUserType(
-                    to: newValue!,
-                  ),
-                );
-                _dropdownValue = newValue;
-                print('changed to ' + _dropdownValue);
-              },
-
-              items: <String>['Individual', 'Organization']
-                  .map<DropdownMenuItem<String>>(
-                (String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                },
-              ).toList(),
-            );
-          }
-          return DropdownButton<String>(
-            value: _dropdownValue,
-            // hint: Text('Choose one'),
-            icon: const Icon(Icons.keyboard_arrow_down),
-            elevation: 16,
-            // style: const TextStyle(color: Colors.deepPurple),
-            underline: Container(
-              // height: 2,
-              color: Colors.grey[400],
-            ),
-            onChanged: (String? newValue) {
-              bloc.add(
-                ChangeUserType(
-                  to: newValue!,
-                ),
-              );
-              _dropdownValue = newValue;
-              print('changed to ' + _dropdownValue);
-            },
-
-            items: <String>['Individual', 'Organization']
-                .map<DropdownMenuItem<String>>(
-              (String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              },
-            ).toList(),
-          );
-        },
-      ),
-    ],
   );
 }

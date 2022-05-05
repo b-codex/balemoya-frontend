@@ -8,7 +8,7 @@ class HomeProvider {
       if (value != null) {
         sessionStatus = true;
       }
-      print(value);
+      
     });
 
     // print(sessionStatus);

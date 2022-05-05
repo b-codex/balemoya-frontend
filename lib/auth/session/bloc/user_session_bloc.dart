@@ -12,6 +12,7 @@ class UserSessionBloc extends Bloc<UserSessionEvent, UserSessionState> {
     on<CheckUserSessionEvent>(
       (event, emit) async {
         final response = await sessionRepository.checkUserSession();
+        
         if (response) {
           await Future.delayed(Duration(seconds: 1));
           emit(UserSessionFound());

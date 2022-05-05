@@ -13,14 +13,14 @@ class LoadingScreen extends StatelessWidget {
     final bloc = BlocProvider.of<UserSessionBloc>(context);
     return Scaffold(
       body: BlocConsumer<UserSessionBloc, UserSessionState>(
-        listener: (context, state) {
+        listener: (context, state) async {
           if (state is UserSessionFound) {
             animatedSnackBar(
               context: context,
-              message: 'Session Found: Name',
+              message: 'User Session Found',
               animatedSnackBarType: AnimatedSnackBarType.success,
             );
-            Navigator.of(context).pushReplacementNamed('/home_screen');
+            Navigator.of(context).pushNamedAndRemoveUntil('/home_screen', (route) => false);
           }
 
           if (state is UserSessionNotFound) {
@@ -30,7 +30,10 @@ class LoadingScreen extends StatelessWidget {
               animatedSnackBarType: AnimatedSnackBarType.error,
             );
 
-            Navigator.of(context).pushReplacementNamed('/');
+            Navigator.of(context).pushNamedAndRemoveUntil(
+              '/',
+              (route) => false,
+            );
           }
         },
         builder: (context, state) {

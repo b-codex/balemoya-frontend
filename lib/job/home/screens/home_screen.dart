@@ -100,34 +100,34 @@ Widget _body(context) {
   );
 }
 
-Widget _searchField(context) {
-  GlobalKey<FormState> _formKey = GlobalKey();
+// Widget _searchField(context) {
+//   GlobalKey<FormState> _formKey = GlobalKey();
 
-  return Form(
-    key: _formKey,
-    child: Container(
-      child: TextFormField(
-        decoration: InputDecoration(
-          suffixIcon: IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.auto_fix_high),
-          ),
-          labelText: 'Search',
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-        ),
-        validator: (value) {
-          // print(value);
-          return '';
-        },
-        onChanged: (value) {
-          // print(value);
-        },
-      ),
-    ),
-  );
-}
+//   return Form(
+//     key: _formKey,
+//     child: Container(
+//       child: TextFormField(
+//         decoration: InputDecoration(
+//           suffixIcon: IconButton(
+//             onPressed: () {},
+//             icon: Icon(Icons.auto_fix_high),
+//           ),
+//           labelText: 'Search',
+//           border: OutlineInputBorder(
+//             borderRadius: BorderRadius.circular(20),
+//           ),
+//         ),
+//         validator: (value) {
+//           // print(value);
+//           return '';
+//         },
+//         onChanged: (value) {
+//           // print(value);
+//         },
+//       ),
+//     ),
+//   );
+// }
 
 Widget _popularJobs(context) {
   return Container(

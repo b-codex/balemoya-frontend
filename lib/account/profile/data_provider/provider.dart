@@ -1,6 +1,8 @@
 import 'package:balemoya/static/shared_preference.dart';
 
+/// It's a class that has a method that returns a future object
 class ProfileProvider {
+  /// It returns a Future object.
   Future<Object> getProfileInfo() async {
     late var session;
     SharedPreference sharedPreference = SharedPreference();

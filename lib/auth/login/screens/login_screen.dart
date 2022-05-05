@@ -13,7 +13,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-    var _usernameController = TextEditingController();
+    var _emailController = TextEditingController();
     var _passwordController = TextEditingController();
 
     final bloc = BlocProvider.of<LoginBloc>(context);
@@ -57,7 +57,7 @@ class LoginScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       _loginImageAndText(),
-                      _username(_usernameController),
+                      _email(_emailController),
                       _password(_passwordController),
                       OutlinedButton(
                         child: Text("Login"),
@@ -66,9 +66,8 @@ class LoginScreen extends StatelessWidget {
                             bloc.add(
                               AttemptLogin(
                                 loginModel: LoginModel(
-                                  username: _usernameController.text,
-                                  password: hashValue(
-                                      password: _passwordController.text),
+                                  email: _emailController.text,
+                                  password: _passwordController.text,
                                 ),
                               ),
                             );
@@ -117,12 +116,12 @@ Widget _loginImageAndText() {
   );
 }
 
-Widget _username(_usernameController) {
+Widget _email(_emailController) {
   return Container(
     margin: EdgeInsets.symmetric(vertical: 5),
     child: _formField(
-      _usernameController,
-      "Username",
+      _emailController,
+      "Email",
       Icon(Icons.alternate_email),
       false,
     ),
