@@ -1,6 +1,7 @@
 import 'package:balemoya/auth/register/models/models.dart';
 import 'package:balemoya/auth/register/repository/repository.dart';
 import 'package:bloc/bloc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 
 part 'register_event.dart';
@@ -11,12 +12,19 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   RegisterBloc({required this.registerRepository}) : super(RegisterInitial()) {
     on<RegisterNow>(
       (event, emit) async {
-        var response =
-            await registerRepository.register(event.registerData) as Map;
+        emit(Loading());
+        await Future.delayed(Duration(seconds: 2));
+
+        var response = await registerRepository.register(
+            event.registerData.userType, event.registerData) as Map;
         if (response['status'] == 200) {
           emit(RegisterSuccess());
         } else {
-          emit(RegisterFailed());
+          emit(
+            RegisterFailed(
+              message: response['message'],
+            ),
+          );
         }
       },
     );

@@ -81,7 +81,7 @@ class MyApp extends StatelessWidget {
             textTheme: GoogleFonts.montserratTextTheme(),
           ),
           debugShowCheckedModeBanner: false,
-          initialRoute: RouteManager.loading_screen,
+          initialRoute: RouteManager.login,
           onGenerateRoute: RouteManager.generateRoute,
         ),
       ),

@@ -1,10 +1,10 @@
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:balemoya/auth/login/bloc/login_bloc.dart';
 import 'package:balemoya/auth/login/models/model.dart';
-import 'package:balemoya/functions/encrypt_password.dart';
 import 'package:balemoya/static/widgets/snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -24,7 +24,6 @@ class LoginScreen extends StatelessWidget {
       ),
       body: BlocConsumer<LoginBloc, LoginState>(
         listener: (context, state) {
-          print(state);
           // login success
           if (state is LoginSuccess) {
             animatedSnackBar(
@@ -59,21 +58,55 @@ class LoginScreen extends StatelessWidget {
                       _loginImageAndText(),
                       _email(_emailController),
                       _password(_passwordController),
-                      OutlinedButton(
-                        child: Text("Login"),
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            bloc.add(
-                              AttemptLogin(
-                                loginModel: LoginModel(
-                                  email: _emailController.text,
-                                  password: _passwordController.text,
+                      BlocBuilder<LoginBloc, LoginState>(
+                        builder: ((context, state) {
+                          print(state);
+                          if (state is Loading) {
+                            return Container(
+                              margin: const EdgeInsets.symmetric(
+                                vertical: 10,
+                                horizontal: 7,
+                              ),
+                              child: OutlinedButton(
+                                style: OutlinedButton.styleFrom(
+                                  fixedSize: const Size(400, 50),
                                 ),
+                                child: loading(),
+                                onPressed: null,
                               ),
                             );
                           }
-                        },
-                        style: ButtonStyle(),
+                          return Container(
+                            margin: const EdgeInsets.symmetric(
+                              vertical: 10,
+                              horizontal: 7,
+                            ),
+                            child: OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                fixedSize: const Size(400, 50),
+                                backgroundColor: Colors.indigo,
+                              ),
+                              child: Text(
+                                "Login",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                              onPressed: () {
+                                if (_formKey.currentState!.validate()) {
+                                  bloc.add(
+                                    AttemptLogin(
+                                      loginModel: LoginModel(
+                                        email: _emailController.text,
+                                        password: _passwordController.text,
+                                      ),
+                                    ),
+                                  );
+                                }
+                              },
+                            ),
+                          );
+                        }),
                       ),
                       _dontHaveAnAccountButton(context),
                       _resetAccountButton(context),
@@ -187,4 +220,24 @@ Widget _formField(_controller, _formLabel, _prefixIcon, _obscureText) {
       }
     },
   );
+}
+
+loading() {
+  return const LoadingIndicator(
+      indicatorType: Indicator.ballPulseSync,
+
+      /// Required, The loading type of the widget
+      colors: [Colors.indigo],
+
+      /// Optional, The color collections
+      strokeWidth: 2,
+
+      /// Optional, The stroke of the line, only applicable to widget which contains line
+      backgroundColor: Colors.transparent,
+
+      /// Optional, Background of the widget
+      pathBackgroundColor: Colors.transparent
+
+      /// Optional, the stroke backgroundColor
+      );
 }

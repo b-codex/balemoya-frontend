@@ -10,6 +10,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final LoginRepository loginRepository;
   LoginBloc({required this.loginRepository}) : super(LoginInitial()) {
     on<AttemptLogin>((event, emit) async {
+      emit(Loading());
+      await Future.delayed(Duration(seconds: 2));
+
       final response =
           await loginRepository.attemptLogin(event.loginModel) as Map;
       if (response['status'] == 200) {
