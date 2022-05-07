@@ -1,8 +1,12 @@
 import 'dart:io';
 
+import 'package:animated_snack_bar/animated_snack_bar.dart';
+import 'package:balemoya/account/profile/bloc/profile_bloc.dart';
 import 'package:balemoya/static/widgets/drawer.dart';
+import 'package:balemoya/static/widgets/snack_bar.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -10,15 +14,69 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _appBar(context),
-      body: _body(context),
-      drawer: drawer(context),
+    final bloc = BlocProvider.of<ProfileBloc>(context);
+
+    return BlocConsumer<ProfileBloc, ProfileState>(
+      listener: (context, state) {
+        print(state);
+
+        if (state is ProfileLoadingFailed) {
+          animatedSnackBar(
+            context: context,
+            message: 'An Error Occurred. Please Try Again.',
+            animatedSnackBarType: AnimatedSnackBarType.error,
+          );
+          // Navigator.of(context)
+          //     .pushNamedAndRemoveUntil('/home_screen', (route) => false);
+        }
+
+        if (state is ChangeProfilePictureFailed) {
+          animatedSnackBar(
+            context: context,
+            message: 'An Error Occurred. Please Try Again.',
+            animatedSnackBarType: AnimatedSnackBarType.error,
+          );
+        }
+
+        if (state is ChangeProfilePictureSuccess) {
+          animatedSnackBar(
+            context: context,
+            message: 'Profile Picture Changed.',
+            animatedSnackBarType: AnimatedSnackBarType.success,
+          );
+          bloc.add(LoadProfileEvent());
+        }
+      },
+      builder: (context, state) {
+        if (state is ProfileInitial) {
+          bloc.add(
+            LoadProfileEvent(),
+          );
+        }
+
+        if (state is LoadingProfile) {
+          return Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+
+        // if (state is ProfileLoadingFailed) {
+        //   return Scaffold();
+        // }
+        return Scaffold(
+          appBar: _appBar(context),
+          body: _body(context),
+          drawer: drawer(context),
+        );
+      },
     );
   }
 }
 
 PreferredSizeWidget _appBar(context) {
+  final profileBloc = BlocProvider.of<ProfileBloc>(context);
   return AppBar(
     actions: [
       PopupMenuButton(
@@ -29,6 +87,13 @@ PreferredSizeWidget _appBar(context) {
               value: 'Change Profile Picture',
               child: Text(
                 'Change Profile Picture',
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+            PopupMenuItem(
+              value: 'Upload CV',
+              child: Text(
+                'Upload CV',
                 style: TextStyle(color: Colors.black),
               ),
             ),
@@ -55,9 +120,23 @@ PreferredSizeWidget _appBar(context) {
             ),
           ];
         },
-        onSelected: (clicked) {
-          if (clicked == 'Change Profile Picture') {}
+        onSelected: (clicked) async {
+          if (clicked == 'Change Profile Picture') {
+            final String _filePath = await _changeProfilePicture().then(
+              (value) {
+                return value;
+              },
+            );
+            profileBloc.add(
+              ChangeProfilePictureEvent(
+                filePath: _filePath,
+              ),
+            );
+          }
           if (clicked == 'Resume Builder') {}
+          if (clicked == 'Upload CV') {
+            _chooseCV();
+          }
           if (clicked == 'Reset Password') {
             Navigator.of(context).pushNamed('/reset_password');
           }
@@ -103,7 +182,7 @@ Widget _body(context) {
         _name(),
         _location(),
         _portfolio(),
-        _uploadCV(),
+        // _uploadCV(),
       ],
     ),
   );
@@ -278,41 +357,56 @@ Widget _skill() {
   );
 }
 
-Widget _uploadCV() {
-  return Container(
-    margin: EdgeInsets.symmetric(
-      horizontal: 15,
-      vertical: 7,
-    ),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          'Upload CV',
-          style: TextStyle(
-            fontSize: 20,
-          ),
-        ),
-        ElevatedButton(
-          onPressed: () {
-            _chooseFile();
-          },
-          child: Text('Browse'),
-        ),
-      ],
-    ),
-  );
-}
+// Widget _uploadCV() {
+//   return Container(
+//     margin: EdgeInsets.symmetric(
+//       horizontal: 15,
+//       vertical: 7,
+//     ),
+//     child: Row(
+//       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//       children: [
+//         Text(
+//           'Upload CV',
+//           style: TextStyle(
+//             fontSize: 20,
+//           ),
+//         ),
+//         ElevatedButton(
+//           onPressed: () {
+//             _chooseCV();
+//           },
+//           child: Text('Browse'),
+//         ),
+//       ],
+//     ),
+//   );
+// }
 
-Future _chooseFile() async {
+Future _chooseCV() async {
   FilePickerResult? result = await FilePicker.platform.pickFiles(
     type: FileType.custom,
     allowedExtensions: ['pdf'],
+    allowMultiple: false,
   );
 
   if (result != null) {
-    File file = File(result.files.single.name);
-    return file;
+    final String filePath = result.files.single.path.toString();
+    return filePath;
+  } else {
+    // User canceled the picker
+  }
+}
+
+Future _changeProfilePicture() async {
+  FilePickerResult? result = await FilePicker.platform.pickFiles(
+    type: FileType.image,
+    allowMultiple: false,
+  );
+
+  if (result != null) {
+    final String filePath = result.files.single.path.toString();
+    return filePath;
   } else {
     // User canceled the picker
   }

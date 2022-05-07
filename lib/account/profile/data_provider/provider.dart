@@ -1,26 +1,61 @@
-import 'package:balemoya/static/shared_preference.dart';
+import 'package:http/http.dart' as http;
 
 /// It's a class that has a method that returns a future object
 class ProfileProvider {
   /// It returns a Future object.
-  Future<Object> getProfileInfo() async {
-    late var session;
-    SharedPreference sharedPreference = SharedPreference();
-    await sharedPreference.getSession().then((value) {
-      session = value;
+  Future<Object> getProfileInfo({required String sessionID}) async {
+    final url = "https://google.com";
+    final response = await http.post(Uri.parse(url), body: {
+      "sessionID": sessionID,
     });
-    // send request to server using session id
 
-    // assuming the server sent back successful data
-    var response = {
-      'profile_picture' : '',
-      'name' : '',
-      'location' : '',
-      'portfolio' : '',
-      'skills' : [],
-      'cv' : '',
+    if (response.statusCode == 200) {
+      return {
+        'status': 404,
+        'response': response,
+      };
+    }
+    return {
+      'status': 404,
     };
+  }
 
-    return response;
+  Future<Object> uploadCV({required String filePath}) async {
+    final url = "http://account-service-1.herokuapp.com/";
+    final request = http.MultipartRequest('POST', Uri.parse(url));
+
+    request.files.add(
+      await http.MultipartFile.fromPath(
+        'CV',
+        filePath,
+        // contentType: MediaType('application', 'x-tar'),
+      ),
+    );
+    return {};
+  }
+
+  Future<Object> changeProfilePicture({required String filePath}) async {
+    final url = "http://account-service-1.herokuapp.com/";
+    final request = http.MultipartRequest('POST', Uri.parse(url));
+
+    request.files.add(
+      await http.MultipartFile.fromPath(
+        'profile picture',
+        filePath,
+        // contentType: MediaType('application', 'x-tar'),
+      ),
+    );
+
+    final response = await request.send();
+
+    if (response.statusCode == 200) {
+      return {
+        'status': 200,
+      };
+    }
+
+    return {
+      'status': 404,
+    };
   }
 }

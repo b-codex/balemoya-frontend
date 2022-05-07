@@ -28,6 +28,7 @@ class RegisterScreen extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: Text('BaleMoya'),
+        automaticallyImplyLeading: false,
       ),
       body: BlocConsumer<RegisterBloc, RegisterState>(
         listener: (context, state) async {

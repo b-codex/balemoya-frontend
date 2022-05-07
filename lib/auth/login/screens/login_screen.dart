@@ -21,6 +21,7 @@ class LoginScreen extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: Text("BaleMoya"),
+        automaticallyImplyLeading: false,
       ),
       body: BlocConsumer<LoginBloc, LoginState>(
         listener: (context, state) {
@@ -60,7 +61,7 @@ class LoginScreen extends StatelessWidget {
                       _password(_passwordController),
                       BlocBuilder<LoginBloc, LoginState>(
                         builder: ((context, state) {
-                          print(state);
+                          
                           if (state is Loading) {
                             return Container(
                               margin: const EdgeInsets.symmetric(

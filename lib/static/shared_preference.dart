@@ -11,7 +11,7 @@ class SharedPreference {
   Future getSession() async {
     final preferences = await SharedPreferences.getInstance();
     List? sessionInfo = preferences.getStringList('sessionInfo');
-
+    
     return sessionInfo;
   }
 

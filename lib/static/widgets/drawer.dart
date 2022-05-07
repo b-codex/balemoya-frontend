@@ -1,18 +1,17 @@
 import 'package:animated_snack_bar/animated_snack_bar.dart';
+import 'package:balemoya/account/profile/bloc/profile_bloc.dart';
 import 'package:balemoya/job/home/bloc/home_bloc.dart';
 import 'package:balemoya/static/widgets/snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-// ignore: unused_element
 Widget drawer(context) {
-  final bloc = BlocProvider.of<HomeBloc>(context);
+  final homeBloc = BlocProvider.of<HomeBloc>(context);
+  final profileBloc = BlocProvider.of<ProfileBloc>(context);
   return Drawer(
     child: BlocConsumer<HomeBloc, HomeState>(
       listener: (context, state) {
-        //
         if (state is LoggedOut) {
-          // Navigator.of(context).pushReplacementNamed('/');
           animatedSnackBar(
             context: context,
             message: "Successfully Logged Out.",
@@ -67,7 +66,7 @@ Widget drawer(context) {
               title: Text('Account'),
               onTap: () {
                 Navigator.of(context).pushNamed('/profile_screen');
-                // bloc.add(AccountButtonClick());
+                profileBloc.add(LoadProfileEvent());
               },
             ),
             ListTile(
@@ -100,7 +99,7 @@ Widget drawer(context) {
                   leading: Icon(Icons.exit_to_app),
                   title: Text('Logout'),
                   onTap: () {
-                    bloc.add(LogoutEvent());
+                    homeBloc.add(LogoutEvent());
                   },
                 ),
               ],

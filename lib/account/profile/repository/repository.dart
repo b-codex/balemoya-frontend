@@ -1,0 +1,46 @@
+import 'package:balemoya/account/profile/data_provider/provider.dart';
+import 'package:balemoya/account/profile/models/models.dart';
+
+class ProfileRepository {
+  final ProfileProvider profileProvider;
+
+  ProfileRepository({required this.profileProvider});
+
+  Future<Object> getProfileInfo({required String sessionID}) async {
+    final response = await profileProvider.getProfileInfo(sessionID: "") as Map;
+    if (response['status'] == 200) {
+      final ProfileModel userProfile = ProfileModel(
+        profilePicture: response['profilePicture'],
+        name: response['name'],
+        location: response['location'],
+        portfolio: response['portfolio'],
+        skills: response['skills'],
+        cv: response['cv'],
+      );
+      return {
+        'status': 200,
+        'userProfile': userProfile,
+      };
+    }
+    return {
+      'status': 404,
+    };
+  }
+
+  Future changeProfilePicture({required String filePath}) async {
+    final response = await profileProvider.changeProfilePicture(
+      filePath: filePath,
+    ) as Map;
+
+    if (response['status'] == 200) {
+      return {
+        'status' : response['status'],
+        'success' : true,
+      };
+    }
+    return {
+        'status' : response['status'],
+        'success' : false,
+      };
+  }
+}

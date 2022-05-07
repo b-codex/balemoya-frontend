@@ -1,3 +1,6 @@
+import 'package:balemoya/account/profile/bloc/profile_bloc.dart';
+import 'package:balemoya/account/profile/data_provider/provider.dart';
+import 'package:balemoya/account/profile/repository/repository.dart';
 import 'package:balemoya/auth/login/bloc/login_bloc.dart';
 import 'package:balemoya/auth/login/data_provider/provider.dart';
 import 'package:balemoya/auth/login/repository/repository.dart';
@@ -43,9 +46,15 @@ class MyApp extends StatelessWidget {
     homeProvider: HomeProvider(),
   );
 
+  // profile repository
+  final ProfileRepository profileRepository = ProfileRepository(
+    profileProvider: ProfileProvider(),
+  );
+
   @override
+
   /// A function that returns a widget.
-  /// 
+  ///
   /// Args:
   ///   context (BuildContext): The current context of the widget.
   Widget build(BuildContext context) {
@@ -71,6 +80,11 @@ class MyApp extends StatelessWidget {
             homeRepository: homeRepository,
           ),
         ),
+        BlocProvider(
+          create: (ctx) => ProfileBloc(
+            profileRepository: profileRepository,
+          ),
+        ),
       ],
       child: RepositoryProvider.value(
         value: sessionRepository,
@@ -81,7 +95,7 @@ class MyApp extends StatelessWidget {
             textTheme: GoogleFonts.montserratTextTheme(),
           ),
           debugShowCheckedModeBanner: false,
-          initialRoute: RouteManager.login,
+          initialRoute: RouteManager.profile_screen,
           onGenerateRoute: RouteManager.generateRoute,
         ),
       ),
