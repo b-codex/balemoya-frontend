@@ -4,14 +4,14 @@ import 'package:http/http.dart' as http;
 class ProfileProvider {
   /// It returns a Future object.
   Future<Object> getProfileInfo({required String sessionID}) async {
-    final url = "https://google.com";
+    final url = "http://account-service-1.herokuapp.com/";
     final response = await http.post(Uri.parse(url), body: {
       "sessionID": sessionID,
     });
 
     if (response.statusCode == 200) {
       return {
-        'status': 404,
+        'status': 200,
         'response': response,
       };
     }
@@ -54,6 +54,55 @@ class ProfileProvider {
       };
     }
 
+    return {
+      'status': 404,
+    };
+  }
+
+  Future<Object> updatePortfolio({required String editedText}) async {
+    final url = "http://account-service-1.herokuapp.com/";
+    final response = await http.put(Uri.parse(url), body: {
+      'updatedPortfolio': editedText,
+    });
+
+    if (response.statusCode == 200) {
+      return {
+        'status': 200,
+      };
+    }
+
+    return {
+      'status': 404,
+    };
+  }
+
+  Future<Object> updateSkills({required List<String> skills}) async {
+    final url = "http://account-service-1.herokuapp.com/";
+    final response = await http.put(Uri.parse(url), body: {
+      'skills': skills,
+    });
+
+    if (response.statusCode == 200) {
+      return {
+        'status': 200,
+      };
+    }
+
+    return {
+      'status': 404,
+    };
+  }
+
+  Future<Object> deleteAccount({required String sessionID}) async {
+    final url = "http://account-service-1.herokuapp.com/";
+    final response = await http.post(Uri.parse(url), body: {
+      'sessionID': sessionID,
+    });
+    if (response.statusCode == 200) {
+      return {
+        'status': 200,
+      };
+    }
     return {
       'status': 404,
     };

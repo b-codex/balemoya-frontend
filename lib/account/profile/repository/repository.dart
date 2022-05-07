@@ -27,20 +27,60 @@ class ProfileRepository {
     };
   }
 
-  Future changeProfilePicture({required String filePath}) async {
+  Future<Object> changeProfilePicture({required String filePath}) async {
     final response = await profileProvider.changeProfilePicture(
       filePath: filePath,
     ) as Map;
 
     if (response['status'] == 200) {
       return {
-        'status' : response['status'],
-        'success' : true,
+        'status': response['status'],
+        'success': true,
       };
     }
     return {
-        'status' : response['status'],
-        'success' : false,
+      'status': response['status'],
+      'success': false,
+    };
+  }
+
+  Future<Object> uploadCV({required String filePath}) async {
+    final response = await profileProvider.uploadCV(
+      filePath: filePath,
+    ) as Map;
+
+    if (response['status'] == 200) {
+      return {
+        'status': response['status'],
+        'success': true,
       };
+    }
+    return {
+      'status': response['status'],
+      'success': false,
+    };
+  }
+
+  Future<Object> editPortfolio({required String editedText}) async {
+    final response = await profileProvider.updatePortfolio(
+      editedText: editedText,
+    );
+
+    return response;
+  }
+
+  Future<Object> editSkills({required List<String> skills}) async {
+    final response = await profileProvider.updateSkills(
+      skills: skills,
+    );
+
+    return response;
+  }
+
+  Future<Object> deleteAccount({required String sessionID}) async {
+    final response = await profileProvider.deleteAccount(
+      sessionID: sessionID,
+    );
+    return response;
   }
 }

@@ -46,6 +46,73 @@ class ProfileScreen extends StatelessWidget {
           );
           bloc.add(LoadProfileEvent());
         }
+
+        if (state is UploadCVSuccess) {
+          animatedSnackBar(
+            context: context,
+            message: 'CV Uploaded.',
+            animatedSnackBarType: AnimatedSnackBarType.success,
+          );
+        }
+
+        if (state is UploadCVFailed) {
+          animatedSnackBar(
+            context: context,
+            message: 'CV Upload Failed.',
+            animatedSnackBarType: AnimatedSnackBarType.error,
+          );
+        }
+
+        if (state is PortfolioUpdateSuccess) {
+          animatedSnackBar(
+            context: context,
+            message: 'Portfolio Update Success.',
+            animatedSnackBarType: AnimatedSnackBarType.success,
+          );
+          bloc.add(LoadProfileEvent());
+        }
+
+        if (state is PortfolioUpdateFailed) {
+          animatedSnackBar(
+            context: context,
+            message: 'Portfolio Update Failed.',
+            animatedSnackBarType: AnimatedSnackBarType.error,
+          );
+        }
+
+        if (state is SkillsUpdateSuccess) {
+          animatedSnackBar(
+            context: context,
+            message: 'Skills Update Success.',
+            animatedSnackBarType: AnimatedSnackBarType.success,
+          );
+          bloc.add(LoadProfileEvent());
+        }
+
+        if (state is SkillsUpdateFailed) {
+          animatedSnackBar(
+            context: context,
+            message: 'Skills Update Failed.',
+            animatedSnackBarType: AnimatedSnackBarType.error,
+          );
+        }
+
+        if (state is DeleteAccountSuccess) {
+          animatedSnackBar(
+            context: context,
+            message: 'Account Deletion Success.',
+            animatedSnackBarType: AnimatedSnackBarType.success,
+          );
+          Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+        }
+
+        if (state is DeleteAccountFailed) {
+          animatedSnackBar(
+            context: context,
+            message: 'Account Deletion Failed.',
+            animatedSnackBarType: AnimatedSnackBarType.error,
+          );
+        }
       },
       builder: (context, state) {
         if (state is ProfileInitial) {
@@ -122,20 +189,37 @@ PreferredSizeWidget _appBar(context) {
         },
         onSelected: (clicked) async {
           if (clicked == 'Change Profile Picture') {
-            final String _filePath = await _changeProfilePicture().then(
+            final _filePath = await _changeProfilePicture().then(
               (value) {
-                return value;
+                return value as Map;
               },
             );
-            profileBloc.add(
-              ChangeProfilePictureEvent(
-                filePath: _filePath,
-              ),
-            );
+
+            if (_filePath['chosen'] == true) {
+              profileBloc.add(
+                ChangeProfilePictureEvent(
+                  filePath: _filePath['filePath'],
+                ),
+              );
+            }
           }
+
           if (clicked == 'Resume Builder') {}
+
           if (clicked == 'Upload CV') {
-            _chooseCV();
+            final _filePath = await _uploadCV().then(
+              (value) {
+                return value as Map;
+              },
+            );
+
+            if (_filePath['chosen'] == true) {
+              profileBloc.add(
+                UploadCVEvent(
+                  filePath: _filePath['filePath'],
+                ),
+              );
+            }
           }
           if (clicked == 'Reset Password') {
             Navigator.of(context).pushNamed('/reset_password');
@@ -146,7 +230,9 @@ PreferredSizeWidget _appBar(context) {
               content: Text('Are you sure you want to delete your account?'),
               actions: [
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    profileBloc.add(DeleteAccountEvent());
+                  },
                   child: Text(
                     'Yes',
                     style: TextStyle(color: Colors.red),
@@ -357,33 +443,7 @@ Widget _skill() {
   );
 }
 
-// Widget _uploadCV() {
-//   return Container(
-//     margin: EdgeInsets.symmetric(
-//       horizontal: 15,
-//       vertical: 7,
-//     ),
-//     child: Row(
-//       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//       children: [
-//         Text(
-//           'Upload CV',
-//           style: TextStyle(
-//             fontSize: 20,
-//           ),
-//         ),
-//         ElevatedButton(
-//           onPressed: () {
-//             _chooseCV();
-//           },
-//           child: Text('Browse'),
-//         ),
-//       ],
-//     ),
-//   );
-// }
-
-Future _chooseCV() async {
+Future<Object> _uploadCV() async {
   FilePickerResult? result = await FilePicker.platform.pickFiles(
     type: FileType.custom,
     allowedExtensions: ['pdf'],
@@ -392,13 +452,19 @@ Future _chooseCV() async {
 
   if (result != null) {
     final String filePath = result.files.single.path.toString();
-    return filePath;
+    return {
+      'filePath': filePath,
+      'chosen': true,
+    };
   } else {
     // User canceled the picker
+    return {
+      'chosen': false,
+    };
   }
 }
 
-Future _changeProfilePicture() async {
+Future<Object> _changeProfilePicture() async {
   FilePickerResult? result = await FilePicker.platform.pickFiles(
     type: FileType.image,
     allowMultiple: false,
@@ -406,8 +472,14 @@ Future _changeProfilePicture() async {
 
   if (result != null) {
     final String filePath = result.files.single.path.toString();
-    return filePath;
+    return {
+      'filePath': filePath,
+      'chosen': true,
+    };
   } else {
     // User canceled the picker
+    return {
+      'chosen': false,
+    };
   }
 }

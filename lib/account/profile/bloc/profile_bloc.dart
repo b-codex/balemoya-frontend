@@ -14,10 +14,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   /// A constructor that takes a `ProfileEvent` and outputs a `ProfileState`.
   ProfileBloc({required this.profileRepository}) : super(ProfileInitial()) {
+    /// A class that is used to store data in the device.
+    SharedPreference sharedPreference = SharedPreference();
+
     on<LoadProfileEvent>((event, emit) async {
       emit(LoadingProfile());
 
-      SharedPreference sharedPreference = SharedPreference();
       final sessionID = await sharedPreference.getSession().then(
         (value) {
           return value;
@@ -51,13 +53,59 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         emit(ChangeProfilePictureSuccess());
       }
       emit(ChangeProfilePictureFailed());
-      
     }));
 
-    on<DeleteAccountEvent>(((event, emit) async {}));
+    on<DeleteAccountEvent>(((event, emit) async {
+      final sessionID = await sharedPreference.getSession().then(
+        (value) {
+          return value;
+        },
+      );
+
+      final response = await profileRepository.deleteAccount(
+        sessionID: sessionID,
+      ) as Map;
+
+      if (response['status'] == 200) {
+        emit(DeleteAccountSuccess());
+      }
+      emit(DeleteAccountFailed());
+    }));
 
     on<ResumeBuilderEvent>(((event, emit) async {}));
 
     on<ResetPasswordEvent>(((event, emit) async {}));
+
+    on<EditPortfolioEvent>(((event, emit) async {
+      final response = await profileRepository.editPortfolio(
+        editedText: event.editedText,
+      ) as Map;
+      if (response['status'] == 200) {
+        emit(PortfolioUpdateSuccess());
+      }
+      emit(PortfolioUpdateFailed());
+    }));
+
+    on<EditSkillsEvent>(((event, emit) async {
+      final response = await profileRepository.editSkills(
+        skills: event.editedSkills,
+      ) as Map;
+
+      if (response['status'] == 200) {
+        emit(SkillsUpdateSuccess());
+      }
+      emit(SkillsUpdateFailed());
+    }));
+
+    on<UploadCVEvent>(((event, emit) async {
+      final response = await profileRepository.uploadCV(
+        filePath: event.filePath,
+      ) as Map;
+
+      if (response['success'] == true) {
+        emit(UploadCVSuccess());
+      }
+      emit(UploadCVFailed());
+    }));
   }
 }
