@@ -95,7 +95,7 @@ class MyApp extends StatelessWidget {
             textTheme: GoogleFonts.montserratTextTheme(),
           ),
           debugShowCheckedModeBanner: false,
-          initialRoute: RouteManager.profile_screen,
+          initialRoute: RouteManager.intro_screen,
           onGenerateRoute: RouteManager.generateRoute,
         ),
       ),

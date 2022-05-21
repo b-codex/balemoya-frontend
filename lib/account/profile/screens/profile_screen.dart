@@ -172,6 +172,13 @@ PreferredSizeWidget _appBar(context) {
               ),
             ),
             PopupMenuItem(
+              value: 'Request Verification',
+              child: Text(
+                'Request Verification',
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+            PopupMenuItem(
               value: 'Reset Password',
               child: Text(
                 'Reset Password',
@@ -224,6 +231,9 @@ PreferredSizeWidget _appBar(context) {
           if (clicked == 'Reset Password') {
             Navigator.of(context).pushNamed('/reset_password');
           }
+
+          if (clicked == 'Request Verification') {}
+
           if (clicked == 'Delete Account') {
             var _alertDialog = AlertDialog(
               title: Text('Confirm'),
@@ -260,6 +270,10 @@ PreferredSizeWidget _appBar(context) {
 }
 
 Widget _body(context) {
+  String portfolioText =
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus dignissim hendrerit arcu, ut malesuada leo congue id. Nullam pulvinar ligula eu justo sollicitudin, sit amet.';
+
+  List<String> skills = ['flutter', 'web development', 'backend development'];
   return SingleChildScrollView(
     child: Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -267,7 +281,7 @@ Widget _body(context) {
         _profilePicture(),
         _name(),
         _location(),
-        _portfolio(),
+        _portfolio(context, portfolioText, skills),
         // _uploadCV(),
       ],
     ),
@@ -344,7 +358,8 @@ Widget _location() {
   );
 }
 
-Widget _portfolio() {
+Widget _portfolio(context, portfolioText, List<String> skills) {
+  final profileBloc = BlocProvider.of<ProfileBloc>(context);
   return Column(
     mainAxisAlignment: MainAxisAlignment.start,
     children: [
@@ -362,7 +377,75 @@ Widget _portfolio() {
               ),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                final _formKey = GlobalKey<FormState>();
+                final TextEditingController _portfolioTextController =
+                    TextEditingController();
+                _portfolioTextController.text = portfolioText;
+
+                var _editPortfolioDialog = AlertDialog(
+                  title: Text('Edit Portfolio'),
+                  content: Form(
+                    key: _formKey,
+                    child: TextFormField(
+                      controller: _portfolioTextController,
+                      decoration: InputDecoration(
+                        label: Text("Edit Portfolio"),
+                        prefixIcon: Icon(Icons.edit),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      // initialValue: _portfolioTextController.text,
+                      maxLines: null,
+                      keyboardType: TextInputType.multiline,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Field can\'t be empty.';
+                        } else {
+                          return null;
+                        }
+                      },
+                    ),
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          profileBloc.add(
+                            EditPortfolioEvent(
+                              editedText: _portfolioTextController.text,
+                            ),
+                          );
+                        }
+                      },
+                      child: Text(
+                        'Update',
+                        style: TextStyle(
+                          color: Colors.indigo,
+                        ),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text(
+                        'Cancel',
+                        style: TextStyle(
+                          color: Colors.red,
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+                showDialog(
+                  context: context,
+                  builder: (BuildContext ctx) {
+                    return _editPortfolioDialog;
+                  },
+                );
+              },
               icon: Icon(Icons.edit),
             ),
           ],
@@ -381,7 +464,7 @@ Widget _portfolio() {
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Text(
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus dignissim hendrerit arcu, ut malesuada leo congue id. Nullam pulvinar ligula eu justo sollicitudin, sit amet.',
+                '$portfolioText',
                 overflow: TextOverflow.clip,
                 maxLines: null,
               ),
@@ -403,7 +486,71 @@ Widget _portfolio() {
               ),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                final _formKey = GlobalKey<FormState>();
+                final TextEditingController _portfolioTextController =
+                    TextEditingController();
+                _portfolioTextController.text = portfolioText;
+
+                var _editPortfolioDialog = AlertDialog(
+                  title: Text('Edit Skills'),
+                  content: Form(
+                    key: _formKey,
+                    child: TextFormField(
+                      controller: _portfolioTextController,
+                      decoration: InputDecoration(
+                        label: Text("Edit Skills"),
+                        prefixIcon: Icon(Icons.edit),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      // initialValue: _portfolioTextController.text,
+                      maxLines: null,
+                      keyboardType: TextInputType.multiline,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Field can\'t be empty.';
+                        } else {
+                          return null;
+                        }
+                      },
+                    ),
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          //
+                        }
+                      },
+                      child: Text(
+                        'Update',
+                        style: TextStyle(
+                          color: Colors.indigo,
+                        ),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text(
+                        'Cancel',
+                        style: TextStyle(
+                          color: Colors.red,
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+                showDialog(
+                  context: context,
+                  builder: (BuildContext ctx) {
+                    return _editPortfolioDialog;
+                  },
+                );
+              },
               icon: Icon(Icons.edit),
             ),
           ],
@@ -420,25 +567,23 @@ Widget _portfolio() {
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            _skill(),
-            _skill(),
-            _skill(),
-            _skill(),
-            _skill(),
-          ],
+          children: skills.map(
+            (skillText) {
+              return _skill(skillText);
+            },
+          ).toList(),
         ),
       ),
     ],
   );
 }
 
-Widget _skill() {
+Widget _skill(skillText) {
   return Container(
     margin: EdgeInsets.symmetric(vertical: 7),
     child: ListTile(
       leading: Icon(Icons.check),
-      title: Text('My skill'),
+      title: Text('$skillText'),
     ),
   );
 }

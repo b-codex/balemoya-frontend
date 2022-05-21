@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 class ProfileProvider {
   /// It returns a Future object.
   Future<Object> getProfileInfo({required String sessionID}) async {
-    final url = "http://account-service-1.herokuapp.com/";
+    final url = "http://account-service-1.herokuapp.com/users/current";
     final response = await http.post(Uri.parse(url), body: {
       "sessionID": sessionID,
     });
@@ -94,8 +94,8 @@ class ProfileProvider {
   }
 
   Future<Object> deleteAccount({required String sessionID}) async {
-    final url = "http://account-service-1.herokuapp.com/";
-    final response = await http.post(Uri.parse(url), body: {
+    final url = "http://account-service-1.herokuapp.com/users";
+    final response = await http.delete(Uri.parse(url), body: {
       'sessionID': sessionID,
     });
     if (response.statusCode == 200) {
