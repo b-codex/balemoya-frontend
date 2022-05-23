@@ -1,0 +1,43 @@
+.root {
+  background-color: #dcdfff;
+}
+.login {
+  height: 100vh;
+  display: flex;
+  justify-content: space-around;
+  width: 80%;
+  margin: auto;
+  font-family: "Poppins", sans-serif;
+  flex: 2;
+  justify-content: center;
+  background-color: white;
+
+  .left_div {
+    background-color: white;
+    flex: 1;
+    height: 60vh;
+    align-self: center;
+    margin-right: auto;
+    .login_form {
+
+      background-color: green;
+      width: 80%;
+    }
+    .not_reg {
+      .not_reg_para {
+        display: inline;
+      }
+      .not_reg_link {
+        display: inline;
+        margin-left: 5px;
+        a {
+          color: #5138ee;
+        }
+      }
+    }
+  }
+  .right_div {
+    background-color: red;
+    flex: 1;
+  }
+}

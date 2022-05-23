@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./Sidebar.scss";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
@@ -12,8 +12,11 @@ import PsychologyOutlinedIcon from "@mui/icons-material/PsychologyOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
+import { Link } from "react-router-dom";
+import { DarkModeContext } from "../../context/darkModeContext";
 
 const Sidebar = () => {
+  const { dispatch } = useContext(DarkModeContext);
   return (
     <div className="sidebar">
       <div className="top">
@@ -23,23 +26,23 @@ const Sidebar = () => {
       <div className="center">
         <ul>
           <p className="title">MAIN</p>
-          <li>
-            <DashboardIcon /> <span>Dashboard</span>
-          </li>
-          <p className="title">LISTS</p>
+          <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+            <li>
+              <DashboardIcon /> <span>Dashboard</span>
+            </li>
+          </Link>
 
-          <li>
-            <PersonOutlineOutlinedIcon /> <span>Users</span>
-          </li>
-          {/* <li>
-            <StoreMallDirectoryOutlinedIcon /> <span>Products</span>
-          </li>
-          <li>
-            <CreditCardOutlinedIcon /> <span>Orders</span>
-          </li>
-          <li>
-            <LocalShippingOutlinedIcon /> <span>Delivery</span>
-          </li> */}
+          <p className="title">ACCOUNT MANAGEMENT</p>
+          <Link
+
+            to="/users"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <li>
+              <PersonOutlineOutlinedIcon /> <span>Users</span>
+            </li>
+          </Link>
+
           <p className="title">USEFUL</p>
           <li>
             <InsertChartOutlinedIcon /> <span>Stats</span>
@@ -68,8 +71,14 @@ const Sidebar = () => {
       </div>
       <div className="bottom">
         {/* color options */}
-        <span className="color_options"></span>
-        <span className="color_options"></span>
+        <span
+          className="color_options"
+          onClick={() => dispatch({ type: "LIGHT" })}
+        ></span>
+        <span
+          className="color_options"
+          onClick={() => dispatch({ type: "DARK" })}
+        ></span>
       </div>
     </div>
   );
