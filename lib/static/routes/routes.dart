@@ -9,14 +9,16 @@ import 'package:balemoya/job/create_job_post/screens/create_job_post.dart';
 import 'package:balemoya/job/search_results/screens/search_results.dart';
 import 'package:balemoya/static/screens/intro_screen.dart';
 import 'package:balemoya/auth/session/screens/loading_screen.dart';
+import 'package:balemoya/static/shared_preference.dart';
 import 'package:flutter/material.dart';
 
+/// It's a class that contains all the routes of the app and it's used to navigate between them
 class RouteManager {
-  static const String intro_screen = '/';
+  static const String loading_screen = '/';
+  static const String intro_screen = '/intro_screen';
   static const String login = '/login';
   static const String register = '/register';
   static const String home_screen = '/home_screen';
-  static const String loading_screen = '/loading_screen';
   static const String bookmarks = '/bookmarks';
   static const String job_detail = '/job_detail';
   static const String create_job_post = '/create_job_post';
@@ -24,6 +26,13 @@ class RouteManager {
   static const String reset_password = '/reset_password';
   static const String search_results = '/search_results';
 
+  /// It takes a RouteSettings object as an argument and returns a Route object
+  ///
+  /// Args:
+  ///   settings (RouteSettings): RouteSettings
+  ///
+  /// Returns:
+  ///   A MaterialPageRoute with a builder function that returns a widget.
   static Route<dynamic> generateRoute(RouteSettings settings) {
     late var values;
 

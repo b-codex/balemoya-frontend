@@ -5,7 +5,7 @@ class SessionRepository {
 
   SessionRepository({required this.sessionProvider});
 
-  Future<bool> checkUserSession() async {
+  Future<Object> checkUserSession() async {
     final result = await sessionProvider.checkUserSession();
     
     return result; // true, if there exists a user session or false, if there doesn't exist a user session

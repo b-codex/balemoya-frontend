@@ -58,34 +58,46 @@ class MyApp extends StatelessWidget {
   /// Args:
   ///   context (BuildContext): The current context of the widget.
   Widget build(BuildContext context) {
+    /// Creating a MultiBlocProvider with a list of BlocProviders.
     return MultiBlocProvider(
       providers: [
+        /// Creating a new instance of the `UserSessionBloc` and passing the `sessionRepository` to it.
         BlocProvider(
           create: (ctx) => UserSessionBloc(
             sessionRepository: sessionRepository,
           ),
         ),
+
+        /// Creating a new instance of the `LoginBloc` and passing the `loginRepository` to it.
         BlocProvider(
           create: (ctx) => LoginBloc(
             loginRepository: loginRepository,
           ),
         ),
+
+        /// Creating a new instance of the `RegisterBloc` and passing the `registerRepository` to it.
         BlocProvider(
           create: (ctx) => RegisterBloc(
             registerRepository: registerRepository,
           ),
         ),
+
+        /// Creating a new instance of the `HomeBloc` and passing the `homeRepository` to it.
         BlocProvider(
           create: (ctx) => HomeBloc(
             homeRepository: homeRepository,
           ),
         ),
+
+        /// Creating a new instance of the `ProfileBloc` and passing the `profileRepository` to it.
         BlocProvider(
           create: (ctx) => ProfileBloc(
             profileRepository: profileRepository,
           ),
         ),
       ],
+
+      /// A provider that provides the `sessionRepository` to the `MaterialApp` widget.
       child: RepositoryProvider.value(
         value: sessionRepository,
         child: MaterialApp(
@@ -95,7 +107,7 @@ class MyApp extends StatelessWidget {
             textTheme: GoogleFonts.montserratTextTheme(),
           ),
           debugShowCheckedModeBanner: false,
-          initialRoute: RouteManager.intro_screen,
+          initialRoute: RouteManager.loading_screen,
           onGenerateRoute: RouteManager.generateRoute,
         ),
       ),

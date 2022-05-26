@@ -32,8 +32,11 @@ class LoginScreen extends StatelessWidget {
               message: 'Login Success!',
               animatedSnackBarType: AnimatedSnackBarType.success,
             );
-            Navigator.of(context)
-                .pushNamedAndRemoveUntil('/home_screen', (route) => false);
+            Navigator.of(context).pushNamedAndRemoveUntil(
+                '/home_screen', (route) => false,
+                arguments: {
+                  "role": state.role,
+                });
           }
           // login failure
           if (state is LoginFailed) {
@@ -61,7 +64,6 @@ class LoginScreen extends StatelessWidget {
                       _password(_passwordController),
                       BlocBuilder<LoginBloc, LoginState>(
                         builder: ((context, state) {
-                          
                           if (state is Loading) {
                             return Container(
                               margin: const EdgeInsets.symmetric(

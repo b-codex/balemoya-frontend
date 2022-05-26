@@ -2,13 +2,17 @@ import 'package:balemoya/auth/login/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
+/// It's a stateless widget that displays a list of pages to the user
 class IntroScreen extends StatelessWidget {
-  static const routeName = "/";
+  /// A static variable that is used to identify the route.
+  static const routeName = "/intro_screen";
 
   @override
   Widget build(BuildContext context) => SafeArea(
+        /// A widget that displays a list of pages to the user.
         child: IntroductionScreen(
           pages: [
+            /// Creating a list of pages to be displayed to the user.
             PageViewModel(
               title: 'BaleMoya',
               body: 'Find The Right Person For The Right Job',
@@ -87,13 +91,27 @@ class IntroScreen extends StatelessWidget {
         ),
       );
 
-  void gotoLogin(context) => Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => LoginScreen()),
+  /// It navigates to the login page and removes all the routes from the stack.
+  ///
+  /// Args:
+  ///   context: The context of the current screen.
+  void gotoLogin(context) => Navigator.of(context).pushNamedAndRemoveUntil(
+        '/login',
+        (route) => false,
       );
 
-  Widget buildImage(String path) =>
-      Center(child: Image.asset(path, width: 350));
+/// It returns a widget that displays an image.
+/// 
+/// Args:
+///   path (String): The path to the image file.
+  Widget buildImage(String path) => Center(
+        child: Image.asset(
+          path,
+          width: 350,
+        ),
+      );
 
+/// It returns a DotsDecorator object.
   DotsDecorator getDotDecoration() => DotsDecorator(
         color: Color(0xFFBDBDBD),
         activeColor: Colors.orange,
@@ -104,6 +122,7 @@ class IntroScreen extends StatelessWidget {
         ),
       );
 
+/// A function that returns a PageDecoration object.
   PageDecoration getPageDecoration() => PageDecoration(
         titleTextStyle: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
         bodyTextStyle: TextStyle(fontSize: 20),

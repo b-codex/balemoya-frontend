@@ -1,3 +1,4 @@
+import 'package:balemoya/static/shared_preference.dart';
 import 'package:balemoya/static/widgets/drawer.dart';
 import 'package:filter_list/filter_list.dart';
 import 'package:flutter/material.dart';
@@ -8,10 +9,31 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _appBar(context),
-      drawer: drawer(context),
-      body: _body(context),
+    late String role = "";
+
+    Future<Object> getRole() async {
+      final SharedPreference _prefs = SharedPreference();
+      final role = await _prefs.getSession().then((value) {
+        return value[2];
+      });
+      return role;
+    }
+
+    return FutureBuilder(
+      builder: (BuildContext ctx, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.hasData) {
+            final String response = snapshot.data as String;
+            role = response;
+          }
+        }
+        return Scaffold(
+          appBar: _appBar(context),
+          drawer: drawer(context),
+          body: _body(context, role),
+        );
+      },
+      future: getRole(),
     );
   }
 }
@@ -62,7 +84,7 @@ PreferredSizeWidget _appBar(context) {
   );
 }
 
-Widget _body(context) {
+Widget _body(context, role) {
   return SingleChildScrollView(
     scrollDirection: Axis.vertical,
     child: Column(
@@ -74,7 +96,7 @@ Widget _body(context) {
             left: 8,
           ),
           child: Text(
-            'Hey "User",',
+            'Hey "$role",',
             textAlign: TextAlign.left,
             style: TextStyle(
               fontSize: 24,

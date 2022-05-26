@@ -5,9 +5,19 @@ import 'package:balemoya/static/widgets/snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+/// It's a drawer that has a logout button
+/// 
+/// Args:
+///   context: BuildContext
+/// 
+/// Returns:
+///   A Widget.
 Widget drawer(context) {
+  /// It's getting the blocs from the context.
   final homeBloc = BlocProvider.of<HomeBloc>(context);
   final profileBloc = BlocProvider.of<ProfileBloc>(context);
+
+ /// It's a drawer that has a logout button
   return Drawer(
     child: BlocConsumer<HomeBloc, HomeState>(
       listener: (context, state) {
@@ -17,7 +27,7 @@ Widget drawer(context) {
             message: "Successfully Logged Out.",
             animatedSnackBarType: AnimatedSnackBarType.info,
           );
-          Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+          Navigator.of(context).pushNamedAndRemoveUntil('/intro_screen', (route) => false);
         }
         if (state is LoggingOutFailed) {
           animatedSnackBar(
