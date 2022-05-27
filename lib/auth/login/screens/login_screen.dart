@@ -32,6 +32,11 @@ class LoginScreen extends StatelessWidget {
               message: 'Login Success!',
               animatedSnackBarType: AnimatedSnackBarType.success,
             );
+
+            if (state.role == "employee") {}
+            if (state.role == "employer") {}
+
+            
             Navigator.of(context).pushNamedAndRemoveUntil(
                 '/home_screen', (route) => false,
                 arguments: {

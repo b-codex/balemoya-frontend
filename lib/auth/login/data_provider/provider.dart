@@ -19,7 +19,10 @@ class LoginProvider {
     /// Making a post request to the url and then decoding the response body to a map.
     final response = await http.post(
       Uri.parse(url),
-      body: {"email": loginModel.email, "password": loginModel.password},
+      body: {
+        "email": loginModel.email,
+        "password": loginModel.password,
+      },
     );
 
     /// This is checking if the response status code is 200, if it is, it will save the session and
@@ -34,7 +37,7 @@ class LoginProvider {
         sessionID: body['token'],
         role: body['role'],
       );
-      
+
       return {
         'status': 200,
         'id': body['token'],
