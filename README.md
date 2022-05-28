@@ -6,7 +6,9 @@ This application is built upon flutter for the front-end (UI) by using [flutter_
 
 ## UIs For The Application
 
-[<img src="https://i.ytimg.com/vi/Hc79sDi3f0U/maxresdefault.jpg" width="50%">](screenshots/introductionScreen.mp4 "Introduction Screen")
+<video width="480" height="320" controls="controls">
+  <source src="screenshots/introductionScreen.mp4" type="video/mp4">
+</video>
 
 <img src="screenshots/login.jpg" width="210"> <img src="screenshots/registerEmployee.jpg" width="210"> <img src="screenshots/registerEmployer.jpg" width="210"> <img src="screenshots/resetPassword.jpg" width="210"> 
 
