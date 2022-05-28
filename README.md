@@ -6,7 +6,11 @@ This application is built upon flutter for the front-end (UI) by using [flutter_
 
 ## UIs For The Application
 
-![Introduction Screen]([screenshots/introductionScreen.mp4](https://user-images.githubusercontent.com/61845339/170804607-759cef77-d6b6-4cc6-82e2-b91cb8a8df9e.mp4))
+[![Introduction Screen]
+(https://i.ytimg.com/vi/Hc79sDi3f0U/maxresdefault.jpg)]
+(https://user-images.githubusercontent.com/61845339/170804607-759cef77-d6b6-4cc6-82e2-b91cb8a8df9e.mp4 "Link")    // Video Link
+
+![Introduction Screen]([screenshots/introductionScreen.mp4]())
 
 <img src="screenshots/login.jpg" width="210"> <img src="screenshots/registerEmployee.jpg" width="210"> <img src="screenshots/registerEmployer.jpg" width="210"> <img src="screenshots/resetPassword.jpg" width="210"> 
 
