@@ -6,7 +6,7 @@ This application is built upon flutter for the front-end (UI) by using [flutter_
 
 ## UIs For The Application
 
-![Introduction Screen](screenshots/introductionScreen.mp4)
+![Introduction Screen]([screenshots/introductionScreen.mp4](https://user-images.githubusercontent.com/61845339/170804607-759cef77-d6b6-4cc6-82e2-b91cb8a8df9e.mp4))
 
 <img src="screenshots/login.jpg" width="210"> <img src="screenshots/registerEmployee.jpg" width="210"> <img src="screenshots/registerEmployer.jpg" width="210"> <img src="screenshots/resetPassword.jpg" width="210"> 
 
@@ -29,4 +29,6 @@ This application is built upon flutter for the front-end (UI) by using [flutter_
 
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
+
+
 samples, guidance on mobile development, and a full API reference.
