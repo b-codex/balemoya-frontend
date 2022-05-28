@@ -15,6 +15,8 @@ class LoadingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("Why is the page being viewed????");
+
     /// Getting the bloc from the context.
     final bloc = BlocProvider.of<UserSessionBloc>(context);
 

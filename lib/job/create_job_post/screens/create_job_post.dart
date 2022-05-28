@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:balemoya/static/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -19,6 +20,7 @@ class CreateJobPost extends StatelessWidget {
     // get today's time
     var date = new DateTime.now();
     var formatter = new DateFormat('MM-dd-yyyy');
+    // ignore: unused_local_variable
     var formattedDate = formatter.format(date);
     // print(formattedDate);
 
@@ -33,7 +35,7 @@ class CreateJobPost extends StatelessWidget {
     return Scaffold(
       appBar: _appBar(context),
       body: _body(context, _controllers),
-      drawer: _drawer(context),
+      drawer: drawer(context: context, pageName: routeName),
     );
   }
 }
@@ -42,86 +44,7 @@ PreferredSizeWidget _appBar(context) {
   return AppBar(
     title: Text("Create Job Post"),
     centerTitle: true,
-    actions: [
-      IconButton(
-        onPressed: () {
-          // redirect to profile page
-        },
-        icon: Image.asset('assets/start_screen.png'),
-      )
-    ],
-  );
-}
-
-Widget _drawer(context) {
-  return Drawer(
-    child: Column(
-      children: [
-        DrawerHeader(
-          decoration: BoxDecoration(
-            color: Colors.transparent,
-          ),
-          child: Column(
-            children: [
-              CircleAvatar(
-                minRadius: 50,
-                backgroundColor: Colors.transparent,
-                child: Image.asset(
-                  'assets/google.jpg',
-                  width: 100,
-                ),
-              ),
-              Text(
-                'User',
-                style: TextStyle(
-                  fontSize: 18,
-                ),
-              )
-            ],
-          ),
-        ),
-        ListTile(
-          leading: Icon(Icons.home),
-          title: Text('Home'),
-          onTap: () {
-            Navigator.of(context).pushNamed('/home');
-          },
-        ),
-        ListTile(
-          leading: Icon(Icons.account_box),
-          title: Text('Account'),
-          onTap: () {
-            Navigator.of(context).pushNamed('/profile_screen');
-          },
-        ),
-        ListTile(
-          leading: Icon(Icons.bookmark),
-          title: Text('Bookmarks'),
-          onTap: () {
-            Navigator.of(context).pushNamed('/bookmarks');
-          },
-        ),
-        ListTile(
-          // leading: Icon(Icons.bookmark),
-          title: Text('Create Job Post'),
-          onTap: () {
-            Navigator.of(context).pushNamed('/create_job_post');
-          },
-        ),
-        Expanded(
-          child: Container(),
-        ),
-        Column(
-          children: [
-            ListTile(
-              leading: Icon(Icons.exit_to_app),
-              title: Text('Logout'),
-              onTap: () {},
-            ),
-          ],
-        ),
-      ],
-    ),
+    actions: [],
   );
 }
 
@@ -334,6 +257,7 @@ Widget _postButton(context) {
 }
 
 Widget _companyLogo() {
+  // ignore: unused_local_variable
   Future<File> file;
   return Container(
     margin: EdgeInsets.symmetric(

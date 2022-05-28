@@ -47,16 +47,16 @@ Widget _body(context) {
               // ),
               child: RichText(
                 text: TextSpan(
-                  text: '9 results found for: ',
+                  text: '4 results found for: ',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 22,
                   ),
                   children: <TextSpan>[
                     TextSpan(
-                      text: 'Programming',
+                      text: 'Web Developer',
                       style: TextStyle(
-                        color: Colors.blue,
+                        color: Colors.indigo,
                       ),
                     )
                   ],
@@ -96,65 +96,47 @@ Widget _results(context) {
       children: [
         _resultsCard(
           context: context,
-          jobTitle: 'Senior Database Manager',
+          jobTitle: 'ReactJS Web Developer',
           companyName: 'Google',
-          jobType: 'Full-time',
-          salary: '40,000',
+          jobType: 'One-time',
+          salary: '20,000',
           postedDate: '2-22-2022',
           experience: '2+ years',
           location: 'Addis Ababa',
           companyLogo: 'assets/google.jpg',
-        )
-        // _resultsCard(context),
-        // _resultsCard(context),
-        // _resultsCard(context),
-        // _resultsCard(context),
-        // _resultsCard(context),
-        // _resultsCard(context),
-        // _resultsCard(context),
-        // buildCard(
-        //   title: "Senior Database Manager",
-        //   company: "Google",
-        //   companyLogo:
-        //       "https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-webinar-optimizing-for-success-google-business-webinar-13.png",
-        //   location: "Addis Ababa",
-        //   jobPosition: "Full Time",
-        //   salary: "40k",
-        //   date: "2012",
-        //   experience: "2+",
-        // ),
-        // buildCard(
-        //   title: "Senior Database Manager",
-        //   company: "Google",
-        //   companyLogo:
-        //       "https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-webinar-optimizing-for-success-google-business-webinar-13.png",
-        //   location: "Addis Ababa",
-        //   jobPosition: "Full Time",
-        //   salary: "40k",
-        //   date: "2012",
-        //   experience: "2+",
-        // ),
-        // buildCard(
-        //   title: "Senior Database Manager",
-        //   company: "Google",
-        //   companyLogo:
-        //       "https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-webinar-optimizing-for-success-google-business-webinar-13.png",
-        //   location: "Addis Ababa",
-        //   jobPosition: "Full Time",
-        //   salary: "40k",
-        //   date: "2012",
-        //   experience: "2+",
-        // ),
-        ,buildCard(
-          title: "Senior Database Manager",
-          company: "Google",
-          companyLogo:
-              "https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-webinar-optimizing-for-success-google-business-webinar-13.png",
-          location: "Addis Ababa",
-          jobPosition: "Full Time",
-          salary: "40k",
-          date: "2012",
-          experience: "2+",
+        ),
+        _resultsCard(
+          context: context,
+          jobTitle: 'ReactJS Web Developer',
+          companyName: 'Noob-Dev',
+          jobType: 'One-time',
+          salary: '15,000',
+          postedDate: '2-22-2022',
+          experience: '5+ years',
+          location: 'Addis Ababa',
+          companyLogo: 'assets/profile_picture_placeholder.png',
+        ),
+        _resultsCard(
+          context: context,
+          jobTitle: 'HTML, CSS & JS Web Developer',
+          companyName: 'New Tech',
+          jobType: 'One-time',
+          salary: '10,000',
+          postedDate: '2-22-2022',
+          experience: '4+ years',
+          location: 'Addis Ababa',
+          companyLogo: 'assets/profile_picture_placeholder.png',
+        ),
+        _resultsCard(
+          context: context,
+          jobTitle: 'WordPress Website Developer',
+          companyName: 'Private',
+          jobType: 'One-time',
+          salary: '5,000',
+          postedDate: '2-22-2022',
+          experience: '0 years',
+          location: 'Addis Ababa',
+          companyLogo: 'assets/profile_picture_placeholder.png',
         ),
       ],
     ),
@@ -178,7 +160,7 @@ Widget _resultsCard({
     },
     child: Container(
       margin: EdgeInsets.symmetric(vertical: 1),
-      height: 138,
+      height: 158,
       child: Card(
         elevation: 5,
         child: Padding(
@@ -189,12 +171,12 @@ Widget _resultsCard({
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10),
-                    child: Image.asset(
-                      companyLogo,
-                      height: 70,
+                    margin: EdgeInsets.all(10),
+                    child: CircleAvatar(
+                      radius: 40,
+                      backgroundImage: AssetImage("$companyLogo"),
                     ),
-                  )
+                  ),
                 ],
               ),
               Expanded(
@@ -206,13 +188,16 @@ Widget _resultsCard({
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        Text(
-                          jobTitle,
-                          style: TextStyle(
-                            fontSize: 20,
+                        Expanded(
+                          child: Text(
+                            jobTitle,
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            // softWrap: true,
                           ),
-                          overflow: TextOverflow.visible,
-                          softWrap: true,
                         ),
                         IconButton(
                           onPressed: () {},
@@ -220,6 +205,7 @@ Widget _resultsCard({
                         ),
                       ],
                     ),
+                    SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

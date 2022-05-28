@@ -1,3 +1,4 @@
+import 'package:balemoya/account/employeeProfileView/screens/employee_profile_view.dart';
 import 'package:balemoya/account/profile/screens/profile_screen.dart';
 import 'package:balemoya/account/reset_password/screens/reset_password.dart';
 import 'package:balemoya/auth/login/screens/login_screen.dart';
@@ -9,7 +10,6 @@ import 'package:balemoya/job/create_job_post/screens/create_job_post.dart';
 import 'package:balemoya/job/search_results/screens/search_results.dart';
 import 'package:balemoya/static/screens/intro_screen.dart';
 import 'package:balemoya/auth/session/screens/loading_screen.dart';
-import 'package:balemoya/static/shared_preference.dart';
 import 'package:flutter/material.dart';
 
 /// It's a class that contains all the routes of the app and it's used to navigate between them
@@ -25,6 +25,8 @@ class RouteManager {
   static const String profile_screen = '/profile_screen';
   static const String reset_password = '/reset_password';
   static const String search_results = '/search_results';
+  static const String employee_profile_view = '/employee_profile_view';
+  static const String employer_profile_view = '/employer_profile_screen';
 
   /// It takes a RouteSettings object as an argument and returns a Route object
   ///
@@ -34,6 +36,7 @@ class RouteManager {
   /// Returns:
   ///   A MaterialPageRoute with a builder function that returns a widget.
   static Route<dynamic> generateRoute(RouteSettings settings) {
+    // ignore: unused_local_variable
     late var values;
 
     if (settings.arguments != null) {
@@ -95,6 +98,16 @@ class RouteManager {
         return MaterialPageRoute(
           builder: (context) => SearchResults(),
         );
+
+      case employee_profile_view:
+        return MaterialPageRoute(
+          builder: (context) => EmployeeProfileView(),
+        );
+
+      // case employer_profile_screen:
+      //   return MaterialPageRoute(
+      //     builder: (context) => EmployerProfileView(),
+      //   );
 
       // case favZoomedImage:
       //   return MaterialPageRoute(

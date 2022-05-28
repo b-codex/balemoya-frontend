@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:balemoya/account/profile/bloc/profile_bloc.dart';
 import 'package:balemoya/static/widgets/drawer.dart';
@@ -116,9 +114,7 @@ class ProfileScreen extends StatelessWidget {
       },
       builder: (context, state) {
         if (state is ProfileInitial) {
-          bloc.add(
-            LoadProfileEvent(),
-          );
+          bloc.add(LoadProfileEvent());
         }
 
         if (state is LoadingProfile) {
@@ -135,7 +131,7 @@ class ProfileScreen extends StatelessWidget {
         return Scaffold(
           appBar: _appBar(context),
           body: _body(context),
-          drawer: drawer(context),
+          drawer: drawer(context: context, pageName: "profile"),
         );
       },
     );

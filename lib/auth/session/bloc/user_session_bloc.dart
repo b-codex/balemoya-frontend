@@ -11,8 +11,9 @@ class UserSessionBloc extends Bloc<UserSessionEvent, UserSessionState> {
     // checking user session event
     on<CheckUserSessionEvent>(
       (event, emit) async {
-        final response = await sessionRepository.checkUserSession() as Map<String, dynamic>;
-        
+        final response =
+            await sessionRepository.checkUserSession() as Map<String, dynamic>;
+
         if (response["status"]) {
           await Future.delayed(Duration(seconds: 1));
           emit(UserSessionFound(role: response["role"]));

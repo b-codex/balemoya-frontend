@@ -22,6 +22,7 @@ class HomeScreen extends StatelessWidget {
 
     return FutureBuilder(
       builder: (BuildContext ctx, snapshot) {
+        print("Future builder");
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasData) {
             final String response = snapshot.data as String;
@@ -42,7 +43,7 @@ class HomeScreen extends StatelessWidget {
 Widget employeeScreen({required BuildContext context, required String role}) {
   return Scaffold(
     appBar: employeeScreenAppBar(context),
-    drawer: drawer(context),
+    drawer: drawer(context: context, pageName: "home"),
     body: employeeScreenBody(context, role),
   );
 }
@@ -50,7 +51,7 @@ Widget employeeScreen({required BuildContext context, required String role}) {
 Widget employerScreen({required BuildContext context, required String role}) {
   return Scaffold(
     appBar: employerScreenAppBar(context),
-    drawer: drawer(context),
+    drawer: drawer(context: context, pageName: "home"),
     body: employerScreenBody(context, role),
   );
 }

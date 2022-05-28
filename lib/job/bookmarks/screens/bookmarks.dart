@@ -16,14 +16,9 @@ class Bookmarks extends StatelessWidget {
 
 PreferredSizeWidget _appBar() {
   return AppBar(
-    actions: [
-      IconButton(
-        onPressed: () {
-          // redirect to profile page
-        },
-        icon: Image.asset('assets/google.jpg'),
-      )
-    ],
+    title: Text("Bookmarks"),
+    centerTitle: true,
+    actions: [],
   );
 }
 

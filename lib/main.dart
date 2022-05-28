@@ -1,3 +1,6 @@
+import 'package:balemoya/account/employeeProfileView/bloc/employee_profile_view_bloc.dart';
+import 'package:balemoya/account/employeeProfileView/data_provider/provider.dart';
+import 'package:balemoya/account/employeeProfileView/repository/repository.dart';
 import 'package:balemoya/account/profile/bloc/profile_bloc.dart';
 import 'package:balemoya/account/profile/data_provider/provider.dart';
 import 'package:balemoya/account/profile/repository/repository.dart';
@@ -17,6 +20,8 @@ import 'package:balemoya/static/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'account/employeeProfileView/screens/employee_profile_view.dart';
 
 /// The `main()` function is the entry point of the app
 void main() {
@@ -49,6 +54,12 @@ class MyApp extends StatelessWidget {
   // profile repository
   final ProfileRepository profileRepository = ProfileRepository(
     profileProvider: ProfileProvider(),
+  );
+
+  // employee profile view repository
+  final EmployeeProfileViewRepository employeeProfileViewRepository =
+      EmployeeProfileViewRepository(
+    employeeProfileViewProvider: EmployeeProfileViewProvider(),
   );
 
   @override
@@ -95,6 +106,14 @@ class MyApp extends StatelessWidget {
             profileRepository: profileRepository,
           ),
         ),
+
+        /// Creating a new instance of the `EmployeeProfileViewBloc` and passing the
+        /// `employeeProfileViewRepository` to it.
+        BlocProvider(
+          create: (ctx) => EmployeeProfileViewBloc(
+            employeeProfileViewRepository: employeeProfileViewRepository,
+          ),
+        ),
       ],
 
       /// A provider that provides the `sessionRepository` to the `MaterialApp` widget.
@@ -107,7 +126,8 @@ class MyApp extends StatelessWidget {
             textTheme: GoogleFonts.montserratTextTheme(),
           ),
           debugShowCheckedModeBanner: false,
-          initialRoute: RouteManager.loading_screen,
+          // home: EmployeeProfileView(),
+          // initialRoute: RouteManager.loading_screen,
           onGenerateRoute: RouteManager.generateRoute,
         ),
       ),

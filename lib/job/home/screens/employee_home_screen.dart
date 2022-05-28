@@ -168,7 +168,7 @@ Widget employeeScreenPopularJobsCard(context) {
       Navigator.of(context).pushNamed('/job_detail');
     },
     child: Container(
-      height: 205,
+      height: 215,
       width: 300,
       child: Card(
         elevation: 5,
