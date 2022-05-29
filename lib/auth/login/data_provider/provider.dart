@@ -36,6 +36,7 @@ class LoginProvider {
         name: loginModel.email,
         sessionID: body['token'],
         role: body['role'],
+        userID: body['id']
       );
 
       return {
@@ -67,11 +68,16 @@ _saveSession({
   required String name,
   required String sessionID,
   required String role,
+  required String userID,
 }) async {
   final sharedPreferences = SharedPreference();
 
   // saving session
   var response = await sharedPreferences.saveSession(
-      name: name, sessionID: sessionID, role: role);
+    name: name,
+    sessionID: sessionID,
+    role: role,
+    userID: userID,
+  );
   return response;
 }

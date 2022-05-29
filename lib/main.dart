@@ -4,6 +4,7 @@ import 'package:balemoya/account/employeeProfileView/repository/repository.dart'
 import 'package:balemoya/account/profile/bloc/profile_bloc.dart';
 import 'package:balemoya/account/profile/data_provider/provider.dart';
 import 'package:balemoya/account/profile/repository/repository.dart';
+import 'package:balemoya/account/profile/screens/profile_screen.dart';
 import 'package:balemoya/auth/login/bloc/login_bloc.dart';
 import 'package:balemoya/auth/login/data_provider/provider.dart';
 import 'package:balemoya/auth/login/repository/repository.dart';
@@ -13,6 +14,7 @@ import 'package:balemoya/auth/register/repository/repository.dart';
 import 'package:balemoya/auth/session/bloc/user_session_bloc.dart';
 import 'package:balemoya/auth/session/data_provider/provider.dart';
 import 'package:balemoya/auth/session/repository/repository.dart';
+import 'package:balemoya/auth/session/screens/loading_screen.dart';
 import 'package:balemoya/job/home/bloc/home_bloc.dart';
 import 'package:balemoya/job/home/data_provider/provider.dart';
 import 'package:balemoya/job/home/repository/repository.dart';
@@ -20,8 +22,6 @@ import 'package:balemoya/static/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import 'account/employeeProfileView/screens/employee_profile_view.dart';
 
 /// The `main()` function is the entry point of the app
 void main() {
@@ -126,8 +126,8 @@ class MyApp extends StatelessWidget {
             textTheme: GoogleFonts.montserratTextTheme(),
           ),
           debugShowCheckedModeBanner: false,
-          // home: EmployeeProfileView(),
-          // initialRoute: RouteManager.loading_screen,
+          // home: ProfileScreen(),
+          initialRoute: RouteManager.loading_screen,
           onGenerateRoute: RouteManager.generateRoute,
         ),
       ),

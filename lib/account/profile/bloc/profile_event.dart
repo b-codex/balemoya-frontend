@@ -34,3 +34,21 @@ class EditSkillsEvent extends ProfileEvent {
 
   EditSkillsEvent({required this.editedSkills});
 }
+
+class AddSkillEvent extends ProfileEvent {
+  final String skill;
+
+  AddSkillEvent({required this.skill});
+}
+
+class AddPreviousExperience extends ProfileEvent {
+  final PreviousExperienceModel previousExperienceModel;
+
+  AddPreviousExperience({required this.previousExperienceModel});
+}
+
+class AddEducationalBackground extends ProfileEvent {
+  final EducationModel educationModel;
+
+  AddEducationalBackground({required this.educationModel});
+}

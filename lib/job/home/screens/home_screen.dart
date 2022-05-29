@@ -22,7 +22,6 @@ class HomeScreen extends StatelessWidget {
 
     return FutureBuilder(
       builder: (BuildContext ctx, snapshot) {
-        print("Future builder");
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasData) {
             final String response = snapshot.data as String;

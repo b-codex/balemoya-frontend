@@ -51,8 +51,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
       if (response['success'] == true) {
         emit(ChangeProfilePictureSuccess());
+      } else {
+        emit(ChangeProfilePictureFailed());
       }
-      emit(ChangeProfilePictureFailed());
     }));
 
     on<DeleteAccountEvent>(((event, emit) async {
@@ -68,8 +69,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
       if (response['status'] == 200) {
         emit(DeleteAccountSuccess());
+      } else {
+        emit(DeleteAccountFailed());
       }
-      emit(DeleteAccountFailed());
     }));
 
     on<ResumeBuilderEvent>(((event, emit) async {}));
@@ -82,8 +84,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       ) as Map;
       if (response['status'] == 200) {
         emit(PortfolioUpdateSuccess());
+      } else {
+        emit(PortfolioUpdateFailed());
       }
-      emit(PortfolioUpdateFailed());
     }));
 
     on<EditSkillsEvent>(((event, emit) async {
@@ -93,8 +96,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
       if (response['status'] == 200) {
         emit(SkillsUpdateSuccess());
+      } else {
+        emit(SkillsUpdateFailed());
       }
-      emit(SkillsUpdateFailed());
     }));
 
     on<UploadCVEvent>(((event, emit) async {
@@ -104,8 +108,64 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
       if (response['success'] == true) {
         emit(UploadCVSuccess());
+      } else {
+        emit(UploadCVFailed());
       }
-      emit(UploadCVFailed());
     }));
+
+    on<AddSkillEvent>((event, emit) async {
+      final sessionID = await sharedPreference.getSession().then(
+        (value) {
+          return value;
+        },
+      );
+      final response = await profileRepository.addSKill(
+        skill: event.skill,
+        sessionID: sessionID[1],
+      ) as Map;
+
+      if (response['success'] == true) {
+        emit(SkillAdded());
+      } else {
+        emit(SkillAddingFailed());
+      }
+    });
+
+    on<AddPreviousExperience>(
+      (event, emit) async {
+        final sessionID = await sharedPreference.getSession().then(
+          (value) {
+            return value;
+          },
+        );
+
+        final response = await profileRepository.addPreviousExperience(
+          previousExperienceModel: event.previousExperienceModel,
+          sessionID: sessionID,
+        ) as Map;
+        if (response['success'] == true) {
+          emit(PreviousExperienceAdded());
+        } else {
+          emit(PreviousExperienceAddingFailed());
+        }
+      },
+    );
+
+    on<AddEducationalBackground>((event, emit) async {
+      final sessionID = await sharedPreference.getSession().then(
+        (value) {
+          return value;
+        },
+      );
+      final response = await profileRepository.addEducationalBackground(
+        educationModel: event.educationModel,
+        sessionID: sessionID,
+      ) as Map;
+      if (response['success'] == true) {
+        emit(EducationalBackgroundAdded());
+      } else {
+        emit(EducationalBackgroundAddingFailed());
+      }
+    });
   }
 }

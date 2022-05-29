@@ -15,8 +15,6 @@ class LoadingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("Why is the page being viewed????");
-
     /// Getting the bloc from the context.
     final bloc = BlocProvider.of<UserSessionBloc>(context);
 
@@ -58,8 +56,6 @@ class LoadingScreen extends StatelessWidget {
         /// Checking if the state is UserSessionInitial and if it is, it is adding the
         /// CheckUserSessionEvent to the bloc.
         builder: (context, state) {
-          print(state);
-
           /// Checking if the state is UserSessionInitial and if it is, it is adding the
           /// CheckUserSessionEvent to the bloc.
           if (state is UserSessionInitial) {

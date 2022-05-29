@@ -42,6 +42,7 @@ dependencies:
   crypt: ^4.2.1
   http: ^0.13.4
   loading_indicator: ^3.0.3
+  numberpicker: ^2.1.1
 
 dev_dependencies:
   flutter_test:

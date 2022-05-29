@@ -34,3 +34,15 @@ class SkillsUpdateFailed extends ProfileState {}
 class DeleteAccountSuccess extends ProfileState {}
 
 class DeleteAccountFailed extends ProfileState {}
+
+class SkillAdded extends ProfileState {}
+
+class SkillAddingFailed extends ProfileState {}
+
+class PreviousExperienceAdded extends ProfileState {}
+
+class PreviousExperienceAddingFailed extends ProfileState {}
+
+class EducationalBackgroundAdded extends ProfileState {}
+
+class EducationalBackgroundAddingFailed extends ProfileState {}

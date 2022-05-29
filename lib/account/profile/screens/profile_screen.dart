@@ -1,6 +1,9 @@
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:balemoya/account/profile/bloc/profile_bloc.dart';
+import 'package:balemoya/account/profile/models/models.dart';
+import 'package:balemoya/static/widgets/date_picker.dart';
 import 'package:balemoya/static/widgets/drawer.dart';
+import 'package:balemoya/static/widgets/duration_picker.dart';
 import 'package:balemoya/static/widgets/snack_bar.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -24,8 +27,8 @@ class ProfileScreen extends StatelessWidget {
             message: 'An Error Occurred. Please Try Again.',
             animatedSnackBarType: AnimatedSnackBarType.error,
           );
-          // Navigator.of(context)
-          //     .pushNamedAndRemoveUntil('/home_screen', (route) => false);
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil('/home_screen', (route) => false);
         }
 
         if (state is ChangeProfilePictureFailed) {
@@ -43,6 +46,42 @@ class ProfileScreen extends StatelessWidget {
             animatedSnackBarType: AnimatedSnackBarType.success,
           );
           bloc.add(LoadProfileEvent());
+        }
+
+        if (state is PreviousExperienceAdded) {
+          animatedSnackBar(
+            context: context,
+            message: 'Previous Experience Added.',
+            animatedSnackBarType: AnimatedSnackBarType.success,
+          );
+          bloc.add(LoadProfileEvent());
+        }
+
+        if (state is PreviousExperienceAddingFailed) {
+          animatedSnackBar(
+            context: context,
+            message: 'Task Failed. Please Try Again.',
+            animatedSnackBarType: AnimatedSnackBarType.error,
+          );
+          // bloc.add(LoadProfileEvent());
+        }
+
+        if (state is EducationalBackgroundAdded) {
+          animatedSnackBar(
+            context: context,
+            message: 'Educational Background Added.',
+            animatedSnackBarType: AnimatedSnackBarType.success,
+          );
+          bloc.add(LoadProfileEvent());
+        }
+
+        if (state is EducationalBackgroundAddingFailed) {
+          animatedSnackBar(
+            context: context,
+            message: 'Task Failed. Please Try Again.',
+            animatedSnackBarType: AnimatedSnackBarType.error,
+          );
+          // bloc.add(LoadProfileEvent());
         }
 
         if (state is UploadCVSuccess) {
@@ -125,14 +164,16 @@ class ProfileScreen extends StatelessWidget {
           );
         }
 
+        if (state is ProfileLoadDone) {
+          return Scaffold(
+            appBar: _appBar(context),
+            body: _body(context: context, profileModel: state.profileModel),
+            drawer: drawer(context: context, pageName: "profile"),
+          );
+        }
         // if (state is ProfileLoadingFailed) {
-        //   return Scaffold();
         // }
-        return Scaffold(
-          appBar: _appBar(context),
-          body: _body(context),
-          drawer: drawer(context: context, pageName: "profile"),
-        );
+        return Scaffold();
       },
     );
   }
@@ -265,26 +306,32 @@ PreferredSizeWidget _appBar(context) {
   );
 }
 
-Widget _body(context) {
-  String portfolioText =
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus dignissim hendrerit arcu, ut malesuada leo congue id. Nullam pulvinar ligula eu justo sollicitudin, sit amet.';
-
-  List<String> skills = ['flutter', 'web development', 'backend development'];
+Widget _body({required context, required ProfileModel profileModel}) {
   return SingleChildScrollView(
     child: Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        _profilePicture(),
-        _name(),
-        _location(),
-        _portfolio(context, portfolioText, skills),
+        _profilePicture(profilePicture: profileModel.profilePicture),
+        _fullName(
+            fullName: profileModel.fullName, verified: profileModel.verified),
+        _location(location: profileModel.location),
+        _information(
+            email: profileModel.email, phoneNumber: profileModel.phoneNumber),
+        _portfolio(context, profileModel.portfolio),
         // _uploadCV(),
+        _previousExperience(
+          context: context,
+          previousExperience: profileModel.previousExperience,
+        ),
+        _educationalBackground(
+            educationalBackground: profileModel.educationalBackground,
+            context: context),
       ],
     ),
   );
 }
 
-Widget _profilePicture() {
+Widget _profilePicture({required String profilePicture}) {
   return Center(
     child: Container(
       margin: EdgeInsets.only(
@@ -293,28 +340,20 @@ Widget _profilePicture() {
       padding: EdgeInsets.all(3),
       decoration: BoxDecoration(
         border: Border.all(
-          color: Colors.teal,
+          color: Colors.indigo,
         ),
         borderRadius: BorderRadius.circular(100),
       ),
       child: CircleAvatar(
         backgroundColor: Colors.transparent,
         radius: 60,
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(100),
-          ),
-          child: Image.asset(
-            'assets/google.jpg',
-            height: 90,
-          ),
-        ),
+        backgroundImage: AssetImage("assets/profile_picture_placeholder.png"),
       ),
     ),
   );
 }
 
-Widget _name() {
+Widget _fullName({required String fullName, required bool verified}) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
@@ -323,17 +362,25 @@ Widget _name() {
           vertical: 10,
         ),
         child: Text(
-          'Name Here',
+          '$fullName',
           style: TextStyle(
             fontSize: 24,
           ),
         ),
       ),
+      SizedBox(width: 3),
+      (() {
+        if (verified == true) {
+          return Icon(Icons.verified);
+        } else {
+          return Container();
+        }
+      }()),
     ],
   );
 }
 
-Widget _location() {
+Widget _location({required String location}) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
@@ -344,7 +391,7 @@ Widget _location() {
           vertical: 10,
         ),
         child: Text(
-          'Location',
+          '$location',
           style: TextStyle(
             fontSize: 11,
           ),
@@ -354,7 +401,58 @@ Widget _location() {
   );
 }
 
-Widget _portfolio(context, portfolioText, List<String> skills) {
+Widget _information({required String email, required String phoneNumber}) {
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.start,
+    children: [
+      Container(
+        margin: EdgeInsets.symmetric(horizontal: 15),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Information",
+              style: TextStyle(fontSize: 20),
+            ),
+          ],
+        ),
+      ),
+      Container(
+        margin: EdgeInsets.symmetric(
+          horizontal: 7,
+        ),
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: Color.fromARGB(255, 240, 240, 240),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: ListTile(
+          leading: Icon(Icons.email),
+          title: Text("$email"),
+        ),
+      ),
+      Container(
+        margin: EdgeInsets.symmetric(
+          horizontal: 7,
+        ),
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: Color.fromARGB(255, 240, 240, 240),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: ListTile(
+          leading: Icon(Icons.phone),
+          title: Text("$phoneNumber"),
+        ),
+      ),
+    ],
+  );
+}
+
+Widget _portfolio(
+  context,
+  portfolioText,
+) {
   final profileBloc = BlocProvider.of<ProfileBloc>(context);
   return Column(
     mainAxisAlignment: MainAxisAlignment.start,
@@ -454,7 +552,7 @@ Widget _portfolio(context, portfolioText, List<String> skills) {
               margin: EdgeInsets.symmetric(
                 horizontal: 7,
               ),
-              padding: EdgeInsets.all(14),
+              padding: EdgeInsets.all(10),
               decoration: BoxDecoration(
                 color: Color.fromARGB(255, 240, 240, 240),
                 borderRadius: BorderRadius.circular(20),
@@ -467,108 +565,6 @@ Widget _portfolio(context, portfolioText, List<String> skills) {
             ),
           ),
         ],
-      ),
-      Container(
-        margin: EdgeInsets.symmetric(
-          horizontal: 15,
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Skills',
-              style: TextStyle(
-                fontSize: 20,
-              ),
-            ),
-            IconButton(
-              onPressed: () {
-                final _formKey = GlobalKey<FormState>();
-                final TextEditingController _portfolioTextController =
-                    TextEditingController();
-                _portfolioTextController.text = portfolioText;
-
-                var _editPortfolioDialog = AlertDialog(
-                  title: Text('Edit Skills'),
-                  content: Form(
-                    key: _formKey,
-                    child: TextFormField(
-                      controller: _portfolioTextController,
-                      decoration: InputDecoration(
-                        label: Text("Edit Skills"),
-                        prefixIcon: Icon(Icons.edit),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                      ),
-                      // initialValue: _portfolioTextController.text,
-                      maxLines: null,
-                      keyboardType: TextInputType.multiline,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Field can\'t be empty.';
-                        } else {
-                          return null;
-                        }
-                      },
-                    ),
-                  ),
-                  actions: [
-                    TextButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          //
-                        }
-                      },
-                      child: Text(
-                        'Update',
-                        style: TextStyle(
-                          color: Colors.indigo,
-                        ),
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Text(
-                        'Cancel',
-                        style: TextStyle(
-                          color: Colors.red,
-                        ),
-                      ),
-                    ),
-                  ],
-                );
-                showDialog(
-                  context: context,
-                  builder: (BuildContext ctx) {
-                    return _editPortfolioDialog;
-                  },
-                );
-              },
-              icon: Icon(Icons.edit),
-            ),
-          ],
-        ),
-      ),
-      Container(
-        margin: EdgeInsets.symmetric(
-          horizontal: 7,
-        ),
-        padding: EdgeInsets.all(14),
-        decoration: BoxDecoration(
-          color: Color.fromARGB(255, 240, 240, 240),
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: skills.map(
-            (skillText) {
-              return _skill(skillText);
-            },
-          ).toList(),
-        ),
       ),
     ],
   );
@@ -623,4 +619,378 @@ Future<Object> _changeProfilePicture() async {
       'chosen': false,
     };
   }
+}
+
+Widget _previousExperience(
+    {required context, required List previousExperience}) {
+  final profileBloc = BlocProvider.of<ProfileBloc>(context);
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _organizationNameController =
+      TextEditingController();
+  final TextEditingController _positionController = TextEditingController();
+  return Column(
+    children: [
+      Container(
+        margin: EdgeInsets.symmetric(horizontal: 15),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Previous Experience',
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
+            IconButton(
+              onPressed: () {
+                final AlertDialog _addPreviousExperience = AlertDialog(
+                  title: Text('Where have you worked before?'),
+                  content: Form(
+                    key: _formKey,
+                    child: SizedBox(
+                      // height: MediaQuery.of(context).size.height / 3,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          TextFormField(
+                            controller: _organizationNameController,
+                            decoration: InputDecoration(
+                              label: Text("Organization Name"),
+                              hintText: "Noob-Dev",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                            maxLines: null,
+                            // keyboardType: TextInputType.multiline,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Field can\'t be empty.';
+                              } else {
+                                return null;
+                              }
+                            },
+                          ),
+                          SizedBox(height: 9),
+                          TextFormField(
+                            controller: _positionController,
+                            decoration: InputDecoration(
+                              label: Text("Position"),
+                              hintText: "Manager",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                            maxLines: null,
+                            // keyboardType: TextInputType.multiline,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Field can\'t be empty.';
+                              } else {
+                                return null;
+                              }
+                            },
+                          ),
+                          SizedBox(height: 9),
+                          DurationPicker.returnWidget(),
+                          SizedBox(height: 9),
+                          DatePicker.returnStartedDateWidget(),
+                          SizedBox(height: 9),
+                        ],
+                      ),
+                    ),
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          Navigator.of(context).pop();
+                          profileBloc.add(
+                            AddPreviousExperience(
+                              previousExperienceModel: PreviousExperienceModel(
+                                organizationName:
+                                    _organizationNameController.text.trim(),
+                                position: _positionController.text.trim(),
+                                duration: "${DurationPicker.getValue()}+ years",
+                                dateStarted: DatePicker.getStartedDate(),
+                              ),
+                            ),
+                          );
+                        }
+                      },
+                      child: Text(
+                        'Add',
+                        style: TextStyle(
+                          color: Colors.indigo,
+                        ),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text(
+                        'Cancel',
+                        style: TextStyle(
+                          color: Colors.red,
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+
+                showDialog(
+                  context: context,
+                  builder: (_) {
+                    return _addPreviousExperience;
+                  },
+                );
+              },
+              icon: Icon(Icons.add),
+            ),
+          ],
+        ),
+      ),
+      Container(
+        margin: EdgeInsets.symmetric(
+          horizontal: 7,
+        ),
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: Color.fromARGB(255, 240, 240, 240),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: previousExperience.map(
+            (value) {
+              return _previousExperienceTile(
+                previousExperienceModel: PreviousExperienceModel(
+                  organizationName: value["organizationName"],
+                  position: value['position'],
+                  duration: value['duration'],
+                  dateStarted: value['dateStarted'],
+                ),
+              );
+            },
+          ).toList(),
+        ),
+      ),
+    ],
+  );
+}
+
+Widget _previousExperienceTile(
+    {required PreviousExperienceModel previousExperienceModel}) {
+  return Container(
+    margin: EdgeInsets.symmetric(vertical: 7),
+    child: ListTile(
+      title: Text('${previousExperienceModel.organizationName}'),
+      trailing: Text('${previousExperienceModel.position}'),
+      subtitle: Text(
+          'For ${previousExperienceModel.duration}\nDate Started: ${previousExperienceModel.dateStarted}'),
+    ),
+  );
+}
+
+Widget _educationalBackground({
+  required List educationalBackground,
+  required context,
+}) {
+  final profileBloc = BlocProvider.of<ProfileBloc>(context);
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _institutionController = TextEditingController();
+  final TextEditingController _educationLevelController =
+      TextEditingController();
+  final TextEditingController _fieldOfStudyController = TextEditingController();
+  return Column(
+    children: [
+      Container(
+        margin: EdgeInsets.symmetric(horizontal: 15),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Educational Background',
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
+            IconButton(
+              onPressed: () {
+                final AlertDialog _addPreviousExperience = AlertDialog(
+                  title: Text('Add an institution...'),
+                  content: Form(
+                    key: _formKey,
+                    child: SizedBox(
+                      // height: MediaQuery.of(context).size.height / 3,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          TextFormField(
+                            controller: _institutionController,
+                            decoration: InputDecoration(
+                              label: Text("Institution"),
+                              hintText: "Addis Ababa institute of Technology",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                            maxLines: null,
+                            // keyboardType: TextInputType.multiline,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Field can\'t be empty.';
+                              } else {
+                                return null;
+                              }
+                            },
+                          ),
+                          SizedBox(height: 9),
+                          TextFormField(
+                            controller: _educationLevelController,
+                            decoration: InputDecoration(
+                              label: Text("Education Level"),
+                              hintText: "Bachelor's Degree",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                            maxLines: null,
+                            // keyboardType: TextInputType.multiline,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Field can\'t be empty.';
+                              } else {
+                                return null;
+                              }
+                            },
+                          ),
+                          SizedBox(height: 9),
+                          TextFormField(
+                            controller: _fieldOfStudyController,
+                            decoration: InputDecoration(
+                              label: Text("Field of Study"),
+                              hintText: "Information Technology",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                            maxLines: null,
+                            // keyboardType: TextInputType.multiline,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Field can\'t be empty.';
+                              } else {
+                                return null;
+                              }
+                            },
+                          ),
+                          SizedBox(height: 9),
+                          DatePicker.returnStartedDateWidget(),
+                          SizedBox(height: 9),
+                          DatePicker.returnEndDateWidget(),
+                          SizedBox(height: 9),
+                        ],
+                      ),
+                    ),
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          Navigator.of(context).pop();
+                          profileBloc.add(
+                            AddEducationalBackground(
+                              educationModel: EducationModel(
+                                institution: _institutionController.text.trim(),
+                                educationLevel:
+                                    _educationLevelController.text.trim(),
+                                fieldOfStudy:
+                                    _fieldOfStudyController.text.trim(),
+                                startedDate: DatePicker.getStartedDate(),
+                                endDate: DatePicker.getEndDate(),
+                              ),
+                            ),
+                          );
+                        }
+                      },
+                      child: Text(
+                        'Add',
+                        style: TextStyle(
+                          color: Colors.indigo,
+                        ),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text(
+                        'Cancel',
+                        style: TextStyle(
+                          color: Colors.red,
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+
+                showDialog(
+                  context: context,
+                  builder: (_) {
+                    return _addPreviousExperience;
+                  },
+                );
+              },
+              icon: Icon(Icons.add),
+            ),
+          ],
+        ),
+      ),
+      Container(
+        margin: EdgeInsets.symmetric(
+          horizontal: 7,
+        ),
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: Color.fromARGB(255, 240, 240, 240),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: educationalBackground.map(
+            (value) {
+              print(value);
+              print(value.runtimeType);
+              return _educationalBackgroundTile(
+                institution: 'value["institution"]',
+                startedDate: 'value["startedDate"]',
+                endDate: 'value["endDate"]',
+                fieldOfStudy: 'value["fieldOfStudy"]',
+                educationLevel: 'value["educationLevel"]',
+              );
+            },
+          ).toList(),
+        ),
+      ),
+    ],
+  );
+}
+
+Widget _educationalBackgroundTile({
+  required String institution,
+  required String startedDate,
+  required String endDate,
+  required String fieldOfStudy,
+  required String educationLevel,
+}) {
+  return Container(
+    margin: EdgeInsets.symmetric(vertical: 7),
+    child: ListTile(
+      title: Text('$institution'),
+      trailing: Text('$educationLevel\n$fieldOfStudy'),
+      subtitle: Text('From $startedDate - To $endDate'),
+    ),
+  );
 }

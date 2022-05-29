@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:balemoya/account/profile/data_provider/provider.dart';
 import 'package:balemoya/account/profile/models/models.dart';
 
@@ -7,15 +9,25 @@ class ProfileRepository {
   ProfileRepository({required this.profileProvider});
 
   Future<Object> getProfileInfo({required String sessionID}) async {
-    final response = await profileProvider.getProfileInfo(sessionID: "") as Map;
+    final response =
+        await profileProvider.getProfileInfo(sessionID: sessionID) as Map;
+
+    final data = json.decode(response['data']);
+
     if (response['status'] == 200) {
       final ProfileModel userProfile = ProfileModel(
-        profilePicture: response['profilePicture'],
-        name: response['name'],
-        location: response['location'],
-        portfolio: response['portfolio'],
-        skills: response['skills'],
-        cv: response['cv'],
+        profilePicture: data['profilePicture'],
+        fullName: data['fullName'],
+        location: data['location'],
+        email: data['email'],
+        phoneNumber: data['phoneNumber'],
+        verified: data['verified'],
+        role: data['role'],
+        portfolio: "data['portfolio']",
+        skills: ["data['skills']"],
+        cv: "data['cv']",
+        previousExperience: data['previousExperience'],
+        educationalBackground: data['educationalBackgrounds'],
       );
       return {
         'status': 200,
@@ -81,6 +93,42 @@ class ProfileRepository {
     final response = await profileProvider.deleteAccount(
       sessionID: sessionID,
     );
+    return response;
+  }
+
+  Future<Object> addSKill({
+    required String skill,
+    required String sessionID,
+  }) async {
+    final response = await profileProvider.addSKill(
+      skill: skill,
+      sessionID: sessionID,
+    );
+
+    return response;
+  }
+
+  Future<Object> addPreviousExperience({
+    required PreviousExperienceModel previousExperienceModel,
+    required List sessionID,
+  }) async {
+    final response = await profileProvider.addPreviousExperience(
+      previousExperienceModel: previousExperienceModel,
+      sessionID: sessionID,
+    );
+
+    return response;
+  }
+
+  Future<Object> addEducationalBackground({
+    required EducationModel educationModel,
+    required List sessionID,
+  }) async {
+    final response = await profileProvider.addEducationalBackground(
+      educationModel: educationModel,
+      sessionID: sessionID,
+    );
+
     return response;
   }
 }
