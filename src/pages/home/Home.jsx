@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import Navbar from "../../components/Navbar/Navbar";
 import "./Home.scss";
@@ -6,8 +6,21 @@ import Widget from "../../components/Widget/Widget.jsx";
 import Featured from "../../components/Featured/Featured";
 import Chart from "../../components/Chart/Chart";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logout, selectUser } from "../../redux/userSlice";
+import { useNavigate } from "react-router-dom";
 
 const Home = (props) => {
+  const dispatch = useDispatch();
+  const user = useSelector(selectUser);
+  let navigate = useNavigate();
+  useEffect(() => {
+    if (user == null) {
+      dispatch(logout());
+      navigate(`/login`);
+    }
+  }, []);
+
   return (
     <div className="home">
       <Sidebar />

@@ -4,16 +4,17 @@ import { Link } from "react-router-dom";
 import { DataGrid } from "@mui/x-data-grid";
 import "./Datatable.scss";
 import { userColumns } from "../../datatablesource";
-import { getUsers } from "../../utils/userUtils";
+import { getUsers } from "../../utils/customer";
 
 const Datatable = () => {
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getUsers()
       .then((res) => {
         let r = res.map((e, i) => Object.assign(e, e.id = i))
+        console.log(r);
         setData(r );
       })
       .finally(() => setLoading(false));

@@ -12,11 +12,20 @@ import PsychologyOutlinedIcon from "@mui/icons-material/PsychologyOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
+import WorkIcon from '@mui/icons-material/Work';
 import { Link } from "react-router-dom";
 import { DarkModeContext } from "../../context/darkModeContext";
+import { useDispatch } from "react-redux";
+import { logout } from "../../redux/userSlice";
+import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
-  const { dispatch } = useContext(DarkModeContext);
+  const dispatch = useDispatch();
+  let navigate = useNavigate();
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate(`/login`);
+  };
   return (
     <div className="sidebar">
       <div className="top">
@@ -31,18 +40,23 @@ const Sidebar = () => {
               <DashboardIcon /> <span>Dashboard</span>
             </li>
           </Link>
-
-          <p className="title">ACCOUNT MANAGEMENT</p>
+          <p className="title">USERS LIST</p>
           <Link
-
             to="/users"
             style={{ textDecoration: "none", color: "inherit" }}
           >
             <li>
               <PersonOutlineOutlinedIcon /> <span>Users</span>
             </li>
+          </Link>{" "}
+          <Link
+            to="/jobs"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <li>
+              <WorkIcon /> <span>Jobs</span>
+            </li>
           </Link>
-
           <p className="title">USEFUL</p>
           <li>
             <InsertChartOutlinedIcon /> <span>Stats</span>
@@ -64,7 +78,7 @@ const Sidebar = () => {
           <li>
             <PermIdentityOutlinedIcon /> <span>Profile</span>
           </li>
-          <li>
+          <li onClick={handleLogout}>
             <LogoutOutlinedIcon /> <span>Logout</span>
           </li>
         </ul>
@@ -73,11 +87,11 @@ const Sidebar = () => {
         {/* color options */}
         <span
           className="color_options"
-          onClick={() => dispatch({ type: "LIGHT" })}
+          // onClick={() => dispatch({ type: "LIGHT" })}
         ></span>
         <span
           className="color_options"
-          onClick={() => dispatch({ type: "DARK" })}
+          // onClick={() => dispatch({ type: "DARK" })}
         ></span>
       </div>
     </div>

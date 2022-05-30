@@ -1,21 +1,17 @@
-import {React, useEffect, useState} from "react";
-
-import "./List.scss";
-
-import Sidebar from "../../components/Sidebar/Sidebar";
-import Navbar from "../../components/Navbar/Navbar";
+import { Box, Container } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import Datatable from "../../components/Datatables/Datatable";
-
-import { Link } from "react-router-dom";
+import { UserListToolbar } from "../../components/user/UsersListToolbar";
+import Navbar from "../../components/Navbar/Navbar";
+import Sidebar from "../../components/Sidebar/Sidebar";
+import "./JobList.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, selectUser } from "../../redux/userSlice";
-import { useNavigate } from "react-router-dom";
-import { UserListToolbar } from "../../components/user/UsersListToolbar";
-import { UserListResults } from "../../components/user/UsersListResult";
-import { Box, Container } from "@mui/material";
+import { useNavigate } from "react-router";
 import { getUsers } from "../../utils/customer";
+import { UserListResults } from "../../components/user/UsersListResult";
 
-const List = () => {
+const JobList = () => {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
   let navigate = useNavigate();
@@ -35,20 +31,16 @@ const List = () => {
     getUsers()
       .then((res) => res.json())
       .then((data) => {
-        console.log(data)
           setUsers(data);
       })
       .catch((_) => {
         setErr("Something went wrong");
       });
   }, []);
-
-  console.log(users)
-
   return (
-    <div className="list">
+    <div className="joblist">
       <Sidebar />
-      <div className="list_container">
+      <div className="job_container">
         <Navbar />
         <Box
         component="main"
@@ -58,16 +50,15 @@ const List = () => {
         }}
       >
         <Container maxWidth={false}>
-          <UserListToolbar name="Users" setSearchTerm={setSearchTerm} />
+        <UserListToolbar name="Users" setSearchTerm={setSearchTerm} />
           <Box sx={{ mt: 3 }}>
             <UserListResults customers={users} searchTerm={searchTerm} />
           </Box>
         </Container>
       </Box>
-        {/* <Datatable /> */}
       </div>
     </div>
   );
 };
 
-export default List;
+export default JobList;

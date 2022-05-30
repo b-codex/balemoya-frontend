@@ -1,11 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Login.scss";
 import { Button, Checkbox, Form, Input } from "antd";
-
+import { signin } from "../../utils/userUtils";
+import { useDispatch } from "react-redux";
+import { login } from "../../redux/userSlice";
+import { useNavigate } from "react-router-dom";
 const Login = () => {
+  const dispatch = useDispatch()
+  let navigate = useNavigate();
   const onFinish = (values) => {
-    console.log("Success:", values);
+    signin(values.username, values.password)
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data)
+      if (data.success === true){
+        console.log('#####################')
+        dispatch(login({
+          email: data.email,
+          expiryDate: data.expiryDate,
+          name: data.name,
+          role: data.role,
+          success: data.success,
+          token: data.token,
+        }))
+        navigate(`/`);
+      }
+    })
+    .catch((_) => {
+      console.log('Something went wrong')
+    })
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
