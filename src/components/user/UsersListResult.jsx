@@ -26,6 +26,7 @@ import {
 // import { deleteTutor } from "backend-utils/tutor-utils";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/userSlice";
+import { useNavigate } from "react-router";
 
 export const UserListResults = ({ customers, searchTerm, ...rest }) => {
   const user = useSelector(selectUser);
@@ -37,6 +38,7 @@ export const UserListResults = ({ customers, searchTerm, ...rest }) => {
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
   const [err, setErr] = useState("");
+  let navigate = useNavigate();
 
   const handleSelectAll = (event) => {
     let newSelectedCustomerIds;
@@ -196,7 +198,7 @@ export const UserListResults = ({ customers, searchTerm, ...rest }) => {
                         color="info"
                         aria-label="upload picture"
                         component="span"
-                        // onClick={() => router.push("/tutors/" + customer.id)}
+                        onClick={() => navigate(`/users/${customer._id}`)}
                       >
                         <MoreHorizSharp />
                       </IconButton>

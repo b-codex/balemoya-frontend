@@ -35,15 +35,12 @@ const List = () => {
     getUsers()
       .then((res) => res.json())
       .then((data) => {
-        console.log(data)
           setUsers(data);
       })
       .catch((_) => {
         setErr("Something went wrong");
       });
   }, []);
-
-  console.log(users)
 
   return (
     <div className="list">
