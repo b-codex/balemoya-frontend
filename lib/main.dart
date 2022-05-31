@@ -5,6 +5,10 @@ import 'package:balemoya/account/profile/bloc/profile_bloc.dart';
 import 'package:balemoya/account/profile/data_provider/provider.dart';
 import 'package:balemoya/account/profile/repository/repository.dart';
 import 'package:balemoya/account/profile/screens/profile_screen.dart';
+import 'package:balemoya/account/reset_password/bloc/reset_password_bloc.dart';
+import 'package:balemoya/account/reset_password/data_provider/provider.dart';
+import 'package:balemoya/account/reset_password/repository/repository.dart';
+import 'package:balemoya/account/reset_password/screens/reset_password.dart';
 import 'package:balemoya/auth/login/bloc/login_bloc.dart';
 import 'package:balemoya/auth/login/data_provider/provider.dart';
 import 'package:balemoya/auth/login/repository/repository.dart';
@@ -62,6 +66,13 @@ class MyApp extends StatelessWidget {
     employeeProfileViewProvider: EmployeeProfileViewProvider(),
   );
 
+  /// Creating a new instance of the `ResetPasswordRepository` and passing the `resetPasswordProvider` to
+  /// it.
+  final ResetPasswordRepository resetPasswordRepository =
+      ResetPasswordRepository(
+    resetPasswordProvider: ResetPasswordProvider(),
+  );
+
   @override
 
   /// A function that returns a widget.
@@ -114,6 +125,14 @@ class MyApp extends StatelessWidget {
             employeeProfileViewRepository: employeeProfileViewRepository,
           ),
         ),
+
+        /// Creating a new instance of the `ResetPasswordBloc` and passing the `resetPasswordRepository`
+        /// to it.
+        BlocProvider(
+          create: (context) => ResetPasswordBloc(
+            resetPasswordRepository: resetPasswordRepository,
+          ),
+        ),
       ],
 
       /// A provider that provides the `sessionRepository` to the `MaterialApp` widget.
@@ -126,7 +145,7 @@ class MyApp extends StatelessWidget {
             textTheme: GoogleFonts.montserratTextTheme(),
           ),
           debugShowCheckedModeBanner: false,
-          home: ProfileScreen(),
+          home: ResetPassword(),
           // initialRoute: RouteManager.loading_screen,
           onGenerateRoute: RouteManager.generateRoute,
         ),
