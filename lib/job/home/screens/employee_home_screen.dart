@@ -1,5 +1,6 @@
 import 'package:filter_list/filter_list.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 /// The class SearchCategory has a property called category that is of type String and is nullable
 class SearchCategory {
@@ -10,10 +11,10 @@ class SearchCategory {
 
 /// It displays a dialog with a search bar and a list of items. The user can select multiple items from
 /// the list and click on the apply button to get the selected items
-/// 
+///
 /// Args:
 ///   context: BuildContext
-/// 
+///
 /// Returns:
 ///   A list of SearchCategory objects.
 PreferredSizeWidget employeeScreenAppBar(context) {
@@ -56,45 +57,45 @@ PreferredSizeWidget employeeScreenAppBar(context) {
   );
 }
 
-/// It returns a SingleChildScrollView with a Column as its child. 
-/// 
-/// The Column has a Container with a Text widget as its child. 
-/// 
-/// The Text widget has a String as its child. 
-/// 
-/// The String is a variable. 
-/// 
-/// The variable is a parameter of the function. 
-/// 
-/// The function is a parameter of the widget. 
-/// 
-/// The widget is a parameter of the function. 
-/// 
-/// The function is a parameter of the widget. 
-/// 
-/// The widget is a parameter of the function. 
-/// 
-/// The function is a parameter of the widget. 
-/// 
-/// The widget is a parameter of the function. 
-/// 
-/// The function is a parameter of the widget. 
-/// 
-/// The widget is a parameter of the function. 
-/// 
-/// The function is a parameter of the widget. 
-/// 
-/// The widget is a parameter of the function. 
-/// 
+/// It returns a SingleChildScrollView with a Column as its child.
+///
+/// The Column has a Container with a Text widget as its child.
+///
+/// The Text widget has a String as its child.
+///
+/// The String is a variable.
+///
+/// The variable is a parameter of the function.
+///
 /// The function is a parameter of the widget.
-/// 
+///
+/// The widget is a parameter of the function.
+///
+/// The function is a parameter of the widget.
+///
+/// The widget is a parameter of the function.
+///
+/// The function is a parameter of the widget.
+///
+/// The widget is a parameter of the function.
+///
+/// The function is a parameter of the widget.
+///
+/// The widget is a parameter of the function.
+///
+/// The function is a parameter of the widget.
+///
+/// The widget is a parameter of the function.
+///
+/// The function is a parameter of the widget.
+///
 /// Args:
 ///   context: BuildContext
 ///   role: String
-/// 
+///
 /// Returns:
 ///   A widget.
-Widget employeeScreenBody(context, role) {
+Widget employeeScreenBody(context, role, fullName, jobs) {
   return SingleChildScrollView(
     scrollDirection: Axis.vertical,
     child: Column(
@@ -106,7 +107,7 @@ Widget employeeScreenBody(context, role) {
             left: 8,
           ),
           child: Text(
-            'Hey "$role",',
+            'Hey "$fullName",',
             textAlign: TextAlign.left,
             style: TextStyle(
               fontSize: 24,
@@ -122,11 +123,11 @@ Widget employeeScreenBody(context, role) {
         //   ),
         //   child: employeeScreenSearchField(context),
         // ),
-        employeeScreenPopularJobs(context),
+        employeeScreenPopularJobs(context, jobs),
         SizedBox(
           height: 10,
         ),
-        employeeScreenLatestJobs(context),
+        employeeScreenLatestJobs(context, jobs),
       ],
     ),
   );
@@ -163,13 +164,13 @@ Widget employeeScreenBody(context, role) {
 
 /// It returns a container with a column with a row with a text and a text button, and a single child
 /// scroll view with a row with a bunch of cards.
-/// 
+///
 /// Args:
 ///   context: BuildContext
-/// 
+///
 /// Returns:
 ///   A Container widget with a Column widget as its child.
-Widget employeeScreenPopularJobs(context) {
+Widget employeeScreenPopularJobs(context, jobs) {
   return Container(
     padding: EdgeInsets.symmetric(
       horizontal: 8,
@@ -199,16 +200,28 @@ Widget employeeScreenPopularJobs(context) {
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
-            children: [
-              employeeScreenPopularJobsCard(context),
-              employeeScreenPopularJobsCard(context),
-              employeeScreenPopularJobsCard(context),
-              employeeScreenPopularJobsCard(context),
-              employeeScreenPopularJobsCard(context),
-              employeeScreenPopularJobsCard(context),
-              employeeScreenPopularJobsCard(context),
-              employeeScreenPopularJobsCard(context),
-            ],
+            children: jobs.map<Widget>((job) {
+              final postedDate = DateFormat.yMMMMd().format(
+                DateTime.parse(
+                  job['createdAt'],
+                ),
+              );
+              return employeeScreenPopularJobsCard(
+                context: context,
+                id: job["_id"],
+                jobTitle: job["jobTitle"],
+                companyName: job["companyName"],
+                salary: job["salary"],
+                qualification: job["qualification"],
+                jobType: job["jobType"],
+                description: job["description"],
+                companySize: job["companySize"],
+                tag: job["tag"],
+                location: job["location"],
+                requirements: job["requirements"],
+                postedDate: postedDate,
+              );
+            }).toList(),
           ),
         ),
       ],
@@ -218,16 +231,43 @@ Widget employeeScreenPopularJobs(context) {
 
 /// This function returns a card widget that has a gesture detector that navigates to a new page when
 /// tapped.
-/// 
+///
 /// Args:
 ///   context: BuildContext
-/// 
+///
 /// Returns:
 ///   A widget that is a container with a card inside of it.
-Widget employeeScreenPopularJobsCard(context) {
+Widget employeeScreenPopularJobsCard({
+  required context,
+  required String id,
+  required String jobTitle,
+  required String companyName,
+  required String salary,
+  required String qualification,
+  required String jobType,
+  required String description,
+  required String companySize,
+  required List tag,
+  required String location,
+  required String requirements,
+  required String postedDate,
+}) {
   return GestureDetector(
     onTap: () {
-      Navigator.of(context).pushNamed('/job_detail');
+      Navigator.of(context).pushNamed('/job_detail', arguments: {
+        "id": id,
+        "jobTitle": jobTitle,
+        "companyName": companyName,
+        "salary": salary,
+        "qualification": qualification,
+        "jobType": jobType,
+        "companySize": companySize,
+        "description": description,
+        "location": location,
+        "tag": tag,
+        "requirements": requirements,
+        "postedDate": postedDate,
+      });
     },
     child: Container(
       height: 215,
@@ -254,7 +294,7 @@ Widget employeeScreenPopularJobsCard(context) {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Company Name',
+                          '$companyName',
                           style: TextStyle(
                             fontSize: 22,
                           ),
@@ -262,7 +302,7 @@ Widget employeeScreenPopularJobsCard(context) {
                           softWrap: true,
                         ),
                         Text(
-                          'Location',
+                          '$location',
                         ),
                       ],
                     ),
@@ -275,7 +315,7 @@ Widget employeeScreenPopularJobsCard(context) {
                   Container(
                     margin: EdgeInsets.only(left: 7),
                     child: Text(
-                      'Job Title',
+                      '$jobTitle',
                       style: TextStyle(
                         fontSize: 20,
                       ),
@@ -287,7 +327,7 @@ Widget employeeScreenPopularJobsCard(context) {
                   Container(
                     margin: EdgeInsets.only(left: 7),
                     child: Text(
-                      '\Salary',
+                      '$salary Birr/Month',
                       style: TextStyle(
                         fontSize: 13,
                       ),
@@ -309,7 +349,7 @@ Widget employeeScreenPopularJobsCard(context) {
                           borderRadius: BorderRadius.circular(50),
                         ),
                         child: Text(
-                          'Job Type',
+                          '$jobType',
                           style: TextStyle(
                             fontSize: 10,
                           ),
@@ -324,7 +364,7 @@ Widget employeeScreenPopularJobsCard(context) {
                             color: Color.fromARGB(255, 223, 218, 218),
                             borderRadius: BorderRadius.circular(50)),
                         child: Text(
-                          'Experience',
+                          '$qualification',
                           style: TextStyle(
                             fontSize: 10,
                           ),
@@ -344,13 +384,13 @@ Widget employeeScreenPopularJobsCard(context) {
 
 /// It returns a container with a column inside it. The column has a row inside it. The row has a text
 /// and a text button inside it. The column also has a sized box and 5 cards inside it.
-/// 
+///
 /// Args:
 ///   context: BuildContext
-/// 
+///
 /// Returns:
 ///   A Container widget with a Column widget as its child.
-Widget employeeScreenLatestJobs(context) {
+Widget employeeScreenLatestJobs(context, jobs) {
   return Container(
     margin: EdgeInsets.symmetric(
       horizontal: 7,
@@ -380,11 +420,32 @@ Widget employeeScreenLatestJobs(context) {
         SizedBox(
           height: 5,
         ),
-        employeeScreenLatestJobsCard(context),
-        employeeScreenLatestJobsCard(context),
-        employeeScreenLatestJobsCard(context),
-        employeeScreenLatestJobsCard(context),
-        employeeScreenLatestJobsCard(context),
+        Column(
+          children: jobs.map<Widget>((job) {
+            final postedDate = DateFormat.yMMMMd().format(
+              DateTime.parse(
+                job['createdAt'],
+              ),
+            );
+
+            // print(postedDate);
+            return employeeScreenLatestJobsCard(
+              context: context,
+              id: job['_id'],
+              jobTitle: job['jobTitle'],
+              companyName: job['companyName'],
+              salary: job['salary'],
+              qualification: job['qualification'],
+              jobType: job['jobType'],
+              companySize: job['companySize'],
+              description: job['description'],
+              location: job['location'],
+              tag: job['tag'],
+              requirements: job['requirements'],
+              postedDate: postedDate,
+            );
+          }).toList(),
+        ),
       ],
     ),
   );
@@ -393,16 +454,43 @@ Widget employeeScreenLatestJobs(context) {
 /// It returns a GestureDetector that contains a Container that contains a Card that contains a Padding
 /// that contains a Row that contains a Column that contains a Container that contains a CircleAvatar
 /// that contains an AssetImage.
-/// 
+///
 /// Args:
 ///   context: BuildContext
-/// 
+///
 /// Returns:
 ///   A widget.
-Widget employeeScreenLatestJobsCard(context) {
+Widget employeeScreenLatestJobsCard({
+  required context,
+  required String id,
+  required String jobTitle,
+  required String companyName,
+  required String salary,
+  required String qualification,
+  required String jobType,
+  required String description,
+  required String companySize,
+  required List tag,
+  required String location,
+  required String requirements,
+  required String postedDate,
+}) {
   return GestureDetector(
     onTap: () {
-      Navigator.of(context).pushNamed('/job_detail');
+      Navigator.of(context).pushNamed('/job_detail', arguments: {
+        "id": id,
+        "jobTitle": jobTitle,
+        "companyName": companyName,
+        "salary": salary,
+        "qualification": qualification,
+        "jobType": jobType,
+        "companySize": companySize,
+        "description": description,
+        "location": location,
+        "tag": tag,
+        "requirements": requirements,
+        "postedDate": postedDate,
+      });
     },
     child: Container(
       margin: EdgeInsets.symmetric(vertical: 1),
@@ -436,22 +524,22 @@ Widget employeeScreenLatestJobsCard(context) {
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Text(
-                          'Job Title',
+                          '$jobTitle',
                           style: TextStyle(
                             fontSize: 22,
                           ),
                           overflow: TextOverflow.visible,
                           softWrap: true,
                         ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: Icon(Icons.bookmark_add),
-                        ),
+                        // IconButton(
+                        //   onPressed: () {},
+                        //   icon: Icon(Icons.bookmark_add),
+                        // ),
                       ],
                     ),
                     Row(
                       children: [
-                        Text('Company Name'),
+                        Text('$companyName'),
                       ],
                     ),
                     Padding(
@@ -470,7 +558,7 @@ Widget employeeScreenLatestJobsCard(context) {
                               borderRadius: BorderRadius.circular(50),
                             ),
                             child: Text(
-                              '\Salary',
+                              '$salary Birr/Month',
                               style: TextStyle(
                                 fontSize: 10,
                               ),
@@ -486,7 +574,7 @@ Widget employeeScreenLatestJobsCard(context) {
                                 color: Color.fromARGB(255, 223, 218, 218),
                                 borderRadius: BorderRadius.circular(50)),
                             child: Text(
-                              'Experience',
+                              'qualification',
                               style: TextStyle(
                                 fontSize: 10,
                               ),
@@ -502,7 +590,7 @@ Widget employeeScreenLatestJobsCard(context) {
                                 color: Color.fromARGB(255, 223, 218, 218),
                                 borderRadius: BorderRadius.circular(50)),
                             child: Text(
-                              'Job Type',
+                              '$jobType',
                               style: TextStyle(
                                 fontSize: 10,
                               ),

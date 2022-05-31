@@ -27,7 +27,7 @@ class ProfileRepository {
         skills: ["data['skills']"],
         cv: "data['cv']",
         previousExperience: data['previousExperience'],
-        educationalBackground: data['educationalBackgrounds'],
+        educationalBackground: data['educationalBackground'],
       );
       return {
         'status': 200,
@@ -121,6 +121,20 @@ class ProfileRepository {
     final response = await profileProvider.deleteAccount(
       sessionID: sessionID,
     );
+    return response;
+  }
+
+  Future<Object> addReference({
+    required String fullName,
+    required String phoneNumber,
+    required List sessionID,
+  }) async {
+    final response = await profileProvider.addReference(
+      fullName: fullName,
+      phoneNumber: phoneNumber,
+      sessionID: sessionID,
+    );
+
     return response;
   }
 }

@@ -1,5 +1,6 @@
 import 'package:filter_list/filter_list.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 /// The class SearchCategory has a property called category that is of type String and is nullable
 class SearchCategory {
@@ -90,7 +91,7 @@ PreferredSizeWidget employerScreenAppBar(context) {
 ///
 /// Returns:
 ///   A widget.
-Widget employerScreenBody(context, role, fullName) {
+Widget employerScreenBody(context, role, fullName, jobs) {
   return SingleChildScrollView(
     scrollDirection: Axis.vertical,
     child: Column(
@@ -113,7 +114,7 @@ Widget employerScreenBody(context, role, fullName) {
         SizedBox(
           height: 10,
         ),
-        employerScreenPostedJobs(context),
+        employerScreenPostedJobs(context, jobs),
       ],
     ),
   );
@@ -286,7 +287,7 @@ Widget employerScreenPopularUsersCard(context) {
 ///
 /// Returns:
 ///   A widget.
-Widget employerScreenPostedJobs(context) {
+Widget employerScreenPostedJobs(context, jobs) {
   return Container(
     margin: EdgeInsets.symmetric(
       horizontal: 7,
@@ -316,11 +317,30 @@ Widget employerScreenPostedJobs(context) {
         SizedBox(
           height: 5,
         ),
-        employerScreenJobsCard(context),
-        employerScreenJobsCard(context),
-        employerScreenJobsCard(context),
-        employerScreenJobsCard(context),
-        employerScreenJobsCard(context),
+        Column(
+          children: jobs.map<Widget>((job) {
+            final postedDate = DateFormat.yMMMMd().format(
+              DateTime.parse(
+                job['createdAt'],
+              ),
+            );
+            return employerScreenJobsCard(
+              context: context,
+              id: job["_id"],
+              jobTitle: job["jobTitle"],
+              companyName: job["companyName"],
+              salary: job["salary"],
+              qualification: job["qualification"],
+              jobType: job["jobType"],
+              description: job["description"],
+              companySize: job["companySize"],
+              tag: job["tag"],
+              location: job["location"],
+              requirements: job["requirements"],
+              postedDate: postedDate,
+            );
+          }).toList(),
+        ),
       ],
     ),
   );
@@ -335,10 +355,37 @@ Widget employerScreenPostedJobs(context) {
 ///
 /// Returns:
 ///   A widget.
-Widget employerScreenJobsCard(context) {
+Widget employerScreenJobsCard({
+  required context,
+  required String id,
+  required String jobTitle,
+  required String companyName,
+  required String salary,
+  required String qualification,
+  required String jobType,
+  required String description,
+  required String companySize,
+  required List tag,
+  required String location,
+  required String requirements,
+  required String postedDate,
+}) {
   return GestureDetector(
     onTap: () {
-      Navigator.of(context).pushNamed('/job_detail');
+      Navigator.of(context).pushNamed('/job_detail', arguments: {
+        "id": id,
+        "jobTitle": jobTitle,
+        "companyName": companyName,
+        "salary": salary,
+        "qualification": qualification,
+        "jobType": jobType,
+        "companySize": companySize,
+        "description": description,
+        "location": location,
+        "tag": tag,
+        "requirements": requirements,
+        "postedDate": postedDate,
+      });
     },
     child: Container(
       margin: EdgeInsets.symmetric(vertical: 1),
@@ -373,7 +420,7 @@ Widget employerScreenJobsCard(context) {
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Text(
-                          'Job Title',
+                          '$jobTitle',
                           style: TextStyle(
                             fontSize: 22,
                           ),
@@ -388,7 +435,7 @@ Widget employerScreenJobsCard(context) {
                     ),
                     Row(
                       children: [
-                        Text('Company Name'),
+                        Text('$companyName'),
                       ],
                     ),
                     Padding(
@@ -407,7 +454,7 @@ Widget employerScreenJobsCard(context) {
                               borderRadius: BorderRadius.circular(50),
                             ),
                             child: Text(
-                              '\Salary',
+                              '$salary',
                               style: TextStyle(
                                 fontSize: 10,
                               ),
@@ -423,7 +470,7 @@ Widget employerScreenJobsCard(context) {
                                 color: Color.fromARGB(255, 223, 218, 218),
                                 borderRadius: BorderRadius.circular(50)),
                             child: Text(
-                              'Company Size',
+                              '$companySize',
                               style: TextStyle(
                                 fontSize: 10,
                               ),
@@ -439,7 +486,7 @@ Widget employerScreenJobsCard(context) {
                                 color: Color.fromARGB(255, 223, 218, 218),
                                 borderRadius: BorderRadius.circular(50)),
                             child: Text(
-                              'Job Type',
+                              '$jobType',
                               style: TextStyle(
                                 fontSize: 10,
                               ),

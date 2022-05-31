@@ -95,7 +95,7 @@ class ProfileProvider {
       "position": previousExperienceModel.position,
       "duration": previousExperienceModel.duration,
       "dateStarted": previousExperienceModel.dateStarted,
-      "currentActivity": "true",
+      "currentlyActive": true.toString(),
     }, headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
       'Authorization': 'Bearer ${sessionID[1]}'
@@ -211,5 +211,36 @@ class ProfileProvider {
     return {
       "success": false,
     };
+  }
+
+  Future<Object> addReference({
+    required String fullName,
+    required String phoneNumber,
+    required List sessionID,
+  }) async {
+    final url =
+        "$apiRoute/accountService/employee/reference/reference";
+
+    final response = await http.post(
+      Uri.parse(url),
+      body: {
+        "fullName": fullName,
+        "phoneNumber": phoneNumber,
+      },
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': 'Bearer ${sessionID[1]}'
+      },
+    );
+    print(response.body);
+    if (response.statusCode == 201) {
+      return {
+        "success": true,
+      };
+    } else {
+      return {
+        "success": false,
+      };
+    }
   }
 }

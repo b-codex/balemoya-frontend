@@ -58,3 +58,10 @@ class GetVerifiedEvent extends ProfileEvent {
 
   GetVerifiedEvent({required this.filePath});
 }
+
+class AddReferenceEvent extends ProfileEvent {
+  final String fullName;
+  final String phoneNumber;
+
+  AddReferenceEvent({required this.fullName, required this.phoneNumber});
+}

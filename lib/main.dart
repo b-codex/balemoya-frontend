@@ -27,6 +27,9 @@ import 'package:balemoya/job/home/bloc/home_bloc.dart';
 import 'package:balemoya/job/home/data_provider/provider.dart';
 import 'package:balemoya/job/home/repository/repository.dart';
 import 'package:balemoya/job/home/screens/home_screen.dart';
+import 'package:balemoya/job/job_detail/bloc/job_detail_bloc.dart';
+import 'package:balemoya/job/job_detail/data_provider/provider.dart';
+import 'package:balemoya/job/job_detail/repository/repository.dart';
 import 'package:balemoya/static/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -83,6 +86,10 @@ class MyApp extends StatelessWidget {
   final CreateJobPostRepository createJobPostRepository =
       CreateJobPostRepository(
     createJobPostProvider: CreateJobPostProvider(),
+  );
+
+  final JobDetailRepository jobDetailRepository = JobDetailRepository(
+    jobDetailProvider: JobDetailProvider(),
   );
 
   @override
@@ -153,6 +160,12 @@ class MyApp extends StatelessWidget {
             createJobPostRepository: createJobPostRepository,
           ),
         ),
+
+        BlocProvider(
+          create: (context) => JobDetailBloc(
+            jobDetailRepository: jobDetailRepository,
+          ),
+        ),
       ],
 
       /// A provider that provides the `sessionRepository` to the `MaterialApp` widget.
@@ -165,8 +178,8 @@ class MyApp extends StatelessWidget {
             textTheme: GoogleFonts.montserratTextTheme(),
           ),
           debugShowCheckedModeBanner: false,
-          home: CreateJobPost(),
-          // initialRoute: RouteManager.loading_screen,
+          // home: HomeScreen(),
+          initialRoute: RouteManager.loading_screen,
           onGenerateRoute: RouteManager.generateRoute,
         ),
       ),

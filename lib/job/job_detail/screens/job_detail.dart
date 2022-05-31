@@ -1,7 +1,14 @@
+import 'package:animated_snack_bar/animated_snack_bar.dart';
+import 'package:balemoya/job/job_detail/bloc/job_detail_bloc.dart';
+import 'package:balemoya/job/job_detail/models/model.dart';
+import 'package:balemoya/static/widgets/snack_bar.dart';
 import "package:flutter/material.dart";
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class JobDetail extends StatelessWidget {
-  const JobDetail({Key? key}) : super(key: key);
+  final Map job;
+  const JobDetail({Key? key, required this.job}) : super(key: key);
 
   /// A static variable that is used to identify the route.
   static const routeName = '/job_detail';
@@ -10,8 +17,8 @@ class JobDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: _body(context),
-      bottomSheet: _applyButton(context),
+      body: _body(context, job),
+      // bottomSheet: _applyButton(context),
     );
   }
 }
@@ -23,12 +30,43 @@ class JobDetail extends StatelessWidget {
 ///
 /// Returns:
 ///   A Column widget with two children.
-Widget _body(context) {
+Widget _body(context, job) {
+  List reviews = [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    3,
+    4,
+    5,
+    3,
+    4,
+    5,
+    3,
+    4,
+    5,
+    3,
+    4,
+    5,
+    3,
+    4,
+    5,
+    3,
+    4,
+    5
+  ];
   return Column(
+    mainAxisSize: MainAxisSize.min,
     children: [
-      SizedBox(height: 5),
-      _header(context),
-      _tabBar(context),
+      SizedBox(height: 10),
+      _header(context, job),
+      // _tabBar(context),
+      _req(job),
+
+      _reviewSection(reviews: reviews),
+      _applyButton(context, job),
     ],
   );
 }
@@ -41,18 +79,20 @@ Widget _body(context) {
 ///
 /// Returns:
 ///   A Column widget with a Row widget and a Text widget as children.
-Widget _header(context) {
+Widget _header(context, job) {
   return Column(
     mainAxisSize: MainAxisSize.min,
+    crossAxisAlignment: CrossAxisAlignment.center,
     children: [
       // _backButton(context),
       Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           _profilePicture(),
-          _info(),
+          _info(job),
         ],
       ),
-      _shortDescription(),
+      _shortDescription(job),
     ],
   );
 }
@@ -101,7 +141,7 @@ Widget _tabBar(context) {
                 _requirementsList(),
 
                 // 2nd tab which contains a list of reviews
-                _reviewSection(),
+                // _reviewSection(),
               ],
             ),
           ),
@@ -134,29 +174,81 @@ Widget _requirementsList() {
     'This is a requirement9',
     'This is a requirement',
     'This is a requirement',
+    'This is a requirement',
+    'This is a requirement',
+    'This is a requirement',
+    'This is a requirement',
+    'This is a requirement',
+    'This is a requirement',
+    'This is a requirement',
+    'This is a requirement',
+    'This is a requirement',
+    'This is a requirement',
+    'This is a requirement',
+    'This is a requirement',
+    'This is a requirement',
+    'This is a requirement',
+    'This is a requirement',
   ];
 
   return Builder(
     builder: (context) {
-      return SizedBox(
-        height: MediaQuery.of(context).size.height * 0.5,
-        child: ListView.builder(
-          scrollDirection: Axis.vertical,
-          itemCount: requirements.length,
-          itemBuilder: ((context, index) {
-            return Container(
-              margin: EdgeInsets.symmetric(vertical: 7),
-              child: ListTile(
-                leading: Icon(Icons.arrow_forward_ios),
-                title: Text(
-                  '${requirements[index]}',
-                ),
+      return ListView.builder(
+        scrollDirection: Axis.vertical,
+        itemCount: requirements.length,
+        itemBuilder: ((context, index) {
+          return Container(
+            margin: EdgeInsets.symmetric(vertical: 7),
+            child: ListTile(
+              leading: Icon(Icons.arrow_forward_ios),
+              title: Text(
+                '${requirements[index]}',
               ),
-            );
-          }),
-        ),
+            ),
+          );
+        }),
       );
     },
+  );
+}
+
+Widget _req(job) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Expanded(
+        child: Container(
+          margin: EdgeInsets.all(7),
+          padding: EdgeInsets.all(7),
+          decoration: BoxDecoration(
+            color: Color.fromARGB(255, 240, 240, 240),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: ListTile(
+            title: RichText(
+              text: TextSpan(
+                text: "Requirements: ",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 18,
+                  fontFamily: GoogleFonts.montserrat().fontFamily,
+                ),
+                children: [
+                  TextSpan(
+                    text: '${job["requirements"]}',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 15,
+                      fontFamily: GoogleFonts.montserrat().fontFamily,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    ],
   );
 }
 
@@ -168,42 +260,161 @@ Widget _requirementsList() {
 ///
 /// Returns:
 ///   A Container widget with a child of an ElevatedButton widget.
-Widget _applyButton(context) {
-  return Container(
-    margin: EdgeInsets.symmetric(
-      vertical: 10,
-      horizontal: 7,
-    ),
-    child: ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        fixedSize: Size(MediaQuery.of(context).size.width, 50),
-      ),
-      onPressed: () {
-        var _alertDialog = AlertDialog(
-          title: Text('Confirm'),
-          content: Text('Apply to this job post?'),
-          actions: [
-            TextButton(
-              onPressed: () {},
-              child: Text('Yes'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('No'),
-            ),
-          ],
-        );
-        showDialog(
+Widget _applyButton(context, jobs) {
+  return BlocConsumer<JobDetailBloc, JobDetailState>(
+    listener: (context, state) {
+      if (state is AppliedToJobPost) {
+        animatedSnackBar(
+            context: context,
+            message: "Application Sent.",
+            animatedSnackBarType: AnimatedSnackBarType.success);
+      }
+      if (state is NotAppliedToJobPost) {
+        animatedSnackBar(
           context: context,
-          builder: (BuildContext ctx) {
-            return _alertDialog;
-          },
+          message: "Task Failed. Please Try Again.",
+          animatedSnackBarType: AnimatedSnackBarType.error,
         );
-      },
-      child: Text('Apply'),
-    ),
+      }
+    },
+    builder: (context, state) {
+      return Container(
+        margin: EdgeInsets.symmetric(
+          vertical: 10,
+          horizontal: 7,
+        ),
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            fixedSize: Size(MediaQuery.of(context).size.width, 50),
+          ),
+          onPressed: () {
+            final _formKey = GlobalKey<FormState>();
+            final TextEditingController _emailController =
+                TextEditingController();
+            final TextEditingController _phoneNumberController =
+                TextEditingController();
+            final TextEditingController _messageController =
+                TextEditingController();
+
+            final AlertDialog _addReference = AlertDialog(
+              title: Text('Confirm Your Information...'),
+              content: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextFormField(
+                      controller: _emailController,
+                      decoration: InputDecoration(
+                        label: Text("Email"),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      // maxLines: null,
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Field can\'t be empty.';
+                        } else {
+                          return null;
+                        }
+                      },
+                    ),
+                    SizedBox(height: 9),
+                    TextFormField(
+                      controller: _phoneNumberController,
+                      decoration: InputDecoration(
+                        label: Text("Phone Number"),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      // maxLines: null,
+                      keyboardType: TextInputType.phone,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Field can\'t be empty.';
+                        } else {
+                          return null;
+                        }
+                      },
+                    ),
+                    SizedBox(height: 9),
+                    TextFormField(
+                      controller: _messageController,
+                      decoration: InputDecoration(
+                        label: Text("Message"),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      // maxLines: null,
+                      keyboardType: TextInputType.text,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Field can\'t be empty.';
+                        } else {
+                          return null;
+                        }
+                      },
+                    ),
+                    SizedBox(height: 9),
+                  ],
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      Navigator.of(context).pop();
+                      final jobDetailBloc =
+                          BlocProvider.of<JobDetailBloc>(context);
+
+                      jobDetailBloc.add(
+                        ApplyToJobPostEvent(
+                          applyJobPostModel: ApplyJobPostModel(
+                            email: _emailController.text.trim(),
+                            phoneNumber: _phoneNumberController.text.trim(),
+                            text: _messageController.text.trim(),
+                            jobID: jobs['id']
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                  child: Text(
+                    'Submit',
+                    style: TextStyle(
+                      color: Colors.indigo,
+                    ),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(
+                    'Cancel',
+                    style: TextStyle(
+                      color: Colors.red,
+                    ),
+                  ),
+                ),
+              ],
+            );
+
+            showDialog(
+              context: context,
+              builder: (_) {
+                return _addReference;
+              },
+            );
+          },
+          child: Text('Apply'),
+        ),
+      );
+    },
   );
 }
 
@@ -242,14 +453,15 @@ Widget _profilePicture() {
 ///
 /// Returns:
 ///   A Column widget with 3 rows.
-Widget _info() {
+Widget _info(job) {
   return Column(
+    crossAxisAlignment: CrossAxisAlignment.center,
     children: [
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            'Job Title',
+            '${job["jobTitle"]}',
             style: TextStyle(
               fontSize: 24,
             ),
@@ -262,22 +474,29 @@ Widget _info() {
         children: [
           Icon(Icons.location_on),
           SizedBox(width: 2),
-          Text('Location'),
+          Text('${job["location"]}'),
         ],
       ),
       SizedBox(height: 8),
       Row(
         mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            children: [
-              _pill(text: "Job Type"),
-              _pill(text: "Salary"),
-              _pill(text: "Tag"),
-              _pill(text: "Company Size"),
-            ],
-          ),
+          _pill(text: "${job['jobType']}"),
+          _pill(text: "${job['salary']} Birr/Month"),
+          // _pill(text: "${job['tag']}"),
+          // _pill(text: "Company Size: ${job['companySize']}"),
+        ],
+      ),
+      SizedBox(height: 7),
+      Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          // _pill(text: "${job['jobType']}"),
+          // _pill(text: "${job['salary']}"),
+          _pill(text: "${job['tag']}"),
+          _pill(text: "Company Size: ${job['companySize']}"),
         ],
       ),
     ],
@@ -350,7 +569,7 @@ Widget _backButton(context) {
 ///
 /// Returns:
 ///   A Row widget with a single Expanded widget with a Container widget with a ListTile widget.
-Widget _shortDescription() {
+Widget _shortDescription(job) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
@@ -363,14 +582,28 @@ Widget _shortDescription() {
             borderRadius: BorderRadius.circular(20),
           ),
           child: ListTile(
-            title: Text(
-              'Short Description',
-              style: TextStyle(
-                fontSize: 15,
+            title: RichText(
+              text: TextSpan(
+                text: "Description: ",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 18,
+                  fontFamily: GoogleFonts.montserrat().fontFamily,
+                ),
+                children: [
+                  TextSpan(
+                    text: '\n${job["description"]}\n',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 15,
+                      fontFamily: GoogleFonts.montserrat().fontFamily,
+                    ),
+                  ),
+                ],
               ),
             ),
-            trailing: Text(
-              'Posted Date',
+            subtitle: Text(
+              'Posted Date: ${job["postedDate"]}\nPosted By: ${job["companyName"]}',
               style: TextStyle(
                 fontSize: 12,
               ),
@@ -387,17 +620,45 @@ Widget _shortDescription() {
 ///
 /// Returns:
 ///   A SizedBox with a ListView.builder inside of it.
-Widget _reviewSection() {
-  return Builder(builder: (context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.5,
-      child: ListView.builder(
-        itemBuilder: (context, index) {
-          return _singleReview();
-        },
+Widget _reviewSection({required List reviews}) {
+  // return Builder(builder: (context) {
+  //   return SizedBox(
+  //     height: MediaQuery.of(context).size.height * 0.5,
+  //     child: ListView.builder(
+  //       itemBuilder: (context, index) {
+  //         return _singleReview();
+  //       },
+  //     ),
+  //   );
+  // });
+
+  return Expanded(
+    child: Container(
+      margin: EdgeInsets.all(7),
+      padding: EdgeInsets.all(7),
+      decoration: BoxDecoration(
+        color: Color.fromARGB(255, 240, 240, 240),
+        borderRadius: BorderRadius.circular(20),
       ),
-    );
-  });
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            ListTile(
+              title: Text(
+                "Reviews",
+                style: TextStyle(fontSize: 20),
+              ),
+            ),
+            Column(
+              children: reviews.map<Widget>((review) {
+                return _singleReview();
+              }).toList(),
+            )
+          ],
+        ),
+      ),
+    ),
+  );
 }
 
 /// _singleReview() returns a Container widget that contains a ListTile widget

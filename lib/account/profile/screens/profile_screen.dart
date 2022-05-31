@@ -177,6 +177,23 @@ class ProfileScreen extends StatelessWidget {
             animatedSnackBarType: AnimatedSnackBarType.error,
           );
         }
+
+        if (state is ReferenceAdded) {
+          animatedSnackBar(
+            context: context,
+            message: "Reference Added.",
+            animatedSnackBarType: AnimatedSnackBarType.success,
+          );
+          bloc.add(LoadProfileEvent());
+        }
+        if (state is ReferenceNotAdded) {
+          animatedSnackBar(
+            context: context,
+            message: "Reference Not Added.",
+            animatedSnackBarType: AnimatedSnackBarType.error,
+          );
+          // bloc.add(LoadProfileEvent());
+        }
       },
       builder: (context, state) {
         /// Checking if the state is ProfileInitial, if it is, then it will call the LoadProfileEvent.
@@ -398,8 +415,12 @@ Widget _body({required context, required ProfileModel profileModel}) {
           previousExperience: profileModel.previousExperience,
         ),
         _educationalBackground(
-            educationalBackground: profileModel.educationalBackground,
-            context: context),
+          educationalBackground: profileModel.educationalBackground,
+          context: context,
+        ),
+        _referenceSection(
+          context: context,
+        ),
       ],
     ),
   );
@@ -1098,11 +1119,11 @@ Widget _educationalBackground({
               // print(value);
               // print(value.runtimeType);
               return _educationalBackgroundTile(
-                institution: 'value["institution"]',
-                startedDate: 'value["startedDate"]',
-                endDate: 'value["endDate"]',
-                fieldOfStudy: 'value["fieldOfStudy"]',
-                educationLevel: 'value["educationLevel"]',
+                institution: value["institution"],
+                startedDate: value["startedDate"],
+                endDate: value["endDate"],
+                fieldOfStudy: value["fieldOfStudy"],
+                educationLevel: value["educationLevel"],
               );
             },
           ).toList(),
@@ -1136,7 +1157,7 @@ Widget _educationalBackgroundTile({
     child: ListTile(
       title: Text('$institution'),
       trailing: Text('$educationLevel\n$fieldOfStudy'),
-      subtitle: Text('From $startedDate - To $endDate'),
+      subtitle: Text('From $startedDate - $endDate'),
     ),
   );
 }
@@ -1165,4 +1186,168 @@ Future<Object> _uploadVerificationDocument() async {
       'chosen': false,
     };
   }
+}
+
+Widget _referenceSection({
+  required context,
+}) {
+  final profileBloc = BlocProvider.of<ProfileBloc>(context);
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _fullNameController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
+
+  return Column(
+    children: [
+      Container(
+        margin: EdgeInsets.symmetric(horizontal: 15),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'References',
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
+            IconButton(
+              onPressed: () {
+                final AlertDialog _addReference = AlertDialog(
+                  title: Text('Add your reference...'),
+                  content: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        TextFormField(
+                          controller: _fullNameController,
+                          decoration: InputDecoration(
+                            label: Text("Fullname"),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                          // maxLines: null,
+                          keyboardType: TextInputType.name,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Field can\'t be empty.';
+                            } else {
+                              return null;
+                            }
+                          },
+                        ),
+                        SizedBox(height: 9),
+                        TextFormField(
+                          controller: _phoneNumberController,
+                          decoration: InputDecoration(
+                            label: Text("Phone Number"),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                          // maxLines: null,
+                          keyboardType: TextInputType.phone,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Field can\'t be empty.';
+                            } else {
+                              return null;
+                            }
+                          },
+                        ),
+                        SizedBox(height: 9),
+                      ],
+                    ),
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          Navigator.of(context).pop();
+                          profileBloc.add(
+                            AddReferenceEvent(
+                              fullName: _fullNameController.text.trim(),
+                              phoneNumber: _phoneNumberController.text.trim(),
+                            ),
+                          );
+                        }
+                      },
+                      child: Text(
+                        'Add',
+                        style: TextStyle(
+                          color: Colors.indigo,
+                        ),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text(
+                        'Cancel',
+                        style: TextStyle(
+                          color: Colors.red,
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+
+                showDialog(
+                  context: context,
+                  builder: (_) {
+                    return _addReference;
+                  },
+                );
+              },
+              icon: Icon(Icons.add),
+            ),
+          ],
+        ),
+      ),
+      Container(
+        margin: EdgeInsets.symmetric(
+          horizontal: 7,
+        ),
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: Color.fromARGB(255, 240, 240, 240),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          // children: educationalBackground.map(
+          //   (value) {
+          //     // print(value);
+          //     // print(value.runtimeType);
+          //     return _referencesTile(
+          //       institution: 'value["institution"]',
+          //       startedDate: 'value["startedDate"]',
+          //       endDate: 'value["endDate"]',
+          //       fieldOfStudy: 'value["fieldOfStudy"]',
+          //       educationLevel: 'value["educationLevel"]',
+          //     );
+          //   },
+          // ).toList(),
+        ),
+      ),
+    ],
+  );
+}
+
+Widget _referencesTile({
+  required String institution,
+  required String startedDate,
+  required String endDate,
+  required String fieldOfStudy,
+  required String educationLevel,
+}) {
+  return Container(
+    margin: EdgeInsets.symmetric(vertical: 7),
+    child: ListTile(
+      title: Text('$institution'),
+      trailing: Text('$educationLevel\n$fieldOfStudy'),
+      subtitle: Text('From $startedDate - To $endDate'),
+    ),
+  );
 }

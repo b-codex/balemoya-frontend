@@ -50,3 +50,7 @@ class EducationalBackgroundAddingFailed extends ProfileState {}
 class VerificationRequestSuccess extends ProfileState {}
 
 class VerificationRequestFailed extends ProfileState {}
+
+class ReferenceAdded extends ProfileState {}
+
+class ReferenceNotAdded extends ProfileState {}

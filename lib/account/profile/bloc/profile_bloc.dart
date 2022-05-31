@@ -2,6 +2,7 @@ import 'package:balemoya/account/profile/models/models.dart';
 import 'package:balemoya/account/profile/repository/repository.dart';
 import 'package:balemoya/static/shared_preference.dart';
 import 'package:bloc/bloc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 
 /// Importing the `profile_event.dart` and `profile_state.dart` files.
@@ -139,7 +140,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     });
 
     on<GetVerifiedEvent>((event, emit) async {
-      
       final sessionID = await sharedPreference.getSession().then(
         (value) {
           return value;
@@ -154,6 +154,25 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         emit(VerificationRequestSuccess());
       } else {
         emit(VerificationRequestFailed());
+      }
+    });
+
+    on<AddReferenceEvent>((event, emit) async {
+      final sessionID = await sharedPreference.getSession().then(
+        (value) {
+          return value;
+        },
+      );
+      final response = await profileRepository.addReference(
+        fullName: event.fullName,
+        phoneNumber: event.phoneNumber,
+        sessionID: sessionID,
+      ) as Map;
+
+      if (response['success']) {
+        emit(ReferenceAdded());
+      } else {
+        emit(ReferenceNotAdded());
       }
     });
   }

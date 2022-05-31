@@ -42,6 +42,9 @@ class RouteManager {
     if (settings.arguments != null) {
       values = settings.arguments as Map<String, dynamic>;
     }
+    if (settings.arguments == null) {
+      print("You are passing null arguments");
+    }
 
     switch (settings.name) {
       case intro_screen:
@@ -76,7 +79,7 @@ class RouteManager {
 
       case job_detail:
         return MaterialPageRoute(
-          builder: (context) => JobDetail(),
+          builder: (context) => JobDetail(job: values),
         );
 
       case create_job_post:

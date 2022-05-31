@@ -20,12 +20,12 @@ class CreateJobPost extends StatelessWidget {
     return Scaffold(
       appBar: _appBar(context),
       body: _body(context),
-      drawer: drawer(
-        context: context,
-        pageName: routeName,
-        fullName: "",
-        profilePicture: "",
-      ),
+      // drawer: drawer(
+      //   context: context,
+      //   pageName: routeName,
+      //   fullName: "",
+      //   profilePicture: "",
+      // ),
     );
   }
 }
@@ -281,8 +281,8 @@ Widget _shortDescription(_shortDescriptionController) {
     ),
     child: TextFormField(
       controller: _shortDescriptionController,
-      keyboardType: TextInputType.multiline,
-      maxLines: null,
+      // keyboardType: TextInputType.multiline,
+      // maxLines: null,
       decoration: InputDecoration(
         label: Text("Short Description"),
         // prefixIcon: _prefixIcon,
@@ -313,11 +313,11 @@ Widget _requirements(_requirementsController) {
     child: TextFormField(
       controller: _requirementsController,
       keyboardType: TextInputType.multiline,
-      maxLines: null,
+      // maxLines: null,
       decoration: InputDecoration(
         label: Text("Requirements"),
         // prefixIcon: _prefixIcon,
-        helperText: 'Enter each requirement in a new line',
+        helperText: 'Enter each requirement separated in a comma',
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20),
         ),

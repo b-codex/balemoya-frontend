@@ -8,3 +8,5 @@ class LogoutEvent extends HomeEvent {}
 class AccountButtonClick extends HomeEvent {}
 
 class BookmarksButtonClick extends HomeEvent {}
+
+class GetJobPosts extends HomeEvent {}

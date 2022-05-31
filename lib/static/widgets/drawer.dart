@@ -5,6 +5,17 @@ import 'package:balemoya/static/widgets/snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+/// It's a drawer that has a logout button
+/// 
+/// Args:
+///   pageName (String): It's the name of the current page.
+///   context (BuildContext): It's the context of the screen.
+///   fullName (String): It's the name of the user.
+///   role (String): It's the role of the user.
+///   profilePicture (String): It's the profile picture of the user.
+/// 
+/// Returns:
+///   A Widget.
 Widget drawer({
   required String pageName,
   required BuildContext context,
