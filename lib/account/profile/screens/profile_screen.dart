@@ -2,7 +2,6 @@ import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:balemoya/account/profile/bloc/profile_bloc.dart';
 import 'package:balemoya/account/profile/models/models.dart';
 import 'package:balemoya/static/widgets/date_picker.dart';
-import 'package:balemoya/static/widgets/drawer.dart';
 import 'package:balemoya/static/widgets/duration_picker.dart';
 import 'package:balemoya/static/widgets/snack_bar.dart';
 import 'package:file_picker/file_picker.dart';
@@ -21,6 +20,8 @@ class ProfileScreen extends StatelessWidget {
       listener: (context, state) {
         print(state);
 
+        /// Checking if the state is ProfileLoadingFailed, if it is, it will show an error message and
+        /// navigate to the home screen.
         if (state is ProfileLoadingFailed) {
           animatedSnackBar(
             context: context,
@@ -31,6 +32,8 @@ class ProfileScreen extends StatelessWidget {
               .pushNamedAndRemoveUntil('/home_screen', (route) => false);
         }
 
+        /// Checking if the state is ChangeProfilePictureFailed, if it is, it will show an error
+        /// message.
         if (state is ChangeProfilePictureFailed) {
           animatedSnackBar(
             context: context,
@@ -39,6 +42,7 @@ class ProfileScreen extends StatelessWidget {
           );
         }
 
+        /// Showing a snackbar with a message and then loading the profile again.
         if (state is ChangeProfilePictureSuccess) {
           animatedSnackBar(
             context: context,
@@ -48,6 +52,8 @@ class ProfileScreen extends StatelessWidget {
           bloc.add(LoadProfileEvent());
         }
 
+        /// Checking if the state is PreviousExperienceAdded, if it is, it will show a snackbar with the
+        /// message 'Previous Experience Added.' and then it will load the profile again.
         if (state is PreviousExperienceAdded) {
           animatedSnackBar(
             context: context,
@@ -57,6 +63,8 @@ class ProfileScreen extends StatelessWidget {
           bloc.add(LoadProfileEvent());
         }
 
+        /// Checking if the state is PreviousExperienceAddingFailed, if it is, it will show a snackbar
+        /// with the message 'Task Failed. Please Try Again.'
         if (state is PreviousExperienceAddingFailed) {
           animatedSnackBar(
             context: context,
@@ -66,6 +74,9 @@ class ProfileScreen extends StatelessWidget {
           // bloc.add(LoadProfileEvent());
         }
 
+        /// Checking if the state is EducationalBackgroundAdded, if it is, it will show a snackbar with
+        /// the message "Educational Background Added." and it will also call the LoadProfileEvent() to
+        /// refresh the data.
         if (state is EducationalBackgroundAdded) {
           animatedSnackBar(
             context: context,
@@ -75,6 +86,8 @@ class ProfileScreen extends StatelessWidget {
           bloc.add(LoadProfileEvent());
         }
 
+        /// Checking if the state is EducationalBackgroundAddingFailed, if it is, it will show a
+        /// snackbar with the message "Task Failed. Please Try Again."
         if (state is EducationalBackgroundAddingFailed) {
           animatedSnackBar(
             context: context,
@@ -84,6 +97,8 @@ class ProfileScreen extends StatelessWidget {
           // bloc.add(LoadProfileEvent());
         }
 
+        /// Checking if the state is UploadCVSuccess, if it is, it will show a snackbar with the message
+        /// 'CV Uploaded.'
         if (state is UploadCVSuccess) {
           animatedSnackBar(
             context: context,
@@ -92,6 +107,7 @@ class ProfileScreen extends StatelessWidget {
           );
         }
 
+        /// Checking if the state is UploadCVFailed, if it is, it will show an error message.
         if (state is UploadCVFailed) {
           animatedSnackBar(
             context: context,
@@ -100,6 +116,8 @@ class ProfileScreen extends StatelessWidget {
           );
         }
 
+        /// Checking if the state is PortfolioUpdateSuccess, if it is, it will show a snackbar with the
+        /// message "Portfolio Update Success" and then it will call the LoadProfileEvent.
         if (state is PortfolioUpdateSuccess) {
           animatedSnackBar(
             context: context,
@@ -109,6 +127,8 @@ class ProfileScreen extends StatelessWidget {
           bloc.add(LoadProfileEvent());
         }
 
+        /// Checking if the state is PortfolioUpdateFailed, if it is, it will show a snackbar with the
+        /// message 'Portfolio Update Failed.'
         if (state is PortfolioUpdateFailed) {
           animatedSnackBar(
             context: context,
@@ -117,23 +137,9 @@ class ProfileScreen extends StatelessWidget {
           );
         }
 
-        if (state is SkillsUpdateSuccess) {
-          animatedSnackBar(
-            context: context,
-            message: 'Skills Update Success.',
-            animatedSnackBarType: AnimatedSnackBarType.success,
-          );
-          bloc.add(LoadProfileEvent());
-        }
-
-        if (state is SkillsUpdateFailed) {
-          animatedSnackBar(
-            context: context,
-            message: 'Skills Update Failed.',
-            animatedSnackBarType: AnimatedSnackBarType.error,
-          );
-        }
-
+        /// Checking if the state is DeleteAccountSuccess, if it is, it will show a snackbar with the
+        /// message "Account Deletion Success." and then it will navigate to the root page and remove
+        /// all the routes.
         if (state is DeleteAccountSuccess) {
           animatedSnackBar(
             context: context,
@@ -143,6 +149,7 @@ class ProfileScreen extends StatelessWidget {
           Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
         }
 
+        /// Checking if the state is DeleteAccountFailed, if it is, it will show an error message.
         if (state is DeleteAccountFailed) {
           animatedSnackBar(
             context: context,
@@ -150,35 +157,69 @@ class ProfileScreen extends StatelessWidget {
             animatedSnackBarType: AnimatedSnackBarType.error,
           );
         }
+
+        /// Checking if the state is VerificationRequestSuccess, if it is, it will show a snackbar.
+        if (state is VerificationRequestSuccess) {
+          animatedSnackBar(
+            context: context,
+            message:
+                'Verification Request Sent To Admin. An Email Will Be Sent As Confirmation.',
+            animatedSnackBarType: AnimatedSnackBarType.success,
+          );
+        }
+
+        /// Checking if the state is VerificationRequestFailed, if it is, it will show a snackbar with
+        /// the message "Task Failed. Please Try Again."
+        if (state is VerificationRequestFailed) {
+          animatedSnackBar(
+            context: context,
+            message: 'Task Failed. Please Try Again.',
+            animatedSnackBarType: AnimatedSnackBarType.error,
+          );
+        }
       },
       builder: (context, state) {
+        /// Checking if the state is ProfileInitial, if it is, then it will call the LoadProfileEvent.
         if (state is ProfileInitial) {
           bloc.add(LoadProfileEvent());
         }
 
+        /// Checking if the state is LoadingProfile, if it is, it will return a Scaffold with an
+        /// AppBar widget and CircularProgressIndicator in the center.
         if (state is LoadingProfile) {
           return Scaffold(
+            appBar: AppBar(),
             body: Center(
               child: CircularProgressIndicator(),
             ),
           );
         }
 
+        /// Checking if the state is ProfileLoadDone, if it is, it will return a Scaffold widget.
         if (state is ProfileLoadDone) {
           return Scaffold(
             appBar: _appBar(context),
             body: _body(context: context, profileModel: state.profileModel),
-            drawer: drawer(context: context, pageName: "profile"),
+            // drawer: drawer(context: context, pageName: "profile"),
           );
         }
         // if (state is ProfileLoadingFailed) {
         // }
-        return Scaffold();
+        return Scaffold(
+          appBar: AppBar(),
+        );
       },
     );
   }
 }
 
+/// It's a function that returns a widget
+///
+/// Args:
+///   context: BuildContext
+///
+/// Returns:
+///   A Map with two keys, 'chosen' and 'filePath'
 PreferredSizeWidget _appBar(context) {
   final profileBloc = BlocProvider.of<ProfileBloc>(context);
   return AppBar(
@@ -269,7 +310,31 @@ PreferredSizeWidget _appBar(context) {
             Navigator.of(context).pushNamed('/reset_password');
           }
 
-          if (clicked == 'Request Verification') {}
+          if (clicked == 'Request Verification') {
+            animatedSnackBar(
+              context: context,
+              message:
+                  "Please Upload A PDF File Containing Your ID Card, Resume and Other Necessary Documents.",
+              animatedSnackBarType: AnimatedSnackBarType.info,
+            );
+            await Future.delayed(
+              Duration(
+                seconds: 3,
+              ),
+            );
+            final _filePath = await _uploadVerificationDocument().then(
+              (value) {
+                return value as Map;
+              },
+            );
+            // print(_filePath);
+            // print(_filePath["filePath"]);
+            profileBloc.add(
+              GetVerifiedEvent(
+                filePath: _filePath["filePath"],
+              ),
+            );
+          }
 
           if (clicked == 'Delete Account') {
             var _alertDialog = AlertDialog(
@@ -306,6 +371,15 @@ PreferredSizeWidget _appBar(context) {
   );
 }
 
+/// _body() is a function that returns a widget. It takes in two required parameters: context and
+/// profileModel.
+///
+/// Args:
+///   context: BuildContext
+///   profileModel (ProfileModel): ProfileModel(
+///
+/// Returns:
+///   A widget.
 Widget _body({required context, required ProfileModel profileModel}) {
   return SingleChildScrollView(
     child: Column(
@@ -331,6 +405,13 @@ Widget _body({required context, required ProfileModel profileModel}) {
   );
 }
 
+/// _profilePicture() is a function that returns a widget that displays a profile picture.
+///
+/// Args:
+///   profilePicture (String): String
+///
+/// Returns:
+///   A widget.
 Widget _profilePicture({required String profilePicture}) {
   return Center(
     child: Container(
@@ -353,6 +434,16 @@ Widget _profilePicture({required String profilePicture}) {
   );
 }
 
+/// _fullName() is a function that takes two required parameters, fullName and verified, and returns a
+/// Row widget that contains a Container widget that contains a Text widget and a SizedBox widget, and a
+/// Container widget or an Icon widget, depending on the value of the verified parameter
+///
+/// Args:
+///   fullName (String): The user's full name.
+///   verified (bool): bool
+///
+/// Returns:
+///   A function that returns a widget.
 Widget _fullName({required String fullName, required bool verified}) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.center,
@@ -380,6 +471,13 @@ Widget _fullName({required String fullName, required bool verified}) {
   );
 }
 
+/// _location() is a function that returns a Row widget that contains an Icon widget and a Text widget
+///
+/// Args:
+///   location (String): The location of the event.
+///
+/// Returns:
+///   A widget.
 Widget _location({required String location}) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.center,
@@ -401,6 +499,15 @@ Widget _location({required String location}) {
   );
 }
 
+/// _information() is a function that takes in two required parameters, email and phoneNumber, and
+/// returns a Column widget that contains a Row widget and two Container widgets.
+///
+/// Args:
+///   email (String): String
+///   phoneNumber (String): String
+///
+/// Returns:
+///   A Column widget with two ListTile widgets inside of it.
 Widget _information({required String email, required String phoneNumber}) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.start,
@@ -449,6 +556,14 @@ Widget _information({required String email, required String phoneNumber}) {
   );
 }
 
+/// It's a function that returns a widget
+///
+/// Args:
+///   context: BuildContext
+///   portfolioText: This is the text that is to be displayed in the Text widget.
+///
+/// Returns:
+///   A Column widget with a Container widget and a Row widget as its children.
 Widget _portfolio(
   context,
   portfolioText,
@@ -533,6 +648,8 @@ Widget _portfolio(
                     ),
                   ],
                 );
+
+                /// Showing the dialog.
                 showDialog(
                   context: context,
                   builder: (BuildContext ctx) {
@@ -570,16 +687,11 @@ Widget _portfolio(
   );
 }
 
-Widget _skill(skillText) {
-  return Container(
-    margin: EdgeInsets.symmetric(vertical: 7),
-    child: ListTile(
-      leading: Icon(Icons.check),
-      title: Text('$skillText'),
-    ),
-  );
-}
-
+/// _uploadCV() is a function that allows the user to pick a file from their device and returns the file
+/// path of the chosen file
+///
+/// Returns:
+///   A Future<Object>
 Future<Object> _uploadCV() async {
   FilePickerResult? result = await FilePicker.platform.pickFiles(
     type: FileType.custom,
@@ -601,6 +713,10 @@ Future<Object> _uploadCV() async {
   }
 }
 
+/// It opens the file picker, and if the user chooses a file, it returns the file path
+///
+/// Returns:
+///   A Future<Object>
 Future<Object> _changeProfilePicture() async {
   FilePickerResult? result = await FilePicker.platform.pickFiles(
     type: FileType.image,
@@ -780,6 +896,15 @@ Widget _previousExperience(
   );
 }
 
+/// _previousExperienceTile is a function that takes a required parameter of type
+/// PreviousExperienceModel and returns a Widget of type Container
+///
+/// Args:
+///   previousExperienceModel (PreviousExperienceModel): This is the model that contains the data for
+/// the previous experience.
+///
+/// Returns:
+///   A widget.
 Widget _previousExperienceTile(
     {required PreviousExperienceModel previousExperienceModel}) {
   return Container(
@@ -793,6 +918,15 @@ Widget _previousExperienceTile(
   );
 }
 
+/// _educationalBackgroundTile is a function that takes in 5 parameters and returns a widget
+///
+/// Args:
+///   educationalBackground (List): [{institution: '', startedDate: '', endDate: '', fieldOfStudy: '',
+/// educationLevel: ''}]
+///   context: BuildContext
+///
+/// Returns:
+///   A list of widgets.
 Widget _educationalBackground({
   required List educationalBackground,
   required context,
@@ -961,8 +1095,8 @@ Widget _educationalBackground({
           mainAxisAlignment: MainAxisAlignment.start,
           children: educationalBackground.map(
             (value) {
-              print(value);
-              print(value.runtimeType);
+              // print(value);
+              // print(value.runtimeType);
               return _educationalBackgroundTile(
                 institution: 'value["institution"]',
                 startedDate: 'value["startedDate"]',
@@ -978,6 +1112,18 @@ Widget _educationalBackground({
   );
 }
 
+/// _educationalBackgroundTile is a function that returns a Container widget that contains a ListTile
+/// widget
+///
+/// Args:
+///   institution (String): The name of the institution
+///   startedDate (String): 'Jan 2019',
+///   endDate (String): "2020-01-01"
+///   fieldOfStudy (String): The field of study of the education.
+///   educationLevel (String): "Bachelor's Degree"
+///
+/// Returns:
+///   A Container widget with a ListTile widget as its child.
 Widget _educationalBackgroundTile({
   required String institution,
   required String startedDate,
@@ -993,4 +1139,30 @@ Widget _educationalBackgroundTile({
       subtitle: Text('From $startedDate - To $endDate'),
     ),
   );
+}
+
+/// _uploadVerificationDocument() is a function that allows the user to select a file from their device,
+/// and returns the file path of the selected file
+///
+/// Returns:
+///   A Future<Object>
+Future<Object> _uploadVerificationDocument() async {
+  FilePickerResult? result = await FilePicker.platform.pickFiles(
+    type: FileType.custom,
+    allowedExtensions: ['pdf'],
+    allowMultiple: false,
+  );
+
+  if (result != null) {
+    final String filePath = result.files.single.path.toString();
+    return {
+      'filePath': filePath,
+      'chosen': true,
+    };
+  } else {
+    // User canceled the picker
+    return {
+      'chosen': false,
+    };
+  }
 }

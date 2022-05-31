@@ -52,3 +52,9 @@ class AddEducationalBackground extends ProfileEvent {
 
   AddEducationalBackground({required this.educationModel});
 }
+
+class GetVerifiedEvent extends ProfileEvent {
+  final String filePath;
+
+  GetVerifiedEvent({required this.filePath});
+}

@@ -46,3 +46,7 @@ class PreviousExperienceAddingFailed extends ProfileState {}
 class EducationalBackgroundAdded extends ProfileState {}
 
 class EducationalBackgroundAddingFailed extends ProfileState {}
+
+class VerificationRequestSuccess extends ProfileState {}
+
+class VerificationRequestFailed extends ProfileState {}

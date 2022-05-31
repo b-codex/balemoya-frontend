@@ -82,59 +82,6 @@ class ProfileProvider {
     };
   }
 
-  Future<Object> updateSkills({required List<String> skills}) async {
-    final url = "http://account-service-1.herokuapp.com/";
-    final response = await http.put(Uri.parse(url), body: {
-      'skills': skills,
-    });
-
-    if (response.statusCode == 200) {
-      return {
-        'status': 200,
-      };
-    }
-
-    return {
-      'status': 404,
-    };
-  }
-
-  Future<Object> deleteAccount({required String sessionID}) async {
-    final url = "http://account-service-1.herokuapp.com/users";
-    final response = await http.delete(Uri.parse(url), body: {
-      'sessionID': sessionID,
-    });
-    if (response.statusCode == 200) {
-      return {
-        'status': 200,
-      };
-    }
-    return {
-      'status': 404,
-    };
-  }
-
-  Future<Object> addSKill({
-    required String skill,
-    required String sessionID,
-  }) async {
-    final url = "$apiRoute/accountService/users/update";
-    final response = await http.put(
-      Uri.parse(url),
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': 'Bearer $sessionID'
-      },
-      body: {
-        'skills': skill,
-      },
-    );
-    if (response.statusCode == 200) {
-      return {"success": true};
-    }
-    return {"success": false};
-  }
-
   Future<Object> addPreviousExperience({
     required PreviousExperienceModel previousExperienceModel,
     required List sessionID,
@@ -187,8 +134,74 @@ class ProfileProvider {
       'Authorization': 'Bearer ${sessionID[1]}'
     });
 
-    print(response.body);
     if (response.statusCode == 201) {
+      return {
+        "success": true,
+        "response": response.body,
+      };
+    }
+
+    return {
+      "success": false,
+    };
+  }
+
+  Future<Object> getVerified({
+    required List sessionID,
+    required String filePath,
+  }) async {
+    final url = "$apiRoute/accountService/users/verifyRequest/get-verified";
+
+    final request = http.MultipartRequest('POST', Uri.parse(url));
+    request.files.add(
+      await http.MultipartFile.fromPath(
+        'CV',
+        filePath,
+        // contentType: MediaType('application', 'x-tar'),
+      ),
+    );
+
+    request.headers.addAll(
+      {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': 'Bearer ${sessionID[1]}'
+      },
+    );
+
+    request.fields["user"] = sessionID[3];
+
+    // print(request);
+    // print(request.headers);
+    // print(request.fields);
+
+    http.Response response =
+        await http.Response.fromStream(await request.send());
+
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      return {
+        "success": true,
+        "response": response.body,
+      };
+    }
+
+    return {
+      "success": false,
+    };
+  }
+
+  Future<Object> deleteAccount({required String sessionID}) async {
+    final url = "$apiRoute/accountService/users/user";
+
+    final response = await http.delete(Uri.parse(url), body: {
+      "id": sessionID[3],
+    }, headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': 'Bearer ${sessionID[1]}'
+    });
+
+    if (response.statusCode == 200) {
       return {
         "success": true,
         "response": response.body,

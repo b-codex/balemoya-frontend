@@ -81,33 +81,6 @@ class ProfileRepository {
     return response;
   }
 
-  Future<Object> editSkills({required List<String> skills}) async {
-    final response = await profileProvider.updateSkills(
-      skills: skills,
-    );
-
-    return response;
-  }
-
-  Future<Object> deleteAccount({required String sessionID}) async {
-    final response = await profileProvider.deleteAccount(
-      sessionID: sessionID,
-    );
-    return response;
-  }
-
-  Future<Object> addSKill({
-    required String skill,
-    required String sessionID,
-  }) async {
-    final response = await profileProvider.addSKill(
-      skill: skill,
-      sessionID: sessionID,
-    );
-
-    return response;
-  }
-
   Future<Object> addPreviousExperience({
     required PreviousExperienceModel previousExperienceModel,
     required List sessionID,
@@ -129,6 +102,25 @@ class ProfileRepository {
       sessionID: sessionID,
     );
 
+    return response;
+  }
+
+  Future<Object> getVerified({
+    required List sessionID,
+    required String filePath,
+  }) async {
+    final response = await profileProvider.getVerified(
+      sessionID: sessionID,
+      filePath: filePath,
+    );
+
+    return response;
+  }
+
+  Future<Object> deleteAccount({required String sessionID}) async {
+    final response = await profileProvider.deleteAccount(
+      sessionID: sessionID,
+    );
     return response;
   }
 }

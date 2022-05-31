@@ -67,7 +67,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         sessionID: sessionID,
       ) as Map;
 
-      if (response['status'] == 200) {
+      if (response['success'] == 200) {
         emit(DeleteAccountSuccess());
       } else {
         emit(DeleteAccountFailed());
@@ -89,18 +89,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       }
     }));
 
-    on<EditSkillsEvent>(((event, emit) async {
-      final response = await profileRepository.editSkills(
-        skills: event.editedSkills,
-      ) as Map;
-
-      if (response['status'] == 200) {
-        emit(SkillsUpdateSuccess());
-      } else {
-        emit(SkillsUpdateFailed());
-      }
-    }));
-
     on<UploadCVEvent>(((event, emit) async {
       final response = await profileRepository.uploadCV(
         filePath: event.filePath,
@@ -112,24 +100,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         emit(UploadCVFailed());
       }
     }));
-
-    on<AddSkillEvent>((event, emit) async {
-      final sessionID = await sharedPreference.getSession().then(
-        (value) {
-          return value;
-        },
-      );
-      final response = await profileRepository.addSKill(
-        skill: event.skill,
-        sessionID: sessionID[1],
-      ) as Map;
-
-      if (response['success'] == true) {
-        emit(SkillAdded());
-      } else {
-        emit(SkillAddingFailed());
-      }
-    });
 
     on<AddPreviousExperience>(
       (event, emit) async {
@@ -165,6 +135,25 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         emit(EducationalBackgroundAdded());
       } else {
         emit(EducationalBackgroundAddingFailed());
+      }
+    });
+
+    on<GetVerifiedEvent>((event, emit) async {
+      
+      final sessionID = await sharedPreference.getSession().then(
+        (value) {
+          return value;
+        },
+      );
+      final response = await profileRepository.getVerified(
+        sessionID: sessionID,
+        filePath: event.filePath,
+      ) as Map;
+
+      if (response['success'] == true) {
+        emit(VerificationRequestSuccess());
+      } else {
+        emit(VerificationRequestFailed());
       }
     });
   }
