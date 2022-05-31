@@ -19,6 +19,10 @@ class ResetPassword extends StatelessWidget {
   }
 }
 
+/// _appBar() returns an AppBar widget with a title of "Reset Password" and the title centered
+/// 
+/// Returns:
+///   A widget that is an AppBar with a title and centerTitle set to true.
 PreferredSizeWidget _appBar() {
   return AppBar(
     title: Text("Reset Password"),
@@ -26,6 +30,14 @@ PreferredSizeWidget _appBar() {
   );
 }
 
+/// It's a BlocConsumer that listens to the ResetPasswordBloc and shows a snackbar and an alert dialog
+/// when the password reset is successful. It also shows a snackbar when the password reset fails
+/// 
+/// Args:
+///   context: The BuildContext of the widget.
+/// 
+/// Returns:
+///   A BlocConsumer widget.
 Widget _body(context) {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   var _fullNameController = TextEditingController();
@@ -35,18 +47,38 @@ Widget _body(context) {
   return BlocConsumer<ResetPasswordBloc, ResetPasswordState>(
     listener: (context, state) {
       print(state);
+      /// Showing a snackbar and an alert dialog when the password reset is successful.
       if (state is PasswordResetSuccess) {
         animatedSnackBar(
           context: context,
           message: "Password Changed Successfully.",
           animatedSnackBarType: AnimatedSnackBarType.success,
         );
-        Navigator.of(context).pushNamedAndRemoveUntil(
-          "/login",
-          (route) => false,
+        var _alertDialog = AlertDialog(
+          title: Text('Confirmation'),
+          content: Text(
+              'Your information has been validated. Please check your email for password reset link.\nDon\'t forget to check spam folder.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  "/login",
+                  (route) => false,
+                );
+              },
+              child: Text('Ok'),
+            ),
+          ],
+        );
+        showDialog(
+          context: context,
+          builder: (BuildContext ctx) {
+            return _alertDialog;
+          },
         );
       }
 
+      /// Showing a snackbar when the password reset fails.
       if (state is PasswordResetFailed) {
         animatedSnackBar(
           context: context,
@@ -98,19 +130,8 @@ Widget _body(context) {
                 ),
                 child: ElevatedButton(
                   onPressed: () {
-                    var _alertDialog = AlertDialog(
-                      title: Text('Confirmation'),
-                      content: Text(
-                          'Your information has been validated. Please check your email for password reset link.\nDon\'t forget to check spam folder.'),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: Text('Ok'),
-                        ),
-                      ],
-                    );
+                    /// Validating the form and if the form is valid, it is adding a
+                    /// PasswordResetRequest event to the ResetPasswordBloc.
                     if (_formKey.currentState!.validate()) {
                       final resetPasswordBloc =
                           BlocProvider.of<ResetPasswordBloc>(context);
@@ -140,6 +161,13 @@ Widget _body(context) {
   );
 }
 
+/// _fullName is a function that returns a Container widget that contains a _formField widget
+///
+/// Args:
+///   _fullNameController: The controller for the text field.
+///
+/// Returns:
+///   A Container widget with a child of a _formField widget.
 Widget _fullName(_fullNameController) {
   return Container(
     margin: EdgeInsets.symmetric(
@@ -155,6 +183,13 @@ Widget _fullName(_fullNameController) {
   );
 }
 
+/// _email is a function that returns a Container widget that contains a _formField widget
+///
+/// Args:
+///   _emailController: The controller for the email field
+///
+/// Returns:
+///   A Container widget with a margin and a child widget.
 Widget _email(_emailController) {
   return Container(
     margin: EdgeInsets.symmetric(
@@ -170,6 +205,14 @@ Widget _email(_emailController) {
   );
 }
 
+/// _phone() is a function that returns a Container widget that contains a _formField() widget
+///
+/// Args:
+///   _phoneNumberController: TextEditingController
+///
+/// Returns:
+///   A Container widget with a margin of 5 pixels on the top and bottom and 10 pixels on the left and
+/// right. The child of the Container is a _formField widget.
 Widget _phone(_phoneNumberController) {
   return Container(
     margin: EdgeInsets.symmetric(
@@ -185,6 +228,16 @@ Widget _phone(_phoneNumberController) {
   );
 }
 
+/// _formField() is a function that returns a TextFormField widget
+///
+/// Args:
+///   _controller: TextEditingController
+///   _formLabel: The label of the form field.
+///   _prefixIcon: Icon(Icons.person)
+///   _type: TextInputType.number
+///
+/// Returns:
+///   A TextFormField widget.
 Widget _formField(_controller, _formLabel, _prefixIcon, _type) {
   return TextFormField(
     controller: _controller,

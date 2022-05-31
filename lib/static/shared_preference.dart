@@ -11,9 +11,9 @@ class SharedPreference {
   ///
   /// Returns:
   ///   A Future object.
-  Future saveSession({required String name, required String sessionID, required String role, required String userID}) async {
+  Future saveSession({required String fullName, required String sessionID, required String role, required String userID}) async {
     final preferences = await SharedPreferences.getInstance();
-    await preferences.setStringList('sessionInfo', <String>[name, sessionID, role, userID]);
+    await preferences.setStringList('sessionInfo', <String>[fullName, sessionID, role, userID]);
 
     return "Session Saved";
   }

@@ -19,9 +19,14 @@ import 'package:balemoya/auth/session/bloc/user_session_bloc.dart';
 import 'package:balemoya/auth/session/data_provider/provider.dart';
 import 'package:balemoya/auth/session/repository/repository.dart';
 import 'package:balemoya/auth/session/screens/loading_screen.dart';
+import 'package:balemoya/job/create_job_post/bloc/create_job_post_bloc.dart';
+import 'package:balemoya/job/create_job_post/data_provider/provider.dart';
+import 'package:balemoya/job/create_job_post/repository/repository.dart';
+import 'package:balemoya/job/create_job_post/screens/create_job_post.dart';
 import 'package:balemoya/job/home/bloc/home_bloc.dart';
 import 'package:balemoya/job/home/data_provider/provider.dart';
 import 'package:balemoya/job/home/repository/repository.dart';
+import 'package:balemoya/job/home/screens/home_screen.dart';
 import 'package:balemoya/static/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -71,6 +76,13 @@ class MyApp extends StatelessWidget {
   final ResetPasswordRepository resetPasswordRepository =
       ResetPasswordRepository(
     resetPasswordProvider: ResetPasswordProvider(),
+  );
+
+  /// Creating a new instance of the `CreateJobPostRepository` and passing the `createJobPostProvider`
+  /// to it.
+  final CreateJobPostRepository createJobPostRepository =
+      CreateJobPostRepository(
+    createJobPostProvider: CreateJobPostProvider(),
   );
 
   @override
@@ -133,6 +145,14 @@ class MyApp extends StatelessWidget {
             resetPasswordRepository: resetPasswordRepository,
           ),
         ),
+
+        /// Creating a new instance of the `CreateJobPostBloc` and passing the `createJobPostRepository`
+        /// to it.
+        BlocProvider(
+          create: (context) => CreateJobPostBloc(
+            createJobPostRepository: createJobPostRepository,
+          ),
+        ),
       ],
 
       /// A provider that provides the `sessionRepository` to the `MaterialApp` widget.
@@ -145,7 +165,7 @@ class MyApp extends StatelessWidget {
             textTheme: GoogleFonts.montserratTextTheme(),
           ),
           debugShowCheckedModeBanner: false,
-          home: ResetPassword(),
+          home: CreateJobPost(),
           // initialRoute: RouteManager.loading_screen,
           onGenerateRoute: RouteManager.generateRoute,
         ),

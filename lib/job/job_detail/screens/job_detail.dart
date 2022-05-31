@@ -35,10 +35,10 @@ Widget _body(context) {
 
 /// _header() returns a Column widget that contains a Row widget that contains a _profilePicture()
 /// widget and a _info() widget, and a _shortDescription() widget.
-/// 
+///
 /// Args:
 ///   context: BuildContext
-/// 
+///
 /// Returns:
 ///   A Column widget with a Row widget and a Text widget as children.
 Widget _header(context) {
@@ -60,10 +60,10 @@ Widget _header(context) {
 /// _tabBar() is a function that returns a DefaultTabController widget that contains a Container widget
 /// that contains a Column widget that contains a TabBar widget and an Expanded widget that contains a
 /// TabBarView widget that contains two widgets: _requirementsList() and _reviewSection()
-/// 
+///
 /// Args:
 ///   context: BuildContext
-/// 
+///
 /// Returns:
 ///   A DefaultTabController with a Container with a Column with a TabBar and an Expanded with a
 /// TabBarView.
@@ -225,15 +225,9 @@ Widget _profilePicture() {
     ),
     child: CircleAvatar(
       backgroundColor: Colors.transparent,
-      radius: 60,
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(100),
-        ),
-        child: Image.asset(
-          'assets/google.jpg',
-          height: 90,
-        ),
+      radius: 50,
+      backgroundImage: AssetImage(
+        "assets/profile_picture_placeholder.png",
       ),
     ),
   );
@@ -262,7 +256,7 @@ Widget _info() {
           ),
         ],
       ),
-      SizedBox(height: 5),
+      SizedBox(height: 8),
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -271,14 +265,17 @@ Widget _info() {
           Text('Location'),
         ],
       ),
-      SizedBox(height: 5),
+      SizedBox(height: 8),
       Row(
+        mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(
             children: [
               _pill(text: "Job Type"),
               _pill(text: "Salary"),
+              _pill(text: "Tag"),
+              _pill(text: "Company Size"),
             ],
           ),
         ],
@@ -415,8 +412,8 @@ Widget _singleReview() {
     ),
     child: ListTile(
       leading: CircleAvatar(
-        radius: 30,
-        backgroundImage: AssetImage("assets/google.jpg"),
+        radius: 35,
+        backgroundImage: AssetImage("assets/profile_picture_placeholder.png"),
       ),
       title: Text("Name"),
       subtitle: Text("Comment Here..."),

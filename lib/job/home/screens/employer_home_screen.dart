@@ -8,6 +8,14 @@ class SearchCategory {
   SearchCategory({this.category});
 }
 
+/// It displays a dialog with a search bar and a list of items. The user can select multiple items from
+/// the list and click on the apply button to get the selected items
+///
+/// Args:
+///   context: BuildContext
+///
+/// Returns:
+///   A list of SearchCategory objects.
 PreferredSizeWidget employerScreenAppBar(context) {
   return AppBar(
     actions: [
@@ -48,7 +56,41 @@ PreferredSizeWidget employerScreenAppBar(context) {
   );
 }
 
-Widget employerScreenBody(context, role) {
+/// It returns a SingleChildScrollView with a Column as its child.
+///
+/// The Column has a Container and a SizedBox as its children.
+///
+/// The Container has a Text widget as its child.
+///
+/// The Text widget has a String as its child.
+///
+/// The SizedBox has no children.
+///
+/// The SingleChildScrollView has a Column as its child.
+///
+/// The Column has a Container and a SizedBox as its children.
+///
+/// The Container has a Text widget as its child.
+///
+/// The Text widget has a String as its child.
+///
+/// The SizedBox has no children.
+///
+/// The SingleChildScrollView has a Column as its child.
+///
+/// The Column has a Container and a SizedBox as its children.
+///
+/// The Container has a Text widget as its child.
+///
+/// The Text widget has a String as its child.
+///
+/// Args:
+///   context: BuildContext
+///   role: String
+///
+/// Returns:
+///   A widget.
+Widget employerScreenBody(context, role, fullName) {
   return SingleChildScrollView(
     scrollDirection: Axis.vertical,
     child: Column(
@@ -60,7 +102,7 @@ Widget employerScreenBody(context, role) {
             left: 8,
           ),
           child: Text(
-            'Hey "$role",',
+            'Hey "$fullName",',
             textAlign: TextAlign.left,
             style: TextStyle(
               fontSize: 24,
@@ -71,12 +113,20 @@ Widget employerScreenBody(context, role) {
         SizedBox(
           height: 10,
         ),
-        // employerScreenLatestJobs(context),
+        employerScreenPostedJobs(context),
       ],
     ),
   );
 }
 
+/// It returns a container with a column with a row with a text and a text button, and a single child
+/// scroll view with a row with a bunch of cards.
+///
+/// Args:
+///   context: BuildContext
+///
+/// Returns:
+///   A Container widget with a Column widget as its child.
 Widget employerScreenPopularUsers(context) {
   return Container(
     padding: EdgeInsets.symmetric(
@@ -130,6 +180,14 @@ Widget employerScreenPopularUsers(context) {
   );
 }
 
+/// This function returns a card that displays a user's profile picture, name, location, job title, and
+/// experience.
+///
+/// Args:
+///   context: BuildContext
+///
+/// Returns:
+///   A widget that is a container with a card inside of it.
 Widget employerScreenPopularUsersCard(context) {
   return GestureDetector(
     onTap: () {
@@ -220,7 +278,15 @@ Widget employerScreenPopularUsersCard(context) {
   );
 }
 
-Widget employerScreenLatestJobs(context) {
+/// It returns a container with a column inside it. The column has a row with two children, a text and a
+/// text button. Then there's a sized box, and then five cards.
+///
+/// Args:
+///   context: BuildContext
+///
+/// Returns:
+///   A widget.
+Widget employerScreenPostedJobs(context) {
   return Container(
     margin: EdgeInsets.symmetric(
       horizontal: 7,
@@ -231,7 +297,7 @@ Widget employerScreenLatestJobs(context) {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              "Latest Jobs",
+              "Posted Jobs",
               style: TextStyle(
                 fontSize: 20,
               ),
@@ -250,17 +316,26 @@ Widget employerScreenLatestJobs(context) {
         SizedBox(
           height: 5,
         ),
-        employerScreenLatestJobsCard(context),
-        employerScreenLatestJobsCard(context),
-        employerScreenLatestJobsCard(context),
-        employerScreenLatestJobsCard(context),
-        employerScreenLatestJobsCard(context),
+        employerScreenJobsCard(context),
+        employerScreenJobsCard(context),
+        employerScreenJobsCard(context),
+        employerScreenJobsCard(context),
+        employerScreenJobsCard(context),
       ],
     ),
   );
 }
 
-Widget employerScreenLatestJobsCard(context) {
+/// It returns a GestureDetector widget that contains a Container widget that contains a Card widget
+/// that contains a Padding widget that contains a Row widget that contains a Column widget that
+/// contains a Container widget that contains an Image widget.
+///
+/// Args:
+///   context: BuildContext
+///
+/// Returns:
+///   A widget.
+Widget employerScreenJobsCard(context) {
   return GestureDetector(
     onTap: () {
       Navigator.of(context).pushNamed('/job_detail');
@@ -279,9 +354,11 @@ Widget employerScreenLatestJobsCard(context) {
                 children: [
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 10),
-                    child: Image.asset(
-                      'assets/google.jpg',
-                      height: 70,
+                    child: CircleAvatar(
+                      radius: 45,
+                      backgroundImage: AssetImage(
+                        'assets/profile_picture_placeholder.png',
+                      ),
                     ),
                   )
                 ],
@@ -303,10 +380,10 @@ Widget employerScreenLatestJobsCard(context) {
                           overflow: TextOverflow.visible,
                           softWrap: true,
                         ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: Icon(Icons.bookmark_add),
-                        ),
+                        // IconButton(
+                        //   onPressed: () {},
+                        //   icon: Icon(Icons.bookmark_add),
+                        // ),
                       ],
                     ),
                     Row(
@@ -346,7 +423,7 @@ Widget employerScreenLatestJobsCard(context) {
                                 color: Color.fromARGB(255, 223, 218, 218),
                                 borderRadius: BorderRadius.circular(50)),
                             child: Text(
-                              'Experience',
+                              'Company Size',
                               style: TextStyle(
                                 fontSize: 10,
                               ),

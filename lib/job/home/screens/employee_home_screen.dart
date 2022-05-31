@@ -8,6 +8,14 @@ class SearchCategory {
   SearchCategory({this.category});
 }
 
+/// It displays a dialog with a search bar and a list of items. The user can select multiple items from
+/// the list and click on the apply button to get the selected items
+/// 
+/// Args:
+///   context: BuildContext
+/// 
+/// Returns:
+///   A list of SearchCategory objects.
 PreferredSizeWidget employeeScreenAppBar(context) {
   return AppBar(
     actions: [
@@ -48,6 +56,44 @@ PreferredSizeWidget employeeScreenAppBar(context) {
   );
 }
 
+/// It returns a SingleChildScrollView with a Column as its child. 
+/// 
+/// The Column has a Container with a Text widget as its child. 
+/// 
+/// The Text widget has a String as its child. 
+/// 
+/// The String is a variable. 
+/// 
+/// The variable is a parameter of the function. 
+/// 
+/// The function is a parameter of the widget. 
+/// 
+/// The widget is a parameter of the function. 
+/// 
+/// The function is a parameter of the widget. 
+/// 
+/// The widget is a parameter of the function. 
+/// 
+/// The function is a parameter of the widget. 
+/// 
+/// The widget is a parameter of the function. 
+/// 
+/// The function is a parameter of the widget. 
+/// 
+/// The widget is a parameter of the function. 
+/// 
+/// The function is a parameter of the widget. 
+/// 
+/// The widget is a parameter of the function. 
+/// 
+/// The function is a parameter of the widget.
+/// 
+/// Args:
+///   context: BuildContext
+///   role: String
+/// 
+/// Returns:
+///   A widget.
 Widget employeeScreenBody(context, role) {
   return SingleChildScrollView(
     scrollDirection: Axis.vertical,
@@ -115,6 +161,14 @@ Widget employeeScreenBody(context, role) {
 //   );
 // }
 
+/// It returns a container with a column with a row with a text and a text button, and a single child
+/// scroll view with a row with a bunch of cards.
+/// 
+/// Args:
+///   context: BuildContext
+/// 
+/// Returns:
+///   A Container widget with a Column widget as its child.
 Widget employeeScreenPopularJobs(context) {
   return Container(
     padding: EdgeInsets.symmetric(
@@ -162,6 +216,14 @@ Widget employeeScreenPopularJobs(context) {
   );
 }
 
+/// This function returns a card widget that has a gesture detector that navigates to a new page when
+/// tapped.
+/// 
+/// Args:
+///   context: BuildContext
+/// 
+/// Returns:
+///   A widget that is a container with a card inside of it.
 Widget employeeScreenPopularJobsCard(context) {
   return GestureDetector(
     onTap: () {
@@ -280,6 +342,14 @@ Widget employeeScreenPopularJobsCard(context) {
   );
 }
 
+/// It returns a container with a column inside it. The column has a row inside it. The row has a text
+/// and a text button inside it. The column also has a sized box and 5 cards inside it.
+/// 
+/// Args:
+///   context: BuildContext
+/// 
+/// Returns:
+///   A Container widget with a Column widget as its child.
 Widget employeeScreenLatestJobs(context) {
   return Container(
     margin: EdgeInsets.symmetric(
@@ -320,6 +390,15 @@ Widget employeeScreenLatestJobs(context) {
   );
 }
 
+/// It returns a GestureDetector that contains a Container that contains a Card that contains a Padding
+/// that contains a Row that contains a Column that contains a Container that contains a CircleAvatar
+/// that contains an AssetImage.
+/// 
+/// Args:
+///   context: BuildContext
+/// 
+/// Returns:
+///   A widget.
 Widget employeeScreenLatestJobsCard(context) {
   return GestureDetector(
     onTap: () {

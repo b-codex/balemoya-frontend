@@ -33,7 +33,7 @@ class LoginProvider {
 
       /// Saving the session.
       _saveSession(
-        name: loginModel.email,
+        fullName: body['fullName'],
         sessionID: body['token'],
         role: body['role'],
         userID: body['id']
@@ -65,7 +65,7 @@ class LoginProvider {
 /// Returns:
 ///   A bool;
 _saveSession({
-  required String name,
+  required String fullName,
   required String sessionID,
   required String role,
   required String userID,
@@ -74,7 +74,7 @@ _saveSession({
 
   // saving session
   var response = await sharedPreferences.saveSession(
-    name: name,
+    fullName: fullName,
     sessionID: sessionID,
     role: role,
     userID: userID,

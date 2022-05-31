@@ -5,14 +5,13 @@ import 'package:balemoya/static/widgets/snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-/// It's a drawer that has a logout button
-///
-/// Args:
-///   context: BuildContext
-///
-/// Returns:
-///   A Widget.
-Widget drawer({required String pageName, required BuildContext context}) {
+Widget drawer({
+  required String pageName,
+  required BuildContext context,
+  required String fullName,
+  String role = "",
+  required String profilePicture,
+}) {
   /// It's getting the blocs from the context.
   final homeBloc = BlocProvider.of<HomeBloc>(context);
   final profileBloc = BlocProvider.of<ProfileBloc>(context);
@@ -21,6 +20,7 @@ Widget drawer({required String pageName, required BuildContext context}) {
   return Drawer(
     child: BlocConsumer<HomeBloc, HomeState>(
       listener: (context, state) {
+        /// It's showing a snackbar and then navigating to the intro screen.
         if (state is LoggedOut) {
           animatedSnackBar(
             context: context,
@@ -49,11 +49,13 @@ Widget drawer({required String pageName, required BuildContext context}) {
                 children: [
                   CircleAvatar(
                     radius: 45,
-                    backgroundImage:
-                        AssetImage('assets/profile_picture_placeholder.png'),
+                    backgroundImage: AssetImage(
+                      'assets/profile_picture_placeholder.png',
+                    ),
                   ),
+                  SizedBox(height: 10),
                   Text(
-                    'User',
+                    '$fullName',
                     style: TextStyle(
                       fontSize: 18,
                     ),
@@ -65,12 +67,13 @@ Widget drawer({required String pageName, required BuildContext context}) {
               leading: Icon(Icons.home),
               title: Text('Home'),
               onTap: () {
-                
                 if (pageName == "home") {
                   Navigator.of(context).pop();
                 } else {
                   Navigator.of(context).pushNamedAndRemoveUntil(
-                      '/home_screen', (route) => false);
+                    '/home_screen',
+                    (route) => false,
+                  );
                 }
               },
             ),
@@ -82,20 +85,25 @@ Widget drawer({required String pageName, required BuildContext context}) {
                 profileBloc.add(LoadProfileEvent());
               },
             ),
-            ListTile(
-              leading: Icon(Icons.bookmark),
-              title: Text('Bookmarks'),
-              onTap: () {
-                Navigator.of(context).pushNamed('/bookmarks');
-              },
-            ),
-            ListTile(
-              // leading: Icon(Icons.bookmark),
-              title: Text('Create Job Post'),
-              onTap: () {
-                Navigator.of(context).pushNamed('/create_job_post');
-              },
-            ),
+            // ListTile(
+            //   leading: Icon(Icons.bookmark),
+            //   title: Text('Bookmarks'),
+            //   onTap: () {
+            //     Navigator.of(context).pushNamed('/bookmarks');
+            //   },
+            // ),
+            (() {
+              if (role == "employer") {
+                return ListTile(
+                  leading: Icon(Icons.post_add),
+                  title: Text('Create Job Post'),
+                  onTap: () {
+                    Navigator.of(context).pushNamed('/create_job_post');
+                  },
+                );
+              }
+              return SizedBox();
+            }()),
             ListTile(
               // leading: Icon(Icons.bookmark),
               title: Text('Search Results'),
