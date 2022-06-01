@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class JobDetail extends StatelessWidget {
+  /// Declaring a variable called job and assigning it a value of a map.
   final Map job;
   const JobDetail({Key? key, required this.job}) : super(key: key);
 
@@ -188,6 +189,14 @@ Widget _requirementsList() {
   );
 }
 
+/// _req() is a function that takes a job as an argument and returns a widget that displays the job's
+/// requirements
+///
+/// Args:
+///   job: is a Map&lt;String, dynamic&gt;
+///
+/// Returns:
+///   A list of jobs.
 Widget _req(job) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.center,
@@ -239,12 +248,15 @@ Widget _req(job) {
 Widget _applyButton(context, job) {
   return BlocConsumer<JobDetailBloc, JobDetailState>(
     listener: (context, state) {
+      /// Checking if the state is AppliedToJobPost, if it is, it will show a snackbar.
       if (state is AppliedToJobPost) {
         animatedSnackBar(
             context: context,
             message: "Application Sent.",
             animatedSnackBarType: AnimatedSnackBarType.success);
       }
+
+      /// Checking if the state is NotAppliedToJobPost, if it is, it will show an error message.
       if (state is NotAppliedToJobPost) {
         animatedSnackBar(
           context: context,
@@ -254,6 +266,7 @@ Widget _applyButton(context, job) {
       }
     },
     builder: (context, state) {
+      /// Checking if the role of the user is employer, if it is, it will return an empty container.
       if (job["role"] == "employer") {
         return Container();
       }
@@ -670,6 +683,16 @@ Widget _singleReview() {
   );
 }
 
+/// If the role is employer, return an empty container. Otherwise, return a form with a text field and a
+/// button
+///
+/// Args:
+///   role (String): This is the role of the user.
+///   reviewController (TextEditingController): TextEditingController()
+///   jobID (String): The ID of the job that the user is reviewing.
+///
+/// Returns:
+///   A function that returns a widget.
 Widget _reviewField({
   required String role,
   required TextEditingController reviewController,

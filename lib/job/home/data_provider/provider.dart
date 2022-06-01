@@ -27,6 +27,14 @@ class HomeProvider {
     };
   }
 
+  /// It makes a GET request to the server, and returns the response body if the request is successful
+  ///
+  /// Args:
+  ///   sessionID (List): List of two strings, the first is the user's email, the second is the user's
+  /// token.
+  ///
+  /// Returns:
+  ///   A Future Object.
   Future<Object> getJobPosts({required List sessionID}) async {
     final url = "$apiRoute/jobService/employer/jobPost";
     final response = await http.get(Uri.parse(url), headers: {

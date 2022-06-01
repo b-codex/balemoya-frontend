@@ -24,7 +24,6 @@ Widget drawer({
   required String profilePicture,
 }) {
   /// It's getting the blocs from the context.
-  final homeBloc = BlocProvider.of<HomeBloc>(context);
   final profileBloc = BlocProvider.of<ProfileBloc>(context);
 
   /// It's a drawer that has a logout button
@@ -41,6 +40,7 @@ Widget drawer({
             animatedSnackBarType: AnimatedSnackBarType.info,
           );
         }
+        /// It's showing a snackbar if the logout fails.
         if (state is LoggingOutFailed) {
           animatedSnackBar(
             context: context,

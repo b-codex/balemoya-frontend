@@ -15,9 +15,10 @@ class EmployeeProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<ProfileBloc>(context);
 
+    /// The above code is a widget that is being returned by the build method of the StatefulWidget.
     return BlocConsumer<EmployeeProfileViewBloc, EmployeeProfileViewState>(
       listener: (context, newState) {
-        
+        /// Checking if the newState is AccountReported, if it is, it will show a snackbar.
         if (newState is AccountReported) {
           animatedSnackBar(
             context: context,
@@ -25,6 +26,9 @@ class EmployeeProfileView extends StatelessWidget {
             animatedSnackBarType: AnimatedSnackBarType.success,
           );
         }
+
+        /// Checking if the newState is AccountNotReported, if it is, it will show a snackbar with the
+        /// message "Task Failed. Please Try Again."
         if (newState is AccountNotReported) {
           animatedSnackBar(
             context: context,
@@ -34,6 +38,8 @@ class EmployeeProfileView extends StatelessWidget {
         }
       },
       builder: (context, newState) {
+        /// The above code is a BlocConsumer widget. It is a widget that is used to listen to the state
+        /// of the Bloc.
         return BlocConsumer<ProfileBloc, ProfileState>(
           listener: (context, state) {
             /// Checking if the state is ProfileLoadingFailed, if it is, it will show an error message and
@@ -49,8 +55,6 @@ class EmployeeProfileView extends StatelessWidget {
             }
           },
           builder: (context, state) {
-            
-
             /// Checking if the state is ProfileInitial, if it is, then it will call the LoadProfileEvent.
             if (state is ProfileInitial) {
               bloc.add(LoadProfileEvent());
@@ -97,6 +101,7 @@ class EmployeeProfileView extends StatelessWidget {
 PreferredSizeWidget _appBar(context) {
   return AppBar(
     actions: [
+      /// Showing a dialog when the user clicks on the popup menu item.
       PopupMenuButton(
         child: Icon(Icons.more_vert),
         itemBuilder: (context) {
@@ -118,6 +123,7 @@ PreferredSizeWidget _appBar(context) {
             final TextEditingController _commentController =
                 TextEditingController();
 
+            /// The _reportDialog code is a dialog box that is used to report an account.
             var _reportDialog = AlertDialog(
               title: Text('Report Account'),
               content: Form(
@@ -175,12 +181,8 @@ PreferredSizeWidget _appBar(context) {
               actions: [
                 TextButton(
                   onPressed: () {
+                    /// Validating the form and then adding the report model to the bloc.
                     if (_formKey.currentState!.validate()) {
-                      // profileBloc.add(
-                      //   EditPortfolioEvent(
-                      //     editedText: _reasonForReportController.text.trim(),
-                      //   ),
-                      // );
                       final employeeProfileViewBloc =
                           BlocProvider.of<EmployeeProfileViewBloc>(context);
                       employeeProfileViewBloc.add(
@@ -242,32 +244,47 @@ Widget _body({required context, required ProfileModel profileModel}) {
     child: Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
+        /// Calling the _profilePicture method and passing the profileModel.profilePicture as a
+        /// parameter.
         _profilePicture(
           profilePicture: profileModel.profilePicture,
         ),
+
+        /// Calling the _fullName method and passing in the fullName and verified properties from the
+        /// profileModel.
         _fullName(
           fullName: profileModel.fullName,
           verified: profileModel.verified,
         ),
+
+        /// Calling the _location method and passing the location variable from the profileModel.
         _location(
           location: profileModel.location,
         ),
         SizedBox(height: 5),
+
+        /// Calling the _information method and passing the email and phoneNumber as parameters.
         _information(
           email: profileModel.email,
           phoneNumber: profileModel.phoneNumber,
         ),
         SizedBox(height: 5),
+
+        /// Calling a function called _previousExperience and passing in two parameters.
         _previousExperience(
           context: context,
           previousExperience: profileModel.previousExperience,
         ),
         SizedBox(height: 5),
+
+        /// Calling a function called _educationalBackground and passing in two parameters.
         _educationalBackground(
           educationalBackground: profileModel.educationalBackground,
           context: context,
         ),
         SizedBox(height: 5),
+
+        /// Calling the function _referenceSection() and passing the context as a parameter.
         _referenceSection(
           context: context,
         ),
@@ -427,6 +444,14 @@ Widget _information({required String email, required String phoneNumber}) {
   );
 }
 
+/// It takes a list of maps, and for each map, it creates a widget
+///
+/// Args:
+///   context: BuildContext
+///   previousExperience (List): List of previous experience
+///
+/// Returns:
+///   A Column widget with a Container widget and a Container widget as its children.
 Widget _previousExperience(
     {required context, required List previousExperience}) {
   return Column(
@@ -582,10 +607,15 @@ Widget _educationalBackgroundTile({
   );
 }
 
-Widget _referenceSection({
-  required context,
-}) {
-
+/// _referenceSection() is a function that returns a Column widget that contains a Container widget that
+/// contains a Row widget that contains a Text widget
+///
+/// Args:
+///   context: BuildContext
+///
+/// Returns:
+///   A Column widget with two children.
+Widget _referenceSection({required context}) {
   return Column(
     children: [
       Container(
@@ -631,6 +661,18 @@ Widget _referenceSection({
   );
 }
 
+/// _referencesTile is a function that takes in 5 required parameters and returns a Container widget
+/// with a ListTile child
+///
+/// Args:
+///   institution (String): The name of the institution
+///   startedDate (String): String
+///   endDate (String): "Present"
+///   fieldOfStudy (String): The field of study of the education.
+///   educationLevel (String): String,
+///
+/// Returns:
+///   A Container widget with a ListTile widget as a child.
 // ignore: unused_element
 Widget _referencesTile({
   required String institution,

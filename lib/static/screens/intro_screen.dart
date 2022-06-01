@@ -77,7 +77,7 @@ class IntroScreen extends StatelessWidget {
           // onSkip: () => gotoLogin(context),
           next: Icon(Icons.arrow_forward),
           dotsDecorator: getDotDecoration(),
-          
+
           globalBackgroundColor: Colors.white,
           // skipFlex: 0,
           dotsFlex: 4,
@@ -99,10 +99,10 @@ class IntroScreen extends StatelessWidget {
         (route) => false,
       );
 
-/// It returns a widget that displays an image.
-/// 
-/// Args:
-///   path (String): The path to the image file.
+  /// It returns a widget that displays an image.
+  ///
+  /// Args:
+  ///   path (String): The path to the image file.
   Widget buildImage(String path) => Center(
         child: Image.asset(
           path,
@@ -110,7 +110,7 @@ class IntroScreen extends StatelessWidget {
         ),
       );
 
-/// It returns a DotsDecorator object.
+  /// It returns a DotsDecorator object.
   DotsDecorator getDotDecoration() => DotsDecorator(
         color: Color(0xFFBDBDBD),
         activeColor: Colors.orange,
@@ -121,7 +121,7 @@ class IntroScreen extends StatelessWidget {
         ),
       );
 
-/// A function that returns a PageDecoration object.
+  /// A function that returns a PageDecoration object.
   PageDecoration getPageDecoration() => PageDecoration(
         titleTextStyle: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
         bodyTextStyle: TextStyle(fontSize: 20),

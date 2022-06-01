@@ -109,7 +109,7 @@ Widget employerScreenBody(context, role, jobs) {
         //     ),
         //   ),
         // ),
-        employerScreenPopularUsers(context),
+        
         SizedBox(
           height: 10,
         ),
@@ -303,15 +303,15 @@ Widget employerScreenPostedJobs(context, jobs, role) {
                 fontSize: 20,
               ),
             ),
-            TextButton(
-              onPressed: () {},
-              child: Text(
-                'See all',
-                style: TextStyle(
-                  fontSize: 13,
-                ),
-              ),
-            ),
+            // TextButton(
+            //   onPressed: () {},
+            //   child: Text(
+            //     'See all',
+            //     style: TextStyle(
+            //       fontSize: 13,
+            //     ),
+            //   ),
+            // ),
           ],
         ),
         SizedBox(

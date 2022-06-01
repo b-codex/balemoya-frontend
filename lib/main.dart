@@ -91,6 +91,7 @@ class MyApp extends StatelessWidget {
     createJobPostProvider: CreateJobPostProvider(),
   );
 
+/// Creating a new instance of the `JobDetailRepository` and passing the `jobDetailProvider` to it.
   final JobDetailRepository jobDetailRepository = JobDetailRepository(
     jobDetailProvider: JobDetailProvider(),
   );
@@ -164,6 +165,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
 
+        /// Creating a new instance of the `JobDetailBloc` and passing the `jobDetailRepository` to it.
         BlocProvider(
           create: (context) => JobDetailBloc(
             jobDetailRepository: jobDetailRepository,

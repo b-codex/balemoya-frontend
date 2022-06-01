@@ -3,6 +3,15 @@ import 'package:balemoya/static/variables/static_variables.dart';
 import 'package:http/http.dart' as http;
 
 class JobDetailProvider {
+  /// It takes in a model and a list of sessionID and returns a map of success or failure
+  ///
+  /// Args:
+  ///   applyJobPostModel: This is a model class that contains the data that is being sent to the server.
+  ///   sessionID (List): List of two strings, the first is the user's email, the second is the user's
+  /// token.
+  ///
+  /// Returns:
+  ///   A Map with a key of success and a value of true or false.
   Future<Object> applyToJobPost({
     required applyJobPostModel,
     required List sessionID,
@@ -32,6 +41,16 @@ class JobDetailProvider {
     }
   }
 
+  /// It takes a PostReviewModel object and a list of sessionID's and returns a map with a key of success
+  /// and a value of true or false
+  ///
+  /// Args:
+  ///   postReviewModel (PostReviewModel): This is a model that contains the review, jobID, and fullName.
+  ///   sessionID (List): List of two strings, the first is the user's email, the second is the user's
+  /// token.
+  ///
+  /// Returns:
+  ///   A map with a key of success and a value of true or false.
   Future postReview({
     required PostReviewModel postReviewModel,
     required List sessionID,

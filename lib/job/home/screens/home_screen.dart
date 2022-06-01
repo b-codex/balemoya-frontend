@@ -32,7 +32,6 @@ class HomeScreen extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        
         if (state is HomeInitial) {
           homeBloc.add(GetJobPosts());
           return Scaffold(
@@ -43,10 +42,11 @@ class HomeScreen extends StatelessWidget {
           );
         }
 
-        /// A FutureBuilder widget that is used to build widgets based on the future result.
+        /// Checking if the state is GetJobPostsSuccess. If it is, it will check if the role is an employee. If
+        /// it is, it will return the employeeScreen function. If it is not, it will return the employerScreen
+        /// function.
         if (state is GetJobPostsSuccess) {
           if (role == "employee") {
-            
             return employeeScreen(
               context: context,
               role: role,
@@ -54,7 +54,6 @@ class HomeScreen extends StatelessWidget {
               jobs: state.jobs,
             );
           } else {
-            
             return employerScreen(
               context: context,
               role: role,
@@ -63,6 +62,10 @@ class HomeScreen extends StatelessWidget {
             );
           }
         }
+
+        /// Returning a Scaffold widget with an appBar and a body. The body is a container with an
+        /// alignment of center and a button. The button has a text of "Reload" and when it is pressed,
+        /// it will call the GetJobPosts function.
         if (state is GetJobPostsFailed) {
           return Scaffold(
             appBar: AppBar(),

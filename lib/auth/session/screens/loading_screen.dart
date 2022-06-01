@@ -1,6 +1,12 @@
 import 'package:balemoya/auth/session/bloc/user_session_bloc.dart';
 import 'package:balemoya/static/widgets/snack_bar.dart';
 import 'package:flutter/material.dart';
+/// This function checks if there is a user session in the shared preference. If there is, it returns
+/// the status as true and the role of the user. If there isn't, it returns the status as false and the
+/// role as null
+/// 
+/// Returns:
+///   A map with two keys, "status" and "role".
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 

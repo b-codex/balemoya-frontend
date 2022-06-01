@@ -6,18 +6,6 @@ import 'package:balemoya/static/variables/static_variables.dart';
 
 /// > This class is a provider for the register page
 class RegisterProvider {
-  /// checks whether the user wants to register as an Individual or Organization
-  // register(type, registerModel) {
-  //   if (type == "Individual") {
-  //     registerEmployee(registerModel);
-  //   }
-  //   if (type == "Organization") {
-  //     registerOrganization(registerModel);
-  //   }
-  //   return {
-  //     'status': 404,
-  //   };
-  // }
 
   /// A variable that holds the api route.
   final String api = apiRoute;
@@ -55,6 +43,13 @@ class RegisterProvider {
     };
   }
 
+/// It takes a RegisterModel object, and sends it to the server
+/// 
+/// Args:
+///   registerModel (RegisterModel): 
+/// 
+/// Returns:
+///   A map with a status and a message.
   Future<Object> registerOrganization(RegisterModel registerModel) async {
     final String url = "$api/accountService/users/register-userCompany";
 

@@ -2,17 +2,35 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class DatePicker {
+  /// Declaring a static variable called startedDate and assigning it the value of the current date.
   static String startedDate = DateFormat('MM/dd/yyyy').format(DateTime.now());
+
+  /// Declaring a static variable called endDate and assigning it the value of the current date.
   static String endDate = DateFormat('MM/dd/yyyy').format(DateTime.now());
 
+  /// It returns the value of the variable startedDate.
+  ///
+  /// Returns:
+  ///   The value of the variable startedDate.
   static getStartedDate() {
     return startedDate;
   }
 
+  /// It returns the endDate.
+  ///
+  /// Returns:
+  ///   The endDate property of the class.
   static getEndDate() {
     return endDate;
   }
 
+  /// It returns a StatefulBuilder widget that contains a Column widget that contains a Container widget
+  /// that contains a Row widget that contains a Text widget that displays the value of the variable
+  /// startedDate
+  ///
+  /// Returns:
+  ///   A StatefulBuilder widget that contains a Column widget that contains a Container widget that
+  /// contains a Row widget that contains a Text widget.
   static returnStartedDateWidget() {
     return StatefulBuilder(
       builder: (context, setState) {
@@ -53,6 +71,13 @@ class DatePicker {
       },
     );
   }
+
+  /// It returns a StatefulBuilder widget that contains a Column widget that contains a Container widget
+  /// that contains a Row widget that contains a Text widget that displays the endDate variable
+  ///
+  /// Returns:
+  ///   A StatefulBuilder widget that contains a Column widget that contains a Container widget that
+  /// contains a Row widget that contains a Text widget.
   static returnEndDateWidget() {
     return StatefulBuilder(
       builder: (context, setState) {

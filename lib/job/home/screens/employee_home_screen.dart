@@ -252,6 +252,7 @@ Widget employeeScreenPopularJobsCard({
 }) {
   return GestureDetector(
     onTap: () {
+      /// Pushing the data to the next page.
       Navigator.of(context).pushNamed('/job_detail', arguments: {
         "id": id,
         "jobTitle": jobTitle,
@@ -420,6 +421,7 @@ Widget employeeScreenLatestJobs(context, jobs, role) {
           height: 5,
         ),
         Column(
+          /// Returning a list of widgets.
           children: jobs.map<Widget>((job) {
             final postedDate = DateFormat.yMMMMd().format(
               DateTime.parse(

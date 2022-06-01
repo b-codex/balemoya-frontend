@@ -14,6 +14,10 @@ class Bookmarks extends StatelessWidget {
   }
 }
 
+/// _appBar() returns an AppBar widget with a title of "Bookmarks" and no actions
+///
+/// Returns:
+///   A widget that is an AppBar with a title and no actions.
 PreferredSizeWidget _appBar() {
   return AppBar(
     title: Text("Bookmarks"),
@@ -22,6 +26,13 @@ PreferredSizeWidget _appBar() {
   );
 }
 
+/// It returns a Drawer widget with a DrawerHeader and a ListTile
+///
+/// Args:
+///   context: The BuildContext of the widget that is calling the method.
+///
+/// Returns:
+///   A Widget
 Widget _drawer(context) {
   return Drawer(
     child: Column(
@@ -94,6 +105,11 @@ Widget _drawer(context) {
   );
 }
 
+/// _body() returns a SingleChildScrollView that contains a Column that contains a SizedBox and 6
+/// _jobCard() widgets.
+///
+/// Returns:
+///   A widget that is a single child scroll view that contains a column of widgets.
 Widget _body() {
   return SingleChildScrollView(
     child: Column(
@@ -112,6 +128,24 @@ Widget _body() {
   );
 }
 
+/// _jobCard() returns a Container with a Card child, which has a Padding child, which has a Row child,
+/// which has a Column child, which has an Image child, which has a Column child, which has a Row child,
+/// which has a Text child, which has an IconButton child, which has an Icon child, which has a Row
+/// child, which has a Text child, which has a Padding child, which has a Row child, which has a
+/// Container child, which has a Text child, which has a Container child, which has a Text child, which
+/// has a Container child, which has a Text child.</code>
+///
+///
+///
+/// I'm trying to make a job card widget in flutter. I'm new to flutter and I'm trying to learn how to
+/// make widgets. I'm trying to make a widget that looks like this:
+///
+/// I'm trying to make a widget that looks like this:
+///
+/// I'm trying
+///
+/// Returns:
+///   A Container widget with a Card widget as a child.
 Widget _jobCard() {
   return Container(
     margin: EdgeInsets.symmetric(vertical: 1),

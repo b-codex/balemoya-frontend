@@ -23,6 +23,37 @@ PreferredSizeWidget _appBar(context) {
   return AppBar();
 }
 
+/// _body() is a function that returns a widget.
+///
+/// The widget is a SingleChildScrollView widget.
+///
+/// The SingleChildScrollView widget has a child property that takes a widget.
+///
+/// The widget is a Column widget.
+///
+/// The Column widget has a children property that takes a list of widgets.
+///
+/// The list of widgets is a list of Row widgets.
+///
+/// The Row widget has a children property that takes a list of widgets.
+///
+/// The list of widgets is a list of Container widgets.
+///
+/// The Container widget has a child property that takes a widget.
+///
+/// The widget is a RichText widget.
+///
+/// The RichText widget has a text property that takes a TextSpan widget.
+///
+/// The TextSpan widget has a children property that takes a list of widgets.
+///
+/// The list of widgets is a list of TextSpan widgets.
+///
+/// Args:
+///   context: BuildContext
+///
+/// Returns:
+///   A list of widgets.
 Widget _body(context) {
   return SingleChildScrollView(
     scrollDirection: Axis.vertical,
@@ -86,6 +117,13 @@ Widget _body(context) {
   );
 }
 
+/// It returns a container with a column of 4 cards.
+///
+/// Args:
+///   context: BuildContext
+///
+/// Returns:
+///   A list of cards.
 Widget _results(context) {
   return Container(
     margin: EdgeInsets.symmetric(
@@ -143,6 +181,24 @@ Widget _results(context) {
   );
 }
 
+/// _resultsCard() is a function that returns a GestureDetector widget that contains a Container widget
+/// that contains a Card widget that contains a Padding widget that contains a Row widget that contains
+/// a Column widget that contains a Container widget that contains a CircleAvatar widget that contains
+/// an AssetImage widget.
+///
+/// Args:
+///   context: BuildContext
+///   jobTitle (String): String
+///   companyName (String): String
+///   jobType (String): Full Time, Part Time, Contract, Internship, Temporary
+///   salary (String): '$1000',
+///   postedDate (String): String
+///   experience (String): String
+///   location (String): String,
+///   companyLogo (String): String
+///
+/// Returns:
+///   A list of widgets.
 Widget _resultsCard({
   required context,
   required String jobTitle,
@@ -286,6 +342,22 @@ Widget _resultsCard({
   );
 }
 
+/// `buildCard` is a function that takes in a bunch of required parameters and returns a `Container`
+/// widget with a `Column` child
+///
+/// Args:
+///   title (String): The title of the job.
+///   jobPosition (String): The job position of the job.
+///   salary (String): String
+///   company (String): String
+///   companyLogo (String):
+/// https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png
+///   location (String): "Addis Ababa, Ethiopia"
+///   date (String): String
+///   experience (String): String
+///
+/// Returns:
+///   A Container widget with a Column widget as its child.
 Widget buildCard({
   required String title,
   required String jobPosition,
@@ -373,6 +445,13 @@ Widget buildCard({
   );
 }
 
+/// It returns a Container with a Text child
+///
+/// Args:
+///   text (String): The text to display in the chip.
+///
+/// Returns:
+///   A Container widget with a Text widget as a child.
 Widget buildChips(String text) {
   return Container(
     padding: const EdgeInsets.symmetric(

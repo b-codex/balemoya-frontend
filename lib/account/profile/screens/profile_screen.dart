@@ -18,8 +18,6 @@ class ProfileScreen extends StatelessWidget {
 
     return BlocConsumer<ProfileBloc, ProfileState>(
       listener: (context, state) {
-        
-
         /// Checking if the state is ProfileLoadingFailed, if it is, it will show an error message and
         /// navigate to the home screen.
         if (state is ProfileLoadingFailed) {
@@ -178,6 +176,8 @@ class ProfileScreen extends StatelessWidget {
           );
         }
 
+        /// Checking if the state is ReferenceAdded, if it is, it will show a snackbar with the message
+        /// "Reference Added." and then it will add a LoadProfileEvent to the bloc.
         if (state is ReferenceAdded) {
           animatedSnackBar(
             context: context,
@@ -186,13 +186,15 @@ class ProfileScreen extends StatelessWidget {
           );
           bloc.add(LoadProfileEvent());
         }
+
+        /// Checking if the state is ReferenceNotAdded, if it is, then it will show a snackbar with the
+        /// message "Reference Not Added."
         if (state is ReferenceNotAdded) {
           animatedSnackBar(
             context: context,
             message: "Reference Not Added.",
             animatedSnackBarType: AnimatedSnackBarType.error,
           );
-          // bloc.add(LoadProfileEvent());
         }
       },
       builder: (context, state) {
@@ -241,6 +243,7 @@ PreferredSizeWidget _appBar(context) {
   final profileBloc = BlocProvider.of<ProfileBloc>(context);
   return AppBar(
     actions: [
+      /// The above code is showing a popup menu button with a list of options.
       PopupMenuButton(
         child: Icon(Icons.more_vert),
         itemBuilder: (context) {
@@ -290,6 +293,7 @@ PreferredSizeWidget _appBar(context) {
           ];
         },
         onSelected: (clicked) async {
+          /// Calling the _changeProfilePicture() function and then returning the value as a Map.
           if (clicked == 'Change Profile Picture') {
             final _filePath = await _changeProfilePicture().then(
               (value) {
@@ -297,6 +301,8 @@ PreferredSizeWidget _appBar(context) {
               },
             );
 
+            /// Checking if the file path is not null and if it is not null then it is adding the file
+            /// path to the profileBloc.
             if (_filePath['chosen'] == true) {
               profileBloc.add(
                 ChangeProfilePictureEvent(
@@ -308,6 +314,7 @@ PreferredSizeWidget _appBar(context) {
 
           if (clicked == 'Resume Builder') {}
 
+          /// Uploading a file to the server.
           if (clicked == 'Upload CV') {
             final _filePath = await _uploadCV().then(
               (value) {
@@ -323,10 +330,13 @@ PreferredSizeWidget _appBar(context) {
               );
             }
           }
+
+          /// Checking if the button is clicked, if it is, it will navigate to the reset password page.
           if (clicked == 'Reset Password') {
             Navigator.of(context).pushNamed('/reset_password');
           }
 
+          /// Uploading a file.
           if (clicked == 'Request Verification') {
             animatedSnackBar(
               context: context,
@@ -352,6 +362,7 @@ PreferredSizeWidget _appBar(context) {
             );
           }
 
+          /// Showing an alert dialog when the user clicks on the delete account button.
           if (clicked == 'Delete Account') {
             var _alertDialog = AlertDialog(
               title: Text('Confirm'),
@@ -401,18 +412,44 @@ Widget _body({required context, required ProfileModel profileModel}) {
     child: Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        _profilePicture(profilePicture: profileModel.profilePicture),
+        /// Calling a function called _profilePicture and passing in a parameter called profilePicture.
+        _profilePicture(
+          profilePicture: profileModel.profilePicture,
+        ),
+
+        /// Calling the _fullName method and passing the fullName and verified parameters.
         _fullName(
-            fullName: profileModel.fullName, verified: profileModel.verified),
-        _location(location: profileModel.location),
+          fullName: profileModel.fullName,
+          verified: profileModel.verified,
+        ),
+
+        /// Calling the _location method and passing the location variable from the profileModel.
+        _location(
+          location: profileModel.location,
+        ),
+
+        /// Calling the _information method and passing the email and phoneNumber as parameters.
         _information(
-            email: profileModel.email, phoneNumber: profileModel.phoneNumber),
-        _portfolio(context, profileModel.portfolio),
-        // _uploadCV(),
+          /// Calling the _portfolio function and passing the context and profileModel.portfolio as
+          /// parameters.
+          email: profileModel.email,
+          phoneNumber: profileModel.phoneNumber,
+        ),
+
+        /// Calling the _portfolio function and passing the context and profileModel.portfolio as
+        /// parameters.
+        _portfolio(
+          context,
+          profileModel.portfolio,
+        ),
+
+        /// Calling a function called _previousExperience and passing in two parameters.
         _previousExperience(
           context: context,
           previousExperience: profileModel.previousExperience,
         ),
+
+        /// Calling a function called _educationalBackground and passing in two parameters.
         _educationalBackground(
           educationalBackground: profileModel.educationalBackground,
           context: context,
@@ -757,6 +794,18 @@ Future<Object> _changeProfilePicture() async {
   }
 }
 
+/// It returns a column widget with a container widget that has a row widget with a text widget and an
+/// icon button widget. The icon button widget has an onPressed function that returns an alert dialog
+/// widget. The alert dialog widget has a title, a content, and actions. The content has a form widget
+/// with a single child scroll view widget. The single child scroll view widget has a column widget with
+/// text form fields, sized boxes, and date picker widgets. The actions have text button widgets
+///
+/// Args:
+///   context: BuildContext
+///   previousExperience (List): List of previous experience
+///
+/// Returns:
+///   A Column widget with a Container widget and a Container widget.
 Widget _previousExperience(
     {required context, required List previousExperience}) {
   final profileBloc = BlocProvider.of<ProfileBloc>(context);
@@ -1115,7 +1164,6 @@ Widget _educationalBackground({
           mainAxisAlignment: MainAxisAlignment.start,
           children: educationalBackground.map(
             (value) {
-
               return _educationalBackgroundTile(
                 institution: value["institution"],
                 startedDate: value["startedDate"],
@@ -1186,6 +1234,15 @@ Future<Object> _uploadVerificationDocument() async {
   }
 }
 
+/// _referenceSection() is a function that returns a Column widget that contains a Container widget that
+/// contains a Row widget that contains a Text widget and an IconButton widget that contains an Icon
+/// widget
+///
+/// Args:
+///   context: BuildContext
+///
+/// Returns:
+///   A Column widget with two children.
 Widget _referenceSection({
   required context,
 }) {
@@ -1334,6 +1391,18 @@ Widget _referenceSection({
   );
 }
 
+/// _referencesTile is a function that takes in 5 required parameters and returns a Container widget
+/// with a ListTile child
+///
+/// Args:
+///   institution (String): The name of the institution
+///   startedDate (String): String
+///   endDate (String): "2020-01-01"
+///   fieldOfStudy (String): The field of study of the education.
+///   educationLevel (String): String,
+///
+/// Returns:
+///   A Container widget with a ListTile widget as a child.
 // ignore: unused_element
 Widget _referencesTile({
   required String institution,

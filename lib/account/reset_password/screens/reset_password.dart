@@ -45,8 +45,6 @@ Widget _body(context) {
 
   return BlocConsumer<ResetPasswordBloc, ResetPasswordState>(
     listener: (context, state) {
-      
-
       /// Showing a snackbar and an alert dialog when the password reset is successful.
       if (state is PasswordResetSuccess) {
         animatedSnackBar(
@@ -121,6 +119,8 @@ Widget _body(context) {
                   ],
                 ),
               ),
+
+              /// It's a function that returns a Container widget that contains a _formField widget
               _fullName(_fullNameController),
               _email(_emailController),
               _phone(_phoneNumberController),

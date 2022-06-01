@@ -39,13 +39,14 @@ class RouteManager {
     // ignore: unused_local_variable
     late var values;
 
+    /// It's checking if the route has arguments or not.
     if (settings.arguments != null) {
       values = settings.arguments as Map<String, dynamic>;
     }
-    if (settings.arguments == null) {
-      
-    }
+    if (settings.arguments == null) {}
 
+    /// It's a switch statement that checks the value of settings.name and returns a MaterialPageRoute
+    /// with a builder function that returns a widget.
     switch (settings.name) {
       case intro_screen:
         return MaterialPageRoute(

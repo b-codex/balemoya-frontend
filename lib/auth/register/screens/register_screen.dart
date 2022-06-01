@@ -32,6 +32,8 @@ class RegisterScreen extends StatelessWidget {
       ),
       body: BlocConsumer<RegisterBloc, RegisterState>(
         listener: (context, state) async {
+          /// Checking if the state is RegisterFailed, if it is, it will show a snackbar with the
+          /// message.
           if (state is RegisterFailed) {
             animatedSnackBar(
               context: context,
@@ -39,6 +41,9 @@ class RegisterScreen extends StatelessWidget {
               animatedSnackBarType: AnimatedSnackBarType.error,
             );
           }
+
+          /// Showing a snackbar with a message and then after 1 second it is showing another snackbar
+          /// with another message and then it is navigating to the login page.
           if (state is RegisterSuccess) {
             animatedSnackBar(
               context: context,
@@ -112,6 +117,8 @@ class RegisterScreen extends StatelessWidget {
                                     _dropdownValue = newValue;
                                   },
 
+                                  /// Creating a list of DropdownMenuItem<String> and then converting it
+                                  /// to a list.
                                   items: <String>['Individual', 'Organization']
                                       .map<DropdownMenuItem<String>>(
                                     (String value) {
@@ -142,6 +149,7 @@ class RegisterScreen extends StatelessWidget {
                                   _dropdownValue = newValue;
                                 },
 
+                                /// Creating a list of dropdown items.
                                 items: <String>['Individual', 'Organization']
                                     .map<DropdownMenuItem<String>>(
                                   (String value) {
@@ -156,6 +164,11 @@ class RegisterScreen extends StatelessWidget {
                           ),
                         ],
                       ),
+
+                      /// A BlocBuilder which is a Flutter widget that requires a Bloc and a builder
+                      /// function. BlocBuilder handles building the widget in response to new states.
+                      /// BlocBuilder is very similar to StreamBuilder but has a more simple API to
+                      /// reduce the amount of boilerplate code needed.
                       BlocBuilder<RegisterBloc, RegisterState>(
                         builder: ((context, state) {
                           if (state is Loading) {
@@ -223,6 +236,11 @@ class RegisterScreen extends StatelessWidget {
   }
 }
 
+/// _registerImageAndText() returns a Container widget that contains a Column widget that contains a
+/// Container widget that contains an Image widget and a Text widget.
+/// 
+/// Returns:
+///   A widget that is a container with a column inside of it.
 Widget _registerImageAndText() {
   return Container(
     margin: EdgeInsets.only(
@@ -250,6 +268,13 @@ Widget _registerImageAndText() {
   );
 }
 
+/// _fullname is a function that returns a Container widget that contains a _formField widget.
+/// 
+/// Args:
+///   _fullnameController: The controller for the textField
+/// 
+/// Returns:
+///   A Container widget with a child of a _formField widget.
 Widget _fullname(_fullnameController) {
   return Container(
     margin: EdgeInsets.symmetric(vertical: 5),
@@ -264,20 +289,13 @@ Widget _fullname(_fullnameController) {
   );
 }
 
-// Widget _username(_usernameController) {
-//   return Container(
-//     margin: EdgeInsets.symmetric(vertical: 5),
-//     child: _formField(
-//       _usernameController,
-//       "Username",
-//       Icon(Icons.alternate_email),
-//       false,
-//       TextInputType.text,
-//       1,
-//     ),
-//   );
-// }
-
+/// _location is a function that takes a controller as an argument and returns a widget.
+/// 
+/// Args:
+///   _locationController: TextEditingController
+/// 
+/// Returns:
+///   A Container widget with a child of a _formField widget.
 Widget _location(_locationController) {
   return Container(
     margin: EdgeInsets.symmetric(vertical: 5),
@@ -292,6 +310,13 @@ Widget _location(_locationController) {
   );
 }
 
+/// _description is a function that returns a Container widget that contains a _formField widget.
+/// 
+/// Args:
+///   _descriptionController: TextEditingController
+/// 
+/// Returns:
+///   A Container widget with a child of a _formField widget.
 Widget _description(_descriptionController) {
   return Container(
     margin: EdgeInsets.symmetric(vertical: 5),
@@ -306,6 +331,13 @@ Widget _description(_descriptionController) {
   );
 }
 
+/// _email is a function that returns a Container widget that contains a _formField widget.
+/// 
+/// Args:
+///   _emailController: The controller for the TextField
+/// 
+/// Returns:
+///   A Container widget with a margin of 5 pixels on all sides.
 Widget _email(_emailController) {
   return Container(
     margin: EdgeInsets.symmetric(vertical: 5),
@@ -320,6 +352,13 @@ Widget _email(_emailController) {
   );
 }
 
+/// _phone() is a function that returns a Container widget that contains a _formField() widget.
+/// 
+/// Args:
+///   _phoneController: TextEditingController
+/// 
+/// Returns:
+///   A Container widget with a child of a _formField widget.
 Widget _phone(_phoneController) {
   return Container(
       margin: EdgeInsets.symmetric(vertical: 5),
@@ -333,6 +372,13 @@ Widget _phone(_phoneController) {
       ));
 }
 
+/// _password() is a function that returns a Container widget that contains a _formField() widget.
+/// 
+/// Args:
+///   _passwordController: The controller for the text field
+/// 
+/// Returns:
+///   A Container widget with a child of a _formField widget.
 Widget _password(_passwordController) {
   return Container(
     margin: EdgeInsets.symmetric(vertical: 5),
@@ -347,8 +393,26 @@ Widget _password(_passwordController) {
   );
 }
 
-Widget _formField(_controller, _formLabel, _prefixIcon, _obscureText,
-    _textInputType, _maxLines) {
+/// It returns a TextFormField widget.
+/// 
+/// Args:
+///   _controller: TextEditingController
+///   _formLabel: The label of the form field.
+///   _prefixIcon: Icon(Icons.email)
+///   _obscureText: true/false
+///   _textInputType: TextInputType.text,
+///   _maxLines: This is the number of lines the text field will have.
+/// 
+/// Returns:
+///   A TextFormField widget.
+Widget _formField(
+  _controller,
+  _formLabel,
+  _prefixIcon,
+  _obscureText,
+  _textInputType,
+  _maxLines,
+) {
   return TextFormField(
     controller: _controller,
     keyboardType: _textInputType,
@@ -371,6 +435,10 @@ Widget _formField(_controller, _formLabel, _prefixIcon, _obscureText,
   );
 }
 
+/// It returns a loading indicator widget.
+///
+/// Returns:
+///   A widget.
 loading() {
   return const LoadingIndicator(
       indicatorType: Indicator.ballPulseSync,
