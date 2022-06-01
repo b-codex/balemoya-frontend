@@ -36,7 +36,6 @@ PreferredSizeWidget employeeScreenAppBar(context) {
             choiceChipLabel: (category) => category!.category,
             validateSelectedItem: (list, val) => list!.contains(val),
             onItemSearch: (category, query) {
-              // print(query);
               queryString = query;
               return true;
               // return category.category!
@@ -46,7 +45,6 @@ PreferredSizeWidget employeeScreenAppBar(context) {
             onApplyButtonClick: (list) {
               selectedUserList = List.from(list!);
               selectedUserList.forEach((c) => print(c.category));
-              print(queryString);
               Navigator.pop(context);
             },
           );
@@ -95,25 +93,25 @@ PreferredSizeWidget employeeScreenAppBar(context) {
 ///
 /// Returns:
 ///   A widget.
-Widget employeeScreenBody(context, role, fullName, jobs) {
+Widget employeeScreenBody(context, role, jobs) {
   return SingleChildScrollView(
     scrollDirection: Axis.vertical,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          margin: EdgeInsets.only(
-            top: 15,
-            left: 8,
-          ),
-          child: Text(
-            'Hey "$fullName",',
-            textAlign: TextAlign.left,
-            style: TextStyle(
-              fontSize: 24,
-            ),
-          ),
-        ),
+        // Container(
+        //   margin: EdgeInsets.only(
+        //     top: 15,
+        //     left: 8,
+        //   ),
+        //   child: Text(
+        //     'Hey "$fullName",',
+        //     textAlign: TextAlign.left,
+        //     style: TextStyle(
+        //       fontSize: 24,
+        //     ),
+        //   ),
+        // ),
         // Container(
         //   margin: EdgeInsets.only(
         //     top: 15,
@@ -123,11 +121,11 @@ Widget employeeScreenBody(context, role, fullName, jobs) {
         //   ),
         //   child: employeeScreenSearchField(context),
         // ),
-        employeeScreenPopularJobs(context, jobs),
+        employeeScreenPopularJobs(context, jobs, role),
         SizedBox(
           height: 10,
         ),
-        employeeScreenLatestJobs(context, jobs),
+        employeeScreenLatestJobs(context, jobs, role),
       ],
     ),
   );
@@ -151,11 +149,9 @@ Widget employeeScreenBody(context, role, fullName, jobs) {
 //           ),
 //         ),
 //         validator: (value) {
-//           // print(value);
 //           return '';
 //         },
 //         onChanged: (value) {
-//           // print(value);
 //         },
 //       ),
 //     ),
@@ -170,7 +166,7 @@ Widget employeeScreenBody(context, role, fullName, jobs) {
 ///
 /// Returns:
 ///   A Container widget with a Column widget as its child.
-Widget employeeScreenPopularJobs(context, jobs) {
+Widget employeeScreenPopularJobs(context, jobs, role) {
   return Container(
     padding: EdgeInsets.symmetric(
       horizontal: 8,
@@ -220,6 +216,7 @@ Widget employeeScreenPopularJobs(context, jobs) {
                 location: job["location"],
                 requirements: job["requirements"],
                 postedDate: postedDate,
+                role: role,
               );
             }).toList(),
           ),
@@ -251,6 +248,7 @@ Widget employeeScreenPopularJobsCard({
   required String location,
   required String requirements,
   required String postedDate,
+  required String role,
 }) {
   return GestureDetector(
     onTap: () {
@@ -267,6 +265,7 @@ Widget employeeScreenPopularJobsCard({
         "tag": tag,
         "requirements": requirements,
         "postedDate": postedDate,
+        "role": role,
       });
     },
     child: Container(
@@ -390,7 +389,7 @@ Widget employeeScreenPopularJobsCard({
 ///
 /// Returns:
 ///   A Container widget with a Column widget as its child.
-Widget employeeScreenLatestJobs(context, jobs) {
+Widget employeeScreenLatestJobs(context, jobs, role) {
   return Container(
     margin: EdgeInsets.symmetric(
       horizontal: 7,
@@ -428,7 +427,6 @@ Widget employeeScreenLatestJobs(context, jobs) {
               ),
             );
 
-            // print(postedDate);
             return employeeScreenLatestJobsCard(
               context: context,
               id: job['_id'],
@@ -443,6 +441,7 @@ Widget employeeScreenLatestJobs(context, jobs) {
               tag: job['tag'],
               requirements: job['requirements'],
               postedDate: postedDate,
+              role: role,
             );
           }).toList(),
         ),
@@ -474,6 +473,7 @@ Widget employeeScreenLatestJobsCard({
   required String location,
   required String requirements,
   required String postedDate,
+  required String role,
 }) {
   return GestureDetector(
     onTap: () {
@@ -490,6 +490,7 @@ Widget employeeScreenLatestJobsCard({
         "tag": tag,
         "requirements": requirements,
         "postedDate": postedDate,
+        "role": role,
       });
     },
     child: Container(

@@ -11,3 +11,11 @@ class ApplyJobPostModel {
     required this.jobID,
   });
 }
+
+class PostReviewModel {
+  final String fullName;
+  final String review;
+  final String jobID;
+
+  PostReviewModel({required this.fullName, required this.review, required this.jobID});
+}

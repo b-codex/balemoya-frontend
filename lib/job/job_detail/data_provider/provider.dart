@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 class JobDetailProvider {
   Future<Object> applyToJobPost({
-    required ApplyJobPostModel applyJobPostModel,
+    required applyJobPostModel,
     required List sessionID,
   }) async {
     final url =
@@ -21,8 +21,34 @@ class JobDetailProvider {
         'Authorization': 'Bearer ${sessionID[1]}'
       },
     );
-    print(response.statusCode);
-    print(response.body);
+    if (response.statusCode == 200) {
+      return {
+        "success": true,
+      };
+    } else {
+      return {
+        "success": false,
+      };
+    }
+  }
+
+  Future postReview({
+    required PostReviewModel postReviewModel,
+    required List sessionID,
+  }) async {
+    final url =
+        "$apiRoute/accountService/users/reviews/reviews/${postReviewModel.jobID}";
+    final response = await http.post(
+      Uri.parse(url),
+      body: {
+        "comment": postReviewModel.review,
+        "fullName": postReviewModel.fullName,
+      },
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': 'Bearer ${sessionID[1]}'
+      },
+    );
     if (response.statusCode == 200) {
       return {
         "success": true,

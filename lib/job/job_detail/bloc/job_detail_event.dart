@@ -8,3 +8,9 @@ class ApplyToJobPostEvent extends JobDetailEvent {
 
   ApplyToJobPostEvent({required this.applyJobPostModel});
 }
+
+class PostReviewEvent extends JobDetailEvent {
+  final PostReviewModel postReviewModel;
+
+  PostReviewEvent({required this.postReviewModel});
+}

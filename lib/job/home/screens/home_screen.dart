@@ -9,13 +9,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  final String role;
+  const HomeScreen({Key? key, required this.role}) : super(key: key);
   static const routeName = '/home_screen';
 
   @override
   Widget build(BuildContext context) {
-    late String role = "";
-    late String fullName = "";
+    // late String role = "";
 
     final homeBloc = BlocProvider.of<HomeBloc>(context);
 
@@ -32,19 +32,36 @@ class HomeScreen extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        print(state);
+        
         if (state is HomeInitial) {
           homeBloc.add(GetJobPosts());
+          return Scaffold(
+            appBar: AppBar(),
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
         }
 
         /// A FutureBuilder widget that is used to build widgets based on the future result.
         if (state is GetJobPostsSuccess) {
-          return futureBuilder(
-            context: context,
-            role: role,
-            fullName: fullName,
-            jobs: state.jobs,
-          );
+          if (role == "employee") {
+            
+            return employeeScreen(
+              context: context,
+              role: role,
+              profilePicture: "profilePicture",
+              jobs: state.jobs,
+            );
+          } else {
+            
+            return employerScreen(
+              context: context,
+              role: role,
+              profilePicture: 'profilePicture',
+              jobs: state.jobs,
+            );
+          }
         }
         if (state is GetJobPostsFailed) {
           return Scaffold(
@@ -80,7 +97,6 @@ class HomeScreen extends StatelessWidget {
 Widget employeeScreen({
   required BuildContext context,
   required String role,
-  required String fullName,
   required String profilePicture,
   required List jobs,
 }) {
@@ -89,11 +105,10 @@ Widget employeeScreen({
     drawer: drawer(
       context: context,
       pageName: "home",
-      fullName: fullName,
       profilePicture: profilePicture,
       role: role,
     ),
-    body: employeeScreenBody(context, role, fullName, jobs),
+    body: employeeScreenBody(context, role, jobs),
   );
 }
 
@@ -108,7 +123,6 @@ Widget employeeScreen({
 Widget employerScreen({
   required BuildContext context,
   required String role,
-  required String fullName,
   required String profilePicture,
   required List jobs,
 }) {
@@ -117,11 +131,10 @@ Widget employerScreen({
     drawer: drawer(
       context: context,
       pageName: "home",
-      fullName: fullName,
       role: role,
       profilePicture: profilePicture,
     ),
-    body: employerScreenBody(context, role, fullName, jobs),
+    body: employerScreenBody(context, role, jobs),
   );
 }
 
@@ -137,7 +150,6 @@ Widget employerScreen({
 Widget futureBuilder({
   required context,
   required String role,
-  required String fullName,
   required List jobs,
 }) {
   /// It gets the role of the user from the shared preferences and returns it
@@ -150,7 +162,7 @@ Widget futureBuilder({
       return value;
     });
     role = data[2];
-    fullName = data[0];
+    // fullName = data[0];
     return role;
   }
 
@@ -192,19 +204,13 @@ Widget futureBuilder({
       /// function.
       if (role == "employee") {
         return employeeScreen(
-          context: context,
-          role: role,
-          fullName: fullName,
-          profilePicture: "",
-          jobs: jobs
-        );
+            context: context, role: role, profilePicture: "", jobs: jobs);
       }
 
       /// else, meaning if it is an employer role
       return employerScreen(
         context: context,
         role: role,
-        fullName: fullName,
         profilePicture: "",
         jobs: jobs,
       );

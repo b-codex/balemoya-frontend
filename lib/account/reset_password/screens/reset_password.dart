@@ -1,7 +1,6 @@
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:balemoya/account/reset_password/bloc/reset_password_bloc.dart';
 import 'package:balemoya/account/reset_password/models/models.dart';
-import 'package:balemoya/auth/login/screens/login_screen.dart';
 import 'package:balemoya/static/widgets/snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,7 +19,7 @@ class ResetPassword extends StatelessWidget {
 }
 
 /// _appBar() returns an AppBar widget with a title of "Reset Password" and the title centered
-/// 
+///
 /// Returns:
 ///   A widget that is an AppBar with a title and centerTitle set to true.
 PreferredSizeWidget _appBar() {
@@ -32,10 +31,10 @@ PreferredSizeWidget _appBar() {
 
 /// It's a BlocConsumer that listens to the ResetPasswordBloc and shows a snackbar and an alert dialog
 /// when the password reset is successful. It also shows a snackbar when the password reset fails
-/// 
+///
 /// Args:
 ///   context: The BuildContext of the widget.
-/// 
+///
 /// Returns:
 ///   A BlocConsumer widget.
 Widget _body(context) {
@@ -46,7 +45,8 @@ Widget _body(context) {
 
   return BlocConsumer<ResetPasswordBloc, ResetPasswordState>(
     listener: (context, state) {
-      print(state);
+      
+
       /// Showing a snackbar and an alert dialog when the password reset is successful.
       if (state is PasswordResetSuccess) {
         animatedSnackBar(

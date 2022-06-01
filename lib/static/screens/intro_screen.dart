@@ -77,7 +77,7 @@ class IntroScreen extends StatelessWidget {
           // onSkip: () => gotoLogin(context),
           next: Icon(Icons.arrow_forward),
           dotsDecorator: getDotDecoration(),
-          // onChange: (index) => print('Page $index selected'),
+          
           globalBackgroundColor: Colors.white,
           // skipFlex: 0,
           dotsFlex: 4,

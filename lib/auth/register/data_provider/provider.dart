@@ -41,7 +41,7 @@ class RegisterProvider {
     );
 
     final body = jsonDecode(response.body) as Map;
-    // print(body['message']);
+
 
     if (body['success']) {
       return {
@@ -70,7 +70,6 @@ class RegisterProvider {
       },
     );
     final body = jsonDecode(response.body) as Map;
-    // print(body);
     if (body['success']) {
       return {
         'status': 200,

@@ -31,32 +31,7 @@ class JobDetail extends StatelessWidget {
 /// Returns:
 ///   A Column widget with two children.
 Widget _body(context, job) {
-  List reviews = [
-    0,
-    1,
-    2,
-    3,
-    4,
-    5,
-    3,
-    4,
-    5,
-    3,
-    4,
-    5,
-    3,
-    4,
-    5,
-    3,
-    4,
-    5,
-    3,
-    4,
-    5,
-    3,
-    4,
-    5
-  ];
+  List reviews = [];
   return Column(
     mainAxisSize: MainAxisSize.min,
     children: [
@@ -65,7 +40,7 @@ Widget _body(context, job) {
       // _tabBar(context),
       _req(job),
 
-      _reviewSection(reviews: reviews),
+      _reviewSection(reviews: reviews, role: job['role'], jobID: job['id']),
       _applyButton(context, job),
     ],
   );
@@ -107,6 +82,7 @@ Widget _header(context, job) {
 /// Returns:
 ///   A DefaultTabController with a Container with a Column with a TabBar and an Expanded with a
 /// TabBarView.
+// ignore: unused_element
 Widget _tabBar(context) {
   return DefaultTabController(
     length: 2,
@@ -260,7 +236,7 @@ Widget _req(job) {
 ///
 /// Returns:
 ///   A Container widget with a child of an ElevatedButton widget.
-Widget _applyButton(context, jobs) {
+Widget _applyButton(context, job) {
   return BlocConsumer<JobDetailBloc, JobDetailState>(
     listener: (context, state) {
       if (state is AppliedToJobPost) {
@@ -278,6 +254,9 @@ Widget _applyButton(context, jobs) {
       }
     },
     builder: (context, state) {
+      if (job["role"] == "employer") {
+        return Container();
+      }
       return Container(
         margin: EdgeInsets.symmetric(
           vertical: 10,
@@ -300,67 +279,69 @@ Widget _applyButton(context, jobs) {
               title: Text('Confirm Your Information...'),
               content: Form(
                 key: _formKey,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    TextFormField(
-                      controller: _emailController,
-                      decoration: InputDecoration(
-                        label: Text("Email"),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextFormField(
+                        controller: _emailController,
+                        decoration: InputDecoration(
+                          label: Text("Email"),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
                         ),
+                        // maxLines: null,
+                        keyboardType: TextInputType.emailAddress,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Field can\'t be empty.';
+                          } else {
+                            return null;
+                          }
+                        },
                       ),
-                      // maxLines: null,
-                      keyboardType: TextInputType.emailAddress,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Field can\'t be empty.';
-                        } else {
-                          return null;
-                        }
-                      },
-                    ),
-                    SizedBox(height: 9),
-                    TextFormField(
-                      controller: _phoneNumberController,
-                      decoration: InputDecoration(
-                        label: Text("Phone Number"),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
+                      SizedBox(height: 9),
+                      TextFormField(
+                        controller: _phoneNumberController,
+                        decoration: InputDecoration(
+                          label: Text("Phone Number"),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
                         ),
+                        // maxLines: null,
+                        keyboardType: TextInputType.phone,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Field can\'t be empty.';
+                          } else {
+                            return null;
+                          }
+                        },
                       ),
-                      // maxLines: null,
-                      keyboardType: TextInputType.phone,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Field can\'t be empty.';
-                        } else {
-                          return null;
-                        }
-                      },
-                    ),
-                    SizedBox(height: 9),
-                    TextFormField(
-                      controller: _messageController,
-                      decoration: InputDecoration(
-                        label: Text("Message"),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
+                      SizedBox(height: 9),
+                      TextFormField(
+                        controller: _messageController,
+                        decoration: InputDecoration(
+                          label: Text("Message"),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
                         ),
+                        // maxLines: null,
+                        keyboardType: TextInputType.text,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Field can\'t be empty.';
+                          } else {
+                            return null;
+                          }
+                        },
                       ),
-                      // maxLines: null,
-                      keyboardType: TextInputType.text,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Field can\'t be empty.';
-                        } else {
-                          return null;
-                        }
-                      },
-                    ),
-                    SizedBox(height: 9),
-                  ],
+                      SizedBox(height: 9),
+                    ],
+                  ),
                 ),
               ),
               actions: [
@@ -374,11 +355,10 @@ Widget _applyButton(context, jobs) {
                       jobDetailBloc.add(
                         ApplyToJobPostEvent(
                           applyJobPostModel: ApplyJobPostModel(
-                            email: _emailController.text.trim(),
-                            phoneNumber: _phoneNumberController.text.trim(),
-                            text: _messageController.text.trim(),
-                            jobID: jobs['id']
-                          ),
+                              email: _emailController.text.trim(),
+                              phoneNumber: _phoneNumberController.text.trim(),
+                              text: _messageController.text.trim(),
+                              jobID: job['id']),
                         ),
                       );
                     }
@@ -495,7 +475,7 @@ Widget _info(job) {
         children: [
           // _pill(text: "${job['jobType']}"),
           // _pill(text: "${job['salary']}"),
-          _pill(text: "${job['tag']}"),
+          _pill(text: "${job['tag'][0]}"),
           _pill(text: "Company Size: ${job['companySize']}"),
         ],
       ),
@@ -620,7 +600,11 @@ Widget _shortDescription(job) {
 ///
 /// Returns:
 ///   A SizedBox with a ListView.builder inside of it.
-Widget _reviewSection({required List reviews}) {
+Widget _reviewSection({
+  required List reviews,
+  required String role,
+  required String jobID,
+}) {
   // return Builder(builder: (context) {
   //   return SizedBox(
   //     height: MediaQuery.of(context).size.height * 0.5,
@@ -631,6 +615,8 @@ Widget _reviewSection({required List reviews}) {
   //     ),
   //   );
   // });
+
+  TextEditingController _reviewController = TextEditingController();
 
   return Expanded(
     child: Container(
@@ -649,6 +635,8 @@ Widget _reviewSection({required List reviews}) {
                 style: TextStyle(fontSize: 20),
               ),
             ),
+            _reviewField(
+                role: role, reviewController: _reviewController, jobID: jobID),
             Column(
               children: reviews.map<Widget>((review) {
                 return _singleReview();
@@ -678,6 +666,69 @@ Widget _singleReview() {
       ),
       title: Text("Name"),
       subtitle: Text("Comment Here..."),
+    ),
+  );
+}
+
+Widget _reviewField({
+  required String role,
+  required TextEditingController reviewController,
+  required String jobID,
+}) {
+  if (role == "employer") {
+    return Container();
+  }
+
+  final _formKey = GlobalKey<FormState>();
+  return Form(
+    key: _formKey,
+    child: Container(
+      margin: EdgeInsets.symmetric(horizontal: 15),
+      child: Column(
+        children: [
+          TextFormField(
+            controller: reviewController,
+            decoration: InputDecoration(
+              hintText: "Leave your review",
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+            ),
+            // maxLines: null,
+            keyboardType: TextInputType.text,
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'Field can\'t be empty.';
+              } else {
+                return null;
+              }
+            },
+          ),
+          SizedBox(height: 7),
+          Builder(builder: (context) {
+            return Container(
+              alignment: Alignment.bottomRight,
+              child: ElevatedButton(
+                onPressed: () {
+                  final review = BlocProvider.of<JobDetailBloc>(context);
+                  if (_formKey.currentState!.validate()) {
+                    review.add(
+                      PostReviewEvent(
+                        postReviewModel: PostReviewModel(
+                          fullName: 'fullName',
+                          review: reviewController.text.trim(),
+                          jobID: jobID,
+                        ),
+                      ),
+                    );
+                  }
+                },
+                child: Text("Post"),
+              ),
+            );
+          })
+        ],
+      ),
     ),
   );
 }

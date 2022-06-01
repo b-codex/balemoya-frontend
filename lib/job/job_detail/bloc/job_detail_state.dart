@@ -8,3 +8,7 @@ class JobDetailInitial extends JobDetailState {}
 class AppliedToJobPost extends JobDetailState {}
 
 class NotAppliedToJobPost extends JobDetailState {}
+
+class ReviewPosted extends JobDetailState {}
+
+class ReviewNotPosted extends JobDetailState {}

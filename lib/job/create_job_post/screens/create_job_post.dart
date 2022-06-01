@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:balemoya/job/create_job_post/bloc/create_job_post_bloc.dart';
 import 'package:balemoya/job/create_job_post/models/models.dart';
-import 'package:balemoya/static/widgets/drawer.dart';
 import 'package:balemoya/static/widgets/snack_bar.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -55,7 +54,6 @@ Widget _body(context) {
   var formatter = new DateFormat('MM-dd-yyyy');
   // ignore: unused_local_variable
   var formattedDate = formatter.format(date);
-  // print(formattedDate);
 
   return BlocConsumer<CreateJobPostBloc, CreateJobPostState>(
     listener: (context, state) {
@@ -114,7 +112,6 @@ Widget _body(context) {
                         },
                       ).toList(),
                       onChanged: (String? newValue) {
-                        print(newValue);
                         _selectedJobType = newValue!;
                       },
                     ),
@@ -128,7 +125,7 @@ Widget _body(context) {
                 ),
                 child: BlocBuilder<CreateJobPostBloc, CreateJobPostState>(
                   builder: (context, state) {
-                    print(state);
+                    
                     if (state is CreatingPost) {
                       return ElevatedButton(
                         onPressed: null,
@@ -298,7 +295,7 @@ Widget _shortDescription(_shortDescriptionController) {
         }
       },
       onChanged: (value) {
-        // print(value);
+        // 
       },
     ),
   );
@@ -330,7 +327,7 @@ Widget _requirements(_requirementsController) {
         }
       },
       onChanged: (value) {
-        // print(value);
+        // 
       },
     ),
   );

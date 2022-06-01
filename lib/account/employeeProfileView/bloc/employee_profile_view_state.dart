@@ -4,3 +4,7 @@ part of 'employee_profile_view_bloc.dart';
 abstract class EmployeeProfileViewState {}
 
 class EmployeeProfileViewInitial extends EmployeeProfileViewState {}
+
+class AccountReported extends EmployeeProfileViewState {}
+
+class AccountNotReported extends EmployeeProfileViewState {}

@@ -43,7 +43,7 @@ class RouteManager {
       values = settings.arguments as Map<String, dynamic>;
     }
     if (settings.arguments == null) {
-      print("You are passing null arguments");
+      
     }
 
     switch (settings.name) {
@@ -64,7 +64,9 @@ class RouteManager {
 
       case home_screen:
         return MaterialPageRoute(
-          builder: (context) => HomeScreen(),
+          builder: (context) => HomeScreen(
+            role: values['role'],
+          ),
         );
 
       case loading_screen:

@@ -36,7 +36,6 @@ PreferredSizeWidget employerScreenAppBar(context) {
             choiceChipLabel: (category) => category!.category,
             validateSelectedItem: (list, val) => list!.contains(val),
             onItemSearch: (category, query) {
-              // print(query);
               queryString = query;
               return true;
               // return category.category!
@@ -45,8 +44,8 @@ PreferredSizeWidget employerScreenAppBar(context) {
             },
             onApplyButtonClick: (list) {
               selectedUserList = List.from(list!);
-              selectedUserList.forEach((c) => print(c.category));
-              print(queryString);
+              // selectedUserList.forEach((c) => print(c.category));
+              // print(queryString);
               Navigator.pop(context);
             },
           );
@@ -91,30 +90,30 @@ PreferredSizeWidget employerScreenAppBar(context) {
 ///
 /// Returns:
 ///   A widget.
-Widget employerScreenBody(context, role, fullName, jobs) {
+Widget employerScreenBody(context, role, jobs) {
   return SingleChildScrollView(
     scrollDirection: Axis.vertical,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          margin: EdgeInsets.only(
-            top: 15,
-            left: 8,
-          ),
-          child: Text(
-            'Hey "$fullName",',
-            textAlign: TextAlign.left,
-            style: TextStyle(
-              fontSize: 24,
-            ),
-          ),
-        ),
+        // Container(
+        //   margin: EdgeInsets.only(
+        //     top: 15,
+        //     left: 8,
+        //   ),
+        //   child: Text(
+        //     'Hey "$fullName",',
+        //     textAlign: TextAlign.left,
+        //     style: TextStyle(
+        //       fontSize: 24,
+        //     ),
+        //   ),
+        // ),
         employerScreenPopularUsers(context),
         SizedBox(
           height: 10,
         ),
-        employerScreenPostedJobs(context, jobs),
+        employerScreenPostedJobs(context, jobs, role),
       ],
     ),
   );
@@ -287,7 +286,8 @@ Widget employerScreenPopularUsersCard(context) {
 ///
 /// Returns:
 ///   A widget.
-Widget employerScreenPostedJobs(context, jobs) {
+Widget employerScreenPostedJobs(context, jobs, role) {
+  
   return Container(
     margin: EdgeInsets.symmetric(
       horizontal: 7,
@@ -338,6 +338,7 @@ Widget employerScreenPostedJobs(context, jobs) {
               location: job["location"],
               requirements: job["requirements"],
               postedDate: postedDate,
+              role: role,
             );
           }).toList(),
         ),
@@ -369,6 +370,7 @@ Widget employerScreenJobsCard({
   required String location,
   required String requirements,
   required String postedDate,
+  required String role,
 }) {
   return GestureDetector(
     onTap: () {
@@ -385,6 +387,7 @@ Widget employerScreenJobsCard({
         "tag": tag,
         "requirements": requirements,
         "postedDate": postedDate,
+        "role" : role,
       });
     },
     child: Container(

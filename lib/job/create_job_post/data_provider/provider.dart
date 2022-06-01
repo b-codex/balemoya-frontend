@@ -27,7 +27,6 @@ class CreateJobPostProvider {
         'Authorization': 'Bearer ${sessionID[1]}'
       },
     );
-    print(response.body);
     if (response.statusCode == 200) {
       return {
         "success": true,

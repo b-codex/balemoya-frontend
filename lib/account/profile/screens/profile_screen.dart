@@ -18,7 +18,7 @@ class ProfileScreen extends StatelessWidget {
 
     return BlocConsumer<ProfileBloc, ProfileState>(
       listener: (context, state) {
-        print(state);
+        
 
         /// Checking if the state is ProfileLoadingFailed, if it is, it will show an error message and
         /// navigate to the home screen.
@@ -344,8 +344,7 @@ PreferredSizeWidget _appBar(context) {
                 return value as Map;
               },
             );
-            // print(_filePath);
-            // print(_filePath["filePath"]);
+
             profileBloc.add(
               GetVerifiedEvent(
                 filePath: _filePath["filePath"],
@@ -784,7 +783,7 @@ Widget _previousExperience(
                   title: Text('Where have you worked before?'),
                   content: Form(
                     key: _formKey,
-                    child: SizedBox(
+                    child: SingleChildScrollView(
                       // height: MediaQuery.of(context).size.height / 3,
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -1116,8 +1115,7 @@ Widget _educationalBackground({
           mainAxisAlignment: MainAxisAlignment.start,
           children: educationalBackground.map(
             (value) {
-              // print(value);
-              // print(value.runtimeType);
+
               return _educationalBackgroundTile(
                 institution: value["institution"],
                 startedDate: value["startedDate"],
@@ -1215,48 +1213,50 @@ Widget _referenceSection({
                   title: Text('Add your reference...'),
                   content: Form(
                     key: _formKey,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        TextFormField(
-                          controller: _fullNameController,
-                          decoration: InputDecoration(
-                            label: Text("Fullname"),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          TextFormField(
+                            controller: _fullNameController,
+                            decoration: InputDecoration(
+                              label: Text("Fullname"),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
                             ),
+                            // maxLines: null,
+                            keyboardType: TextInputType.name,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Field can\'t be empty.';
+                              } else {
+                                return null;
+                              }
+                            },
                           ),
-                          // maxLines: null,
-                          keyboardType: TextInputType.name,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Field can\'t be empty.';
-                            } else {
-                              return null;
-                            }
-                          },
-                        ),
-                        SizedBox(height: 9),
-                        TextFormField(
-                          controller: _phoneNumberController,
-                          decoration: InputDecoration(
-                            label: Text("Phone Number"),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
+                          SizedBox(height: 9),
+                          TextFormField(
+                            controller: _phoneNumberController,
+                            decoration: InputDecoration(
+                              label: Text("Phone Number"),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
                             ),
+                            // maxLines: null,
+                            keyboardType: TextInputType.phone,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Field can\'t be empty.';
+                              } else {
+                                return null;
+                              }
+                            },
                           ),
-                          // maxLines: null,
-                          keyboardType: TextInputType.phone,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Field can\'t be empty.';
-                            } else {
-                              return null;
-                            }
-                          },
-                        ),
-                        SizedBox(height: 9),
-                      ],
+                          SizedBox(height: 9),
+                        ],
+                      ),
                     ),
                   ),
                   actions: [
@@ -1318,8 +1318,7 @@ Widget _referenceSection({
           mainAxisAlignment: MainAxisAlignment.start,
           // children: educationalBackground.map(
           //   (value) {
-          //     // print(value);
-          //     // print(value.runtimeType);
+
           //     return _referencesTile(
           //       institution: 'value["institution"]',
           //       startedDate: 'value["startedDate"]',
@@ -1335,6 +1334,7 @@ Widget _referenceSection({
   );
 }
 
+// ignore: unused_element
 Widget _referencesTile({
   required String institution,
   required String startedDate,

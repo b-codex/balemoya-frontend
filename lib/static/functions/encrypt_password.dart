@@ -12,6 +12,5 @@ String hashValue({required String password}) {
   var bytes = utf8.encode(password);
   var digest = sha512.convert(bytes);
 
-  // print("Digest as bytes: ${digest.bytes}");
   return digest.toString();
 }

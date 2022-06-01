@@ -1,25 +1,25 @@
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:balemoya/account/profile/bloc/profile_bloc.dart';
 import 'package:balemoya/job/home/bloc/home_bloc.dart';
+import 'package:balemoya/static/shared_preference.dart';
 import 'package:balemoya/static/widgets/snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 /// It's a drawer that has a logout button
-/// 
+///
 /// Args:
 ///   pageName (String): It's the name of the current page.
 ///   context (BuildContext): It's the context of the screen.
 ///   fullName (String): It's the name of the user.
 ///   role (String): It's the role of the user.
 ///   profilePicture (String): It's the profile picture of the user.
-/// 
+///
 /// Returns:
 ///   A Widget.
 Widget drawer({
   required String pageName,
   required BuildContext context,
-  required String fullName,
   String role = "",
   required String profilePicture,
 }) {
@@ -33,13 +33,13 @@ Widget drawer({
       listener: (context, state) {
         /// It's showing a snackbar and then navigating to the intro screen.
         if (state is LoggedOut) {
+          // Navigator.of(context)
+          //     .pushNamedAndRemoveUntil('/login', (route) => false);
           animatedSnackBar(
             context: context,
             message: "Successfully Logged Out.",
             animatedSnackBarType: AnimatedSnackBarType.info,
           );
-          Navigator.of(context)
-              .pushNamedAndRemoveUntil('/intro_screen', (route) => false);
         }
         if (state is LoggingOutFailed) {
           animatedSnackBar(
@@ -65,12 +65,12 @@ Widget drawer({
                     ),
                   ),
                   SizedBox(height: 10),
-                  Text(
-                    '$fullName',
-                    style: TextStyle(
-                      fontSize: 18,
-                    ),
-                  )
+                  // Text(
+                  //   '$fullName',
+                  //   style: TextStyle(
+                  //     fontSize: 18,
+                  //   ),
+                  // )
                 ],
               ),
             ),
@@ -92,6 +92,7 @@ Widget drawer({
               leading: Icon(Icons.account_box),
               title: Text('Account'),
               onTap: () {
+                Navigator.of(context).pop();
                 Navigator.of(context).pushNamed('/profile_screen');
                 profileBloc.add(LoadProfileEvent());
               },
@@ -130,8 +131,12 @@ Widget drawer({
                 ListTile(
                   leading: Icon(Icons.exit_to_app),
                   title: Text('Logout'),
-                  onTap: () {
-                    homeBloc.add(LogoutEvent());
+                  onTap: () async{
+                    SharedPreference _prefs = SharedPreference();
+                    await _prefs.clearSession();
+
+                    Navigator.of(context)
+                        .pushNamedAndRemoveUntil('/login', (route) => false);
                   },
                 ),
               ],

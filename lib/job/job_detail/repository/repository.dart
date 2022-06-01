@@ -17,4 +17,16 @@ class JobDetailRepository {
 
     return response;
   }
+
+  Future<Object> postReview({
+    required PostReviewModel postReviewModel,
+    required List sessionID,
+  }) async {
+    final response = await jobDetailProvider.postReview(
+      postReviewModel: postReviewModel,
+      sessionID: sessionID,
+    );
+
+    return response;
+  }
 }

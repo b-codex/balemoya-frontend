@@ -170,14 +170,8 @@ class ProfileProvider {
 
     request.fields["user"] = sessionID[3];
 
-    // print(request);
-    // print(request.headers);
-    // print(request.fields);
-
     http.Response response =
         await http.Response.fromStream(await request.send());
-
-    print(response.body);
 
     if (response.statusCode == 200) {
       return {
@@ -232,7 +226,6 @@ class ProfileProvider {
         'Authorization': 'Bearer ${sessionID[1]}'
       },
     );
-    print(response.body);
     if (response.statusCode == 201) {
       return {
         "success": true,

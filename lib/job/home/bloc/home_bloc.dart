@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:balemoya/auth/login/bloc/login_bloc.dart';
 import 'package:balemoya/job/home/repository/repository.dart';
 import 'package:balemoya/static/shared_preference.dart';
 import 'package:bloc/bloc.dart';
@@ -12,7 +13,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final HomeRepository homeRepository;
 
   SharedPreference sharedPreference = SharedPreference();
-  
+
   /// A constructor.
   HomeBloc({required this.homeRepository}) : super(HomeInitial()) {
     /// Listening to the event and emitting the state.
@@ -29,18 +30,18 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       },
     );
 
-    // account button clicked event
-    on<AccountButtonClick>(
-      (event, emit) {},
-    );
-
     // get job posts
     on<GetJobPosts>((event, emit) async {
+      await Future.delayed(Duration(seconds: 2));
       final sessionID = await sharedPreference.getSession().then(
         (value) {
           return value;
         },
       );
+      if (sessionID == null) {
+        emit(GetJobPostsFailed());
+      }
+      print(sessionID);
       final response =
           await homeRepository.getJobPosts(sessionID: sessionID) as Map;
 
