@@ -37,7 +37,7 @@ const Home = (props) => {
 
           <Link
             className="links"
-            to="/users"
+            to="/reports"
             style={{ textDecoration: "none", color: "inherit" }}
           >
             <Widget type="reports" />

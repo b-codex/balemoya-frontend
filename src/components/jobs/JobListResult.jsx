@@ -27,55 +27,48 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/userSlice";
 import { useNavigate } from "react-router";
 
-export const UserListResults = ({ customers, searchTerm, ...rest }) => {
+export const JobListResults = ({ jobs, searchTerm, ...rest }) => {
   const user = useSelector(selectUser);
   // const router = useRouter();
   if (user) {
     var token = user.accessToken;
   }
-  const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
+  const [selectedJobIds, setSelectedJobIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
   const [err, setErr] = useState("");
   let navigate = useNavigate();
 
   const handleSelectAll = (event) => {
-    let newSelectedCustomerIds;
+    let newSelectedJobIds;
 
     if (event.target.checked) {
-      newSelectedCustomerIds = customers.map((customer) => customer.id);
+      newSelectedJobIds = jobs.map((job) => job._id);
     } else {
-      newSelectedCustomerIds = [];
+      newSelectedJobIds = [];
     }
 
-    setSelectedCustomerIds(newSelectedCustomerIds);
+    setSelectedJobIds(newSelectedJobIds);
   };
 
   const handleSelectOne = (event, id) => {
-    const selectedIndex = selectedCustomerIds.indexOf(id);
-    let newSelectedCustomerIds = [];
+    const selectedIndex = selectedJobIds.indexOf(id);
+    let newSelectedJobIds = [];
 
     if (selectedIndex === -1) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(
-        selectedCustomerIds,
-        id
-      );
+      newSelectedJobIds = newSelectedJobIds.concat(selectedJobIds, id);
     } else if (selectedIndex === 0) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(
-        selectedCustomerIds.slice(1)
-      );
-    } else if (selectedIndex === selectedCustomerIds.length - 1) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(
-        selectedCustomerIds.slice(0, -1)
-      );
+      newSelectedJobIds = newSelectedJobIds.concat(selectedJobIds.slice(1));
+    } else if (selectedIndex === selectedJobIds.length - 1) {
+      newSelectedJobIds = newSelectedJobIds.concat(selectedJobIds.slice(0, -1));
     } else if (selectedIndex > 0) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(
-        selectedCustomerIds.slice(0, selectedIndex),
-        selectedCustomerIds.slice(selectedIndex + 1)
+      newSelectedJobIds = newSelectedJobIds.concat(
+        selectedJobIds.slice(0, selectedIndex),
+        selectedJobIds.slice(selectedIndex + 1)
       );
     }
 
-    setSelectedCustomerIds(newSelectedCustomerIds);
+    setSelectedJobIds(newSelectedJobIds);
   };
 
   const handleLimitChange = (event) => {
@@ -94,26 +87,24 @@ export const UserListResults = ({ customers, searchTerm, ...rest }) => {
               <TableRow>
                 <TableCell padding="checkbox">
                   <Checkbox
-                    checked={selectedCustomerIds.length === customers.length}
+                    checked={selectedJobIds.length === jobs.length}
                     color="primary"
                     indeterminate={
-                      selectedCustomerIds.length > 0 &&
-                      selectedCustomerIds.length < customers.length
+                      selectedJobIds.length > 0 &&
+                      selectedJobIds.length < jobs.length
                     }
                     onChange={handleSelectAll}
                   />
                 </TableCell>
-                <TableCell>Name</TableCell>
-                <TableCell>Email</TableCell>
+                <TableCell>Job Title</TableCell>
+                <TableCell>Company Name</TableCell>
                 <TableCell>Location</TableCell>
-                <TableCell>Role</TableCell>
-                <TableCell>Verification Status</TableCell>
                 <TableCell>Ban Status</TableCell>
                 <TableCell>Action</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {customers
+              {jobs
                 .slice(0, limit)
                 .filter((val) => {
                   if (searchTerm == "") {
@@ -126,20 +117,16 @@ export const UserListResults = ({ customers, searchTerm, ...rest }) => {
                     return val;
                   }
                 })
-                .map((customer) => (
+                .map((job) => (
                   <TableRow
                     hover
-                    key={customer.id}
-                    selected={selectedCustomerIds.indexOf(customer.id) !== -1}
+                    key={job._id}
+                    selected={selectedJobIds.indexOf(job._id) !== -1}
                   >
                     <TableCell padding="checkbox">
                       <Checkbox
-                        checked={
-                          selectedCustomerIds.indexOf(customer.id) !== -1
-                        }
-                        onChange={(event) =>
-                          handleSelectOne(event, customer.id)
-                        }
+                        checked={selectedJobIds.indexOf(job._id) !== -1}
+                        onChange={(event) => handleSelectOne(event, job._id)}
                         value="true"
                       />
                     </TableCell>
@@ -150,34 +137,16 @@ export const UserListResults = ({ customers, searchTerm, ...rest }) => {
                           display: "flex",
                         }}
                       >
-                        <Avatar
-                          // src={customer.avatarUrl}
-                          sx={{ mr: 2 }}
-                        >
-                          {getInitials(customer.fullName)}
-                        </Avatar>
                         <Typography color="textPrimary" variant="body1">
-                          {customer.fullName}
+                          {job.jobTitle}
                         </Typography>
                       </Box>
                     </TableCell>
-                    <TableCell>{customer.email}</TableCell>
-                    <TableCell>{`${customer.location}`}</TableCell>
-                    <TableCell>{customer.role}</TableCell>
+                    <TableCell>{job.companyName}</TableCell>
+                    <TableCell>{`${job.location}`}</TableCell>
                     <TableCell>
-                      {customer.verificationStatus === "verified" && (
-                        <Chip label="Verified" color="success" />
-                      )}
-                      {customer.verificationStatus === "Not_verified" && (
-                        <Chip label="Not Verified" color="error" />
-                      )} 
-                      {customer.verificationStatus == null && (
-                        <Chip label="No Data" color="info" />
-                      )}
-                    </TableCell>{" "}
-                    <TableCell>
-                      {customer._isUserActive ? (
-                        <Chip label="Not Banned" color="success" />
+                      {job.status ? (
+                        <Chip label="Active" color="success" />
                       ) : (
                         <Chip label="Banned" color="warning" />
                       )}
@@ -187,15 +156,15 @@ export const UserListResults = ({ customers, searchTerm, ...rest }) => {
                         color="error"
                         aria-label="upload picture"
                         component="span"
-                        // onClick={() => handleDelete(customer.id)}
+                        // onClick={() => handleDelete(job._id)}
                       >
                         <DeleteOutlined />
                       </IconButton>
                       <IconButton
                         color="info"
-                        aria-label="upload picture"
+                        aria-label="more"
                         component="span"
-                        onClick={() => navigate(`/users/${customer._id}`)}
+                        onClick={() => navigate(`/jobs/${job._id}`)}
                       >
                         <MoreHorizSharp />
                       </IconButton>
@@ -208,7 +177,7 @@ export const UserListResults = ({ customers, searchTerm, ...rest }) => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={customers.length}
+        count={jobs.length}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
         page={page}
@@ -219,6 +188,6 @@ export const UserListResults = ({ customers, searchTerm, ...rest }) => {
   );
 };
 
-UserListResults.propTypes = {
-  customers: PropTypes.array.isRequired,
+JobListResults.propTypes = {
+  jobs: PropTypes.array.isRequired,
 };

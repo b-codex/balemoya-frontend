@@ -8,37 +8,17 @@ import {
   Divider,
   Typography,
 } from "@mui/material";
-import { banUsersById, unbanUsersById } from "../../utils/customer";
+import { getJobs, getJobsById, deleteJobsById } from "../../utils/jobs";
 import { useParams } from "react-router";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import { selectUser } from "../../redux/userSlice";
 
-export const UserProfile = (props) => {
+export const JobProfile = (props) => {
   let { userId } = useParams();
   const user = useSelector(selectUser);
   const [userData, setUserData] = useState(null);
   const [err, setErr] = useState("");
-  // const [users, setUsers] = useState("");
-
-  // banUsersById(userId, user.token)
-  //   .then((res) => res.json())
-  //   .then((data) => {
-  //     setUserData(data);
-  //   })
-  //   .catch((_) => {
-  //     setErr("Something went wrong");
-  //     console.log(err);
-  //   });
-  // unbanUsersById(userId, user.token)
-  //   .then((res) => res.json())
-  //   .then((data) => {
-  //     setUserData(data);
-  //   })
-  //   .catch((_) => {
-  //     setErr("Something went wrong");
-  //     console.log(err);
-  //   });
 
   return (
     <Card {...props}>
@@ -50,32 +30,27 @@ export const UserProfile = (props) => {
             flexDirection: "column",
           }}
         >
-          <Avatar
-            src={props.user?.profilePicture}
-            sx={{
-              height: 64,
-              mb: 2,
-              width: 64,
-            }}
-          />
           <Typography color="textPrimary" gutterBottom variant="h5">
-            {props.user?.fullName}
+            {props.user?.jobTitle}
           </Typography>
           <Typography color="textSecondary" variant="body2">
-            Email: {props.user?.email}
+            Posted By: {props.user?.postedBy}
           </Typography>
           <Typography color="textSecondary" variant="body2">
-            Location: {props.user?.location}
+            Company Name: {props.user?.companyName}
           </Typography>
         </Box>
       </CardContent>
       <Divider />
       <CardActions>
-        {props.user?._isUserActive ? (
-          <Button color="error" fullWidth variant="text" 
-          // onClick={banUsersById}
+        {props.user?.status ? (
+          <Button
+            color="error"
+            fullWidth
+            variant="text"
+            // onClick={banUsersById}
           >
-            Ban User
+            Ban Post
           </Button>
         ) : (
           <Button
@@ -84,7 +59,7 @@ export const UserProfile = (props) => {
             variant="text"
             // onClick={unbanUsersById}
           >
-            Unban User
+            Unban Post
           </Button>
         )}
       </CardActions>

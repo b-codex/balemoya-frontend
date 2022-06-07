@@ -54,7 +54,7 @@ const Navbar = () => {
                 src="/broken-image.jpg"
               >
                 A
-                {/* use prop to pass down the initials from the admin's name (from sign in page)*/}
+                 {/* TODO:  use prop to pass down the initials from the admin's name (from sign in page) */}
               </Avatar>
             ) : (
               <Avatar src="/broken-image.jpg" />

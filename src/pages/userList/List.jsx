@@ -1,4 +1,4 @@
-import {React, useEffect, useState} from "react";
+import { React, useEffect, useState } from "react";
 
 import "./List.scss";
 
@@ -26,41 +26,40 @@ const List = () => {
     }
   }, []);
 
-  const [users, setUsers] = useState([])
-  const [err, setErr] = useState("")
-  const [searchTerm, setSearchTerm] = useState("")
+  const [users, setUsers] = useState([]);
+  const [err, setErr] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     // add user tokens inside the param
     getUsers()
       .then((res) => res.json())
       .then((data) => {
-          setUsers(data);
+        setUsers(data);
       })
       .catch((_) => {
         setErr("Something went wrong");
       });
   }, []);
-
   return (
     <div className="list">
       <Sidebar />
       <div className="list_container">
         <Navbar />
         <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          py: 8,
-        }}
-      >
-        <Container maxWidth={false}>
-          <UserListToolbar name="Users" setSearchTerm={setSearchTerm} />
-          <Box sx={{ mt: 3 }}>
-            <UserListResults customers={users} searchTerm={searchTerm} />
-          </Box>
-        </Container>
-      </Box>
+          component="main"
+          sx={{
+            flexGrow: 1,
+            py: 2,
+          }}
+        >
+          <Container maxWidth={false}>
+            <UserListToolbar name="Users" setSearchTerm={setSearchTerm} />
+            <Box sx={{ mt: 3 }}>
+              <UserListResults customers={users} searchTerm={searchTerm} />
+            </Box>
+          </Container>
+        </Box>
         {/* <Datatable /> */}
       </div>
     </div>

@@ -7,29 +7,30 @@ import { useDispatch } from "react-redux";
 import { login } from "../../redux/userSlice";
 import { useNavigate } from "react-router-dom";
 const Login = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   let navigate = useNavigate();
   const onFinish = (values) => {
-    signin(values.username, values.password)
-    .then((res) => res.json())
-    .then((data) => {
-      console.log(data)
-      if (data.success === true){
-        console.log('#####################')
-        dispatch(login({
-          email: data.email,
-          expiryDate: data.expiryDate,
-          name: data.name,
-          role: data.role,
-          success: data.success,
-          token: data.token,
-        }))
-        navigate(`/`);
-      }
-    })
-    .catch((_) => {
-      console.log('Something went wrong')
-    })
+    signin(values.email, values.password)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.success === true) {
+          dispatch(
+            login({
+              email: data.email,
+              expiryDate: data.expiryDate,
+              name: data.name,
+              role: data.role,
+              success: data.success,
+              token: data.token,
+            })
+          );
+          navigate(`/`);
+        }
+      })
+      .catch((_) => {
+        console.log("Something went wrong");
+      });
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -37,8 +38,16 @@ const Login = () => {
   return (
     <div className="login">
       <div className="left_div">
-        <h1>Login</h1>
-        <p>View user stat and analytics</p>
+        <div className="left_div_text">
+          <div className="logo_div"></div>
+          <br />
+          <br />
+          <h1>
+            <strong>Login</strong>
+          </h1>
+          <p id="details">View user & job analytics!</p>
+          <br />
+        </div>
         <Form
           className="login_form"
           name="basic"
@@ -56,12 +65,12 @@ const Login = () => {
           autoComplete="off"
         >
           <Form.Item
-            label="Username"
-            name="username"
+            label="Email"
+            name="email"
             rules={[
               {
                 required: true,
-                message: "Please input your username!",
+                message: "Please input your Email address!",
               },
             ]}
           >
@@ -89,29 +98,39 @@ const Login = () => {
               span: 16,
             }}
           >
-            <Checkbox>Remember me</Checkbox>
+            <Checkbox
+            className="form_checkbox"
+              style={{
+                backgroundColor: "#5138ee !important",
+                borderRadius: "8px",
+                border: "none",
+              }}
+            >
+              Remember me
+            </Checkbox>
           </Form.Item>
 
           <Form.Item
             wrapperCol={{
-              offset: 8,
+              offset: 20,
               span: 16,
             }}
           >
-            <Button type="primary" htmlType="submit">
+            <Button
+              type="primary"
+              htmlType="submit"
+              style={{
+                backgroundColor: "#5138ee",
+                borderRadius: "8px",
+                border: "none",
+              }}
+            >
               Submit
             </Button>
           </Form.Item>
         </Form>
-        <div className="not_reg">
-          <p className="not_reg_para">Not registered yet?</p>
-          <Link
-            className="not_reg_link"
-            to="/signup"
-            style={{ textDecoration: "none", color: "inherit" }}
-          >
-            <a href="">Create an Account</a>
-          </Link>
+        <div className="left_div_footer">
+          @2022 Balemoya. All rights reserved
         </div>
       </div>
       <div className="right_div"></div>

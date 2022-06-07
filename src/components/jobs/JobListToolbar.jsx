@@ -8,10 +8,8 @@ import {
   SvgIcon,
   Typography,
 } from "@mui/material";
-import {
-  SearchOutlined
-} from "@mui/icons-material";
-export const UserListToolbar = (props) => {
+import { SearchOutlined } from "@mui/icons-material";
+export const JobListToolbar = (props) => {
   return (
     <Box {...props}>
       <Box
@@ -26,17 +24,6 @@ export const UserListToolbar = (props) => {
         <Typography sx={{ m: 1 }} variant="h4">
           {props.name}
         </Typography>
-        {/* <Box sx={{ m: 1 }}>
-            <Button startIcon={<UploadIcon fontSize="small" />} sx={{ mr: 1 }}>
-              Import
-            </Button>
-            <Button startIcon={<DownloadIcon fontSize="small" />} sx={{ mr: 1 }}>
-              Export
-            </Button>
-            <Button color="primary" variant="contained" onClick={(route) => handleClick(props.route)}>
-              Add {props.name}
-            </Button>
-          </Box> */}
       </Box>
       <Box sx={{ mt: 3 }}>
         <Card>
@@ -54,7 +41,7 @@ export const UserListToolbar = (props) => {
                     </InputAdornment>
                   ),
                 }}
-                placeholder="Search Users"
+                placeholder="Search Jobs"
                 variant="outlined"
               />
             </Box>

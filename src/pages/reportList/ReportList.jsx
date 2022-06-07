@@ -1,17 +1,21 @@
-import { Box, Container } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import Datatable from "../../components/Datatables/Datatable";
-import { UserListToolbar } from "../../components/user/UsersListToolbar";
-import Navbar from "../../components/Navbar/Navbar";
+import {React, useEffect, useState} from "react";
+
+import "./ReportList.scss";
+
 import Sidebar from "../../components/Sidebar/Sidebar";
-import "./JobList.scss";
+import Navbar from "../../components/Navbar/Navbar";
+import Datatable from "../../components/Datatables/Datatable";
+
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, selectUser } from "../../redux/userSlice";
-import { useNavigate } from "react-router";
-import { getUsers } from "../../utils/customer";
+import { useNavigate } from "react-router-dom";
+import { UserListToolbar } from "../../components/user/UsersListToolbar";
 import { UserListResults } from "../../components/user/UsersListResult";
+import { Box, Container } from "@mui/material";
+import { getUsers } from "../../utils/customer";
 
-const JobList = () => {
+const List = () => {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
   let navigate = useNavigate();
@@ -37,10 +41,11 @@ const JobList = () => {
         setErr("Something went wrong");
       });
   }, []);
+
   return (
-    <div className="joblist">
+    <div className="list">
       <Sidebar />
-      <div className="job_container">
+      <div className="list_container">
         <Navbar />
         <Box
         component="main"
@@ -50,15 +55,16 @@ const JobList = () => {
         }}
       >
         <Container maxWidth={false}>
-        <UserListToolbar name="Users" setSearchTerm={setSearchTerm} />
+          <UserListToolbar name="Users" setSearchTerm={setSearchTerm} />
           <Box sx={{ mt: 3 }}>
             <UserListResults customers={users} searchTerm={searchTerm} />
           </Box>
         </Container>
       </Box>
+        {/* <Datatable /> */}
       </div>
     </div>
   );
 };
 
-export default JobList;
+export default List;

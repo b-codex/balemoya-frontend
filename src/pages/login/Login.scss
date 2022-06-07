@@ -1,11 +1,8 @@
-.root {
-  background-color: #dcdfff;
-}
 .login {
   height: 100vh;
   display: flex;
   justify-content: space-around;
-  width: 80%;
+  width: 75%;
   margin: auto;
   font-family: "Poppins", sans-serif;
   flex: 2;
@@ -15,11 +12,27 @@
   .left_div {
     background-color: white;
     flex: 1;
-    height: 60vh;
-    align-self: center;
+    height: 80vh;
+    align-self: flex-start;
     margin-right: auto;
-    .login_form {
+    .logo_div {
+      // background-image: url(./);
+    }
+    .form_checkbox input:checked ~ .checkmark {
+      background-color: #5138ee !important;
+    }
 
+    .left_div_text {
+      margin-left: 100px;
+      .details {
+        text-shadow: #555;
+      }
+    }
+    .left_div_footer {
+      text-transform: capitalize;
+      margin-left: 100px;
+    }
+    .login_form {
       // background-color: green;
       width: 80%;
     }
@@ -37,7 +50,10 @@
     }
   }
   .right_div {
-    background-color: cyan;
+    background-image: url(./dash-right.png) !important;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
     flex: 1;
   }
 }
