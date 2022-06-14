@@ -13,10 +13,15 @@
     background-color: white;
     flex: 1;
     height: 80vh;
-    align-self: flex-start;
+    align-self: center;
+    border: 1px solid red;
     margin-right: auto;
     .logo_div {
       // background-image: url(./);
+      border: 1px solid purple;
+      height: 69px;
+      width: 69px;
+
     }
     .form_checkbox input:checked ~ .checkmark {
       background-color: #5138ee !important;
@@ -24,9 +29,7 @@
 
     .left_div_text {
       margin-left: 100px;
-      .details {
-        text-shadow: #555;
-      }
+   
     }
     .left_div_footer {
       text-transform: capitalize;

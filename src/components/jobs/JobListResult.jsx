@@ -99,7 +99,7 @@ export const JobListResults = ({ jobs, searchTerm, ...rest }) => {
                 <TableCell>Job Title</TableCell>
                 <TableCell>Company Name</TableCell>
                 <TableCell>Location</TableCell>
-                <TableCell>Ban Status</TableCell>
+                <TableCell>Post Status</TableCell>
                 <TableCell>Action</TableCell>
               </TableRow>
             </TableHead>
@@ -143,7 +143,7 @@ export const JobListResults = ({ jobs, searchTerm, ...rest }) => {
                       </Box>
                     </TableCell>
                     <TableCell>{job.companyName}</TableCell>
-                    <TableCell>{`${job.location}`}</TableCell>
+                    <TableCell style={{textTransform: 'capitalize'}}>{`${job.location}`}</TableCell>
                     <TableCell>
                       {job.status ? (
                         <Chip label="Active" color="success" />

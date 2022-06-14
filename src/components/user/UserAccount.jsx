@@ -16,29 +16,37 @@ import { selectUser } from "../../redux/userSlice";
 
 export const UserProfile = (props) => {
   let { userId } = useParams();
+  console.log(userId);
   const user = useSelector(selectUser);
+
   const [userData, setUserData] = useState(null);
   const [err, setErr] = useState("");
-  // const [users, setUsers] = useState("");
+  const [users, setUsers] = useState("");
 
-  // banUsersById(userId, user.token)
-  //   .then((res) => res.json())
-  //   .then((data) => {
-  //     setUserData(data);
-  //   })
-  //   .catch((_) => {
-  //     setErr("Something went wrong");
-  //     console.log(err);
-  //   });
-  // unbanUsersById(userId, user.token)
-  //   .then((res) => res.json())
-  //   .then((data) => {
-  //     setUserData(data);
-  //   })
-  //   .catch((_) => {
-  //     setErr("Something went wrong");
-  //     console.log(err);
-  //   });
+  const handleBan = (id, token) => {
+    banUsersById(id, token)
+      .then((res) => res.json())
+      .then((data) => {
+        // setUserData(data);
+        console.log(data);
+      })
+      .catch((_) => {
+        setErr("Something went wrong");
+        console.log(err);
+      });
+  };
+  const handleUnBan = (id, token) => {
+    unbanUsersById(id, token)
+      .then((res) => res.json())
+      .then((data) => {
+        // setUserData(data);
+        console.log(data);
+      })
+      .catch((_) => {
+        setErr("Something went wrong");
+        console.log(err);
+      });
+  };
 
   return (
     <Card {...props}>
@@ -72,8 +80,15 @@ export const UserProfile = (props) => {
       <Divider />
       <CardActions>
         {props.user?._isUserActive ? (
-          <Button color="error" fullWidth variant="text" 
-          // onClick={banUsersById}
+          <Button
+            color="error"
+            fullWidth
+            variant="text"
+            onClick={() => {
+              console.log("user id" + props.user._id);
+              console.log("user token" + user.token);
+              handleBan(props.user._id, user.token);
+            }}
           >
             Ban User
           </Button>
@@ -82,7 +97,11 @@ export const UserProfile = (props) => {
             color="warning"
             fullWidth
             variant="text"
-            // onClick={unbanUsersById}
+            onclick={() => {
+              console.log("user id" + props.user._id);
+              console.log("user token" + user.token);
+              handleUnBan(props.user.id, user.token);
+            }}
           >
             Unban User
           </Button>

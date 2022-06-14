@@ -12,7 +12,7 @@ import PsychologyOutlinedIcon from "@mui/icons-material/PsychologyOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
-import WorkIcon from '@mui/icons-material/Work';
+import WorkIcon from "@mui/icons-material/Work";
 import { Link } from "react-router-dom";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useDispatch } from "react-redux";
@@ -49,10 +49,7 @@ const Sidebar = () => {
               <PersonOutlineOutlinedIcon /> <span>Users</span>
             </li>
           </Link>{" "}
-          <Link
-            to="/jobs"
-            style={{ textDecoration: "none", color: "inherit" }}
-          >
+          <Link to="/jobs" style={{ textDecoration: "none", color: "inherit" }}>
             <li>
               <WorkIcon /> <span>Jobs</span>
             </li>
@@ -61,9 +58,11 @@ const Sidebar = () => {
           <li>
             <InsertChartOutlinedIcon /> <span>Stats</span>
           </li>
-          <li>
-            <NotificationsNoneOutlinedIcon /> <span>Notifications</span>
-          </li>
+          <Link to="/notifications" style={{ textDecoration: "none", color: "inherit" }}>
+            <li>
+              <NotificationsNoneOutlinedIcon /> <span>Notifications</span>
+            </li>
+          </Link>
           <p className="title">SERVICE</p>
           {/* <li>
             <SettingsSystemDaydreamOutlinedIcon /> <span>System Health</span>

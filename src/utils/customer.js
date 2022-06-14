@@ -41,7 +41,7 @@ export const banUsersById = async (id, token) => {
 };
 export const unbanUsersById = async (id, token) => {
   const response = await fetch(
-    "http://localhost:5655/microservice/accountService/admin/unBanning-user/",
+    "http://localhost:5655/microservice/accountService/admin/unbanning-user/",
     {
       method: "PATCH",
       headers: {

@@ -97,7 +97,11 @@ const Single = () => {
                       <Typography color="textPrimary" gutterBottom variant="h5">
                         Account Information
                       </Typography>
-                      <Typography color="textSecondary" variant="body2">
+                      <Typography
+                        color="textSecondary"
+                        variant="body2"
+                        style={{ textTransform: "capitalize" }}
+                      >
                         <strong>Role</strong>: {userData?.role}
                       </Typography>{" "}
                       <Typography color="textSecondary" variant="body2">
@@ -106,11 +110,12 @@ const Single = () => {
                           "Verified"}
                         {userData?.verificationStatus === "Not_verified" &&
                           "Not Verified"}{" "}
-                        {userData?.verificationStatus == null && "No Verification Data"}
+                        {userData?.verificationStatus == null &&
+                          "No Verification Data"}
                       </Typography>
                       <Typography color="textSecondary" variant="body2">
-                        <strong>Account Created At</strong>:
-                        {userData?.createdAt}
+                        <strong>Account Created At</strong>: &nbsp;
+                        {moment(userData?.createdAt).format("MM/DD/YYYY")}
                       </Typography>
                     </Box>
                   </CardContent>

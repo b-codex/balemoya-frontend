@@ -108,7 +108,7 @@ export const UserListResults = ({ customers, searchTerm, ...rest }) => {
                 <TableCell>Location</TableCell>
                 <TableCell>Role</TableCell>
                 <TableCell>Verification Status</TableCell>
-                <TableCell>Ban Status</TableCell>
+                <TableCell>Account Status</TableCell>
                 <TableCell>Action</TableCell>
               </TableRow>
             </TableHead>
@@ -177,7 +177,7 @@ export const UserListResults = ({ customers, searchTerm, ...rest }) => {
                     </TableCell>{" "}
                     <TableCell>
                       {customer._isUserActive ? (
-                        <Chip label="Not Banned" color="success" />
+                        <Chip label="Active" color="success" />
                       ) : (
                         <Chip label="Banned" color="warning" />
                       )}

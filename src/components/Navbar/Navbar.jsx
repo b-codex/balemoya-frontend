@@ -17,15 +17,8 @@ const Navbar = () => {
   return (
     <div className="navbar">
       <div className="wrapper">
-        <div className="search" style={{ visibility: "hidden" }}>
-          {/* <input type="text" placeholder="Search..." />
-          <SearchOutlinedIcon className="icon" /> */}
-        </div>
+        <div className="search" style={{ visibility: "hidden" }}></div>
         <div className="items">
-          {/* <div className="item">
-            <LanguageOutlinedIcon className="icon" />
-            <p>English</p>
-          </div> */}
           <div className="item">
             <DarkModeOutlinedIcon
               className="icon"
@@ -39,13 +32,7 @@ const Navbar = () => {
             <NotificationsNoneOutlinedIcon className="icon" />
             <div className="counter">1</div>
           </div>
-          <div className="item">
-            <ChatBubbleOutlineOutlinedIcon className="icon" />
-            <div className="counter">2</div>
-          </div>
-          <div className="item">
-            <ListOutlinedIcon className="icon" />
-          </div>
+
           <div className="item">
             {signedIn ? (
               <Avatar
@@ -54,7 +41,7 @@ const Navbar = () => {
                 src="/broken-image.jpg"
               >
                 A
-                 {/* TODO:  use prop to pass down the initials from the admin's name (from sign in page) */}
+                {/* TODO:  use prop to pass down the initials from the admin's name (from sign in page) */}
               </Avatar>
             ) : (
               <Avatar src="/broken-image.jpg" />
