@@ -8,44 +8,92 @@ import {
   Divider,
   Typography,
 } from "@mui/material";
-import { banUsersById, unbanUsersById } from "../../utils/customer";
-import { useParams } from "react-router";
+import {
+  banUsersById,
+  deleteUsersById,
+  unbanUsersById,
+  unverifyUsersById,
+  verifyUsersById,
+} from "../../utils/customer";
+import { Navigate, useParams } from "react-router";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import { selectUser } from "../../redux/userSlice";
+import { useNavigate } from "react-router";
+import background from "./verified.png";
 
 export const UserProfile = (props) => {
   let { userId } = useParams();
-  console.log(userId);
+  let navigate = useNavigate();
   const user = useSelector(selectUser);
-
   const [userData, setUserData] = useState(null);
   const [err, setErr] = useState("");
   const [users, setUsers] = useState("");
 
-  const handleBan = (id, token) => {
-    banUsersById(id, token)
-      .then((res) => res.json())
-      .then((data) => {
-        // setUserData(data);
-        console.log(data);
-      })
-      .catch((_) => {
-        setErr("Something went wrong");
-        console.log(err);
-      });
+  const handleBan = (id) => {
+    try {
+      banUsersById(id, user.token)
+        .then((res) => res.json())
+        .then((data) => {
+          setUserData(data);
+          window.location.reload();
+        })
+        .catch((_) => {
+          setErr("Something went wrong");
+        });
+    } catch (error) {}
   };
-  const handleUnBan = (id, token) => {
-    unbanUsersById(id, token)
-      .then((res) => res.json())
-      .then((data) => {
-        // setUserData(data);
-        console.log(data);
-      })
-      .catch((_) => {
-        setErr("Something went wrong");
-        console.log(err);
-      });
+  const handleUnBan = (id) => {
+    try {
+      unbanUsersById(id, user.token)
+        .then((res) => res.json())
+        .then((data) => {
+          setUserData(data);
+          window.location.reload();
+        })
+        .catch((_) => {
+          setErr("Something went wrong");
+        });
+    } catch (error) {}
+  };
+  const handleDelete = (id) => {
+    try {
+      deleteUsersById(id, user.token)
+        .then((res) => res.json())
+        .then((data) => {
+          setUserData(data);
+          navigate(`/users/`);
+        })
+        .catch((_) => {
+          setErr("Something went wrong");
+        });
+    } catch (error) {}
+  };
+  const handleVerification = (id) => {
+    try {
+      verifyUsersById(id, user.token)
+        .then((res) => res.json())
+        .then((data) => {
+          setUserData(data);
+          window.location.reload();
+        })
+        .catch((_) => {
+          setErr("Something went wrong");
+        });
+    } catch (error) {}
+  };
+  const handleUnverification = (id) => {
+    try {
+      unverifyUsersById(id, user.token)
+        .then((res) => res.json())
+        .then((data) => {
+          setUserData(data);
+          window.location.reload();
+        })
+        .catch((_) => {
+          setErr("Something went wrong");
+        });
+    } catch (error) {}
   };
 
   return (
@@ -53,41 +101,85 @@ export const UserProfile = (props) => {
       <CardContent>
         <Box
           sx={{
-            alignItems: "center",
+            alignItems: "left",
+            marginLeft: "45px",
             display: "flex",
-            flexDirection: "column",
+            flexDirection: "row",
+            justifyContent: "space-around",
           }}
         >
           <Avatar
             src={props.user?.profilePicture}
             sx={{
-              height: 64,
+              height: 224,
               mb: 2,
-              width: 64,
+              width: 224,
+              borderRadius: "8px",
             }}
           />
-          <Typography color="textPrimary" gutterBottom variant="h5">
-            {props.user?.fullName}
-          </Typography>
-          <Typography color="textSecondary" variant="body2">
-            Email: {props.user?.email}
-          </Typography>
-          <Typography color="textSecondary" variant="body2">
-            Location: {props.user?.location}
-          </Typography>
+          <div style={{ alignSelf: "start", marginTop: "3vh" }}>
+            <Typography
+              color="textPrimary"
+              gutterBottom
+              variant="h4"
+              style={{ display: "flex", textTransform: 'capitalize' }}
+            >
+              <span className="fullname">{props.user?.fullName}</span>
+              {props.user?.verified ? (
+                <div
+                  className="empty"
+                  style={{  backgroundImage: `url(${background})`, width: '25px', height: '25px', backgroundSize: 'contain', alignSelf: 'center', justifySelf: 'center'  }}
+                  
+                ></div>
+              ) : (
+                <div className="empty"></div>
+              )}
+            </Typography>
+            <Typography color="textSecondary" variant="body2">
+              Email: {props.user?.email}
+            </Typography>
+            <Typography
+              color="textSecondary"
+              variant="body2"
+              style={{ textTransform: "capitalize", marginBottom: "2%" }}
+            >
+              Location: {props.user?.location}
+            </Typography>
+          </div>
         </Box>
       </CardContent>
       <Divider />
       <CardActions>
-        {props.user?._isUserActive ? (
+        {props.user?.verified ? (
           <Button
-            color="error"
+            color="warning"
             fullWidth
             variant="text"
             onClick={() => {
-              console.log("user id" + props.user._id);
-              console.log("user token" + user.token);
-              handleBan(props.user._id, user.token);
+              handleUnverification(props.user._id);
+            }}
+          >
+            Revoke Verification
+          </Button>
+        ) : (
+          <Button
+            color="primary"
+            fullWidth
+            variant="text"
+            onClick={() => {
+              handleVerification(props.user._id);
+            }}
+          >
+            Verify Account
+          </Button>
+        )}
+        {props.user?._isUserActive ? (
+          <Button
+            color="warning"
+            fullWidth
+            variant="text"
+            onClick={() => {
+              handleBan(props.user._id);
             }}
           >
             Ban User
@@ -97,15 +189,23 @@ export const UserProfile = (props) => {
             color="warning"
             fullWidth
             variant="text"
-            onclick={() => {
-              console.log("user id" + props.user._id);
-              console.log("user token" + user.token);
-              handleUnBan(props.user.id, user.token);
+            onClick={() => {
+              handleUnBan(props.user._id);
             }}
           >
             Unban User
           </Button>
         )}
+        <Button
+          color="error"
+          fullWidth
+          variant="text"
+          onClick={() => {
+            handleDelete(props.user._id);
+          }}
+        >
+          Delete Account
+        </Button>
       </CardActions>
     </Card>
   );

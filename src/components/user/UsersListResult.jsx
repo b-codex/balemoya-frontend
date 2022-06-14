@@ -26,6 +26,7 @@ import {
 import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/userSlice";
 import { useNavigate } from "react-router";
+import { deleteUsersById } from "../../utils/customer";
 
 export const UserListResults = ({ customers, searchTerm, ...rest }) => {
   const user = useSelector(selectUser);
@@ -37,6 +38,7 @@ export const UserListResults = ({ customers, searchTerm, ...rest }) => {
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
   const [err, setErr] = useState("");
+  const [userData, setUserData] = useState(null);
   let navigate = useNavigate();
 
   const handleSelectAll = (event) => {
@@ -85,6 +87,21 @@ export const UserListResults = ({ customers, searchTerm, ...rest }) => {
   const handlePageChange = (event, newPage) => {
     setPage(newPage);
   };
+
+  const handleDelete = (id) => {
+    try {
+      deleteUsersById(id, user.token)
+        .then((res) => res.json())
+        .then((data) => {
+          setUserData(data);
+          window.location.reload();
+        })
+        .catch((_) => {
+          setErr("Something went wrong");
+        });
+    } catch (error) {}
+  };
+
   return (
     <Card {...rest}>
       <PerfectScrollbar>
@@ -162,16 +179,15 @@ export const UserListResults = ({ customers, searchTerm, ...rest }) => {
                       </Box>
                     </TableCell>
                     <TableCell>{customer.email}</TableCell>
-                    <TableCell>{`${customer.location}`}</TableCell>
-                    <TableCell>{customer.role}</TableCell>
+                    <TableCell style={{textTransform: 'capitalize'}}>{`${customer.location}`}</TableCell>
+                    <TableCell style={{textTransform: 'capitalize'}}>{customer.role}</TableCell>
                     <TableCell>
-                      {customer.verificationStatus === "verified" && (
-                        <Chip label="Verified" color="success" />
+                      {customer.verified ? (
+                        <Chip label="Verified" color="primary" />
+                      ) : (
+                        <Chip label="Not Verified" color="warning" />
                       )}
-                      {customer.verificationStatus === "Not_verified" && (
-                        <Chip label="Not Verified" color="error" />
-                      )} 
-                      {customer.verificationStatus == null && (
+                      {customer.verified == null && (
                         <Chip label="No Data" color="info" />
                       )}
                     </TableCell>{" "}
@@ -179,21 +195,21 @@ export const UserListResults = ({ customers, searchTerm, ...rest }) => {
                       {customer._isUserActive ? (
                         <Chip label="Active" color="success" />
                       ) : (
-                        <Chip label="Banned" color="warning" />
+                        <Chip label="Banned" color="error" />
                       )}
                     </TableCell>
                     <TableCell>
                       <IconButton
                         color="error"
-                        aria-label="upload picture"
+                        aria-label="delete user"
                         component="span"
-                        // onClick={() => handleDelete(customer.id)}
+                        onClick={() => handleDelete(customer._id)}
                       >
                         <DeleteOutlined />
                       </IconButton>
                       <IconButton
                         color="info"
-                        aria-label="upload picture"
+                        aria-label="more info"
                         component="span"
                         onClick={() => navigate(`/users/${customer._id}`)}
                       >

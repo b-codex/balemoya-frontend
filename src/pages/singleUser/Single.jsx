@@ -42,11 +42,11 @@ const Single = () => {
           component="main"
           sx={{
             flexGrow: 1,
-            py: 8,
+            py: 3,
           }}
         >
           <Container maxWidth="lg">
-            <Typography sx={{ mb: 3 }} variant="h4">
+            <Typography sx={{ mb: 4 }} variant="h4">
               Account
             </Typography>
             <Grid container spacing={3}>
@@ -76,9 +76,6 @@ const Single = () => {
                       <Typography color="textSecondary" variant="body2">
                         <strong>Location</strong>: {userData?.location}
                       </Typography>{" "}
-                      <Typography color="textSecondary" variant="body2">
-                        <strong>Description</strong>: {userData?.description}
-                      </Typography>
                     </Box>
                   </CardContent>
                 </Card>
@@ -128,7 +125,7 @@ const Single = () => {
             </Typography>
             <Typography color="textSecondary" variant="body2">
               <strong>Report(s) associated with this account</strong>:
-              {userData?.report_Id}
+              {userData?.report_Id + " "}
             </Typography>
           </Container>
         </Box>
