@@ -41,7 +41,7 @@ const JobList = () => {
         setErr("Something went wrong");
       });
   }, []);
-  console.log(jobs)
+ 
 
   return (
     <div className="list">
@@ -55,8 +55,8 @@ const JobList = () => {
             py: 2,
           }}
         >
-          <Container className="user_list_container" maxWidth={false}>
-            <JobListToolbar name="Users" setSearchTerm={setSearchTerm} />
+          <Container  maxWidth={false}>
+            <JobListToolbar name="Jobs" setSearchTerm={setSearchTerm} />
             <Box sx={{ mt: 3 }}>
               <JobListResults jobs={jobs} searchTerm={searchTerm} />
             </Box>

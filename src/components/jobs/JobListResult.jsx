@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import PropTypes from "prop-types";
 import { format } from "date-fns";
@@ -8,7 +8,6 @@ import {
   Card,
   Checkbox,
   Chip,
-  IconButton,
   Table,
   TableBody,
   TableCell,
@@ -26,8 +25,44 @@ import {
 import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/userSlice";
 import { useNavigate } from "react-router";
+import Snackbar from "@mui/material/Snackbar";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import Stack from "@mui/material/Stack";
+import MuiAlert from "@mui/material/Alert";
+import { Button } from "antd";
+import { deleteJobPostById } from "../../utils/job";
 
 export const JobListResults = ({ jobs, searchTerm, ...rest }) => {
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+  const [open, setOpen] = React.useState(false);
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+  const action = (
+    <React.Fragment>
+      <Button color="secondary" size="small" onClick={handleClose}>
+        OK
+      </Button>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
   const user = useSelector(selectUser);
   // const router = useRouter();
   if (user) {
@@ -37,6 +72,8 @@ export const JobListResults = ({ jobs, searchTerm, ...rest }) => {
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
   const [err, setErr] = useState("");
+  const [jobData, setJobData] = useState(null);
+
   let navigate = useNavigate();
 
   const handleSelectAll = (event) => {
@@ -78,6 +115,22 @@ export const JobListResults = ({ jobs, searchTerm, ...rest }) => {
   const handlePageChange = (event, newPage) => {
     setPage(newPage);
   };
+
+  const handleDelete = (id) => {
+    try {
+      deleteJobPostById(id, user.token)
+        .then((res) => res.json())
+        .then((data) => {
+          setJobData(data);
+          window.location.reload();
+          handleClick();
+        })
+        .catch((_) => {
+          setErr("Something went wrong");
+        });
+    } catch (error) {}
+  };
+
   return (
     <Card {...rest}>
       <PerfectScrollbar>
@@ -99,7 +152,6 @@ export const JobListResults = ({ jobs, searchTerm, ...rest }) => {
                 <TableCell>Job Title</TableCell>
                 <TableCell>Company Name</TableCell>
                 <TableCell>Location</TableCell>
-                <TableCell>Post Status</TableCell>
                 <TableCell>Action</TableCell>
               </TableRow>
             </TableHead>
@@ -110,7 +162,7 @@ export const JobListResults = ({ jobs, searchTerm, ...rest }) => {
                   if (searchTerm == "") {
                     return val;
                   } else if (
-                    val.fullName
+                    val.jobTitle
                       .toLowerCase()
                       .includes(searchTerm.toLowerCase())
                   ) {
@@ -143,23 +195,12 @@ export const JobListResults = ({ jobs, searchTerm, ...rest }) => {
                       </Box>
                     </TableCell>
                     <TableCell>{job.companyName}</TableCell>
-                    <TableCell style={{textTransform: 'capitalize'}}>{`${job.location}`}</TableCell>
+                    <TableCell
+                      style={{ textTransform: "capitalize" }}
+                    >{`${job.location}`}</TableCell>
+
                     <TableCell>
-                      {job.status ? (
-                        <Chip label="Active" color="success" />
-                      ) : (
-                        <Chip label="Banned" color="warning" />
-                      )}
-                    </TableCell>
-                    <TableCell>
-                      <IconButton
-                        color="error"
-                        aria-label="upload picture"
-                        component="span"
-                        // onClick={() => handleDelete(job._id)}
-                      >
-                        <DeleteOutlined />
-                      </IconButton>
+                      {" "}
                       <IconButton
                         color="info"
                         aria-label="more"
@@ -167,6 +208,27 @@ export const JobListResults = ({ jobs, searchTerm, ...rest }) => {
                         onClick={() => navigate(`/jobs/${job._id}`)}
                       >
                         <MoreHorizSharp />
+                      </IconButton>
+                      <Snackbar
+                        open={open}
+                        autoHideDuration={3000}
+                        onClose={handleClose}
+                      >
+                        <Alert
+                          onClose={handleClose}
+                          severity="success"
+                          sx={{ width: "100%", boxShadow: "none" }}
+                        >
+                          Entry Deleted Successfully!
+                        </Alert>
+                      </Snackbar>
+                      <IconButton
+                        color="error"
+                        aria-label="delete user"
+                        component="span"
+                        onClick={() => handleDelete(job._id)}
+                      >
+                        <DeleteOutlined />
                       </IconButton>
                     </TableCell>
                   </TableRow>

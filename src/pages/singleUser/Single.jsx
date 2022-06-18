@@ -18,7 +18,6 @@ import { selectUser } from "../../redux/userSlice";
 import { getUsersById } from "../../utils/customer";
 import { UserProfile } from "../../components/user/UserAccount";
 const Single = () => {
-  // const { tid } = router.query;
   let { userId } = useParams();
   const user = useSelector(selectUser);
   const [userData, setUserData] = useState(null);
@@ -87,7 +86,6 @@ const Single = () => {
                         alignItems: "left",
                         display: "flex",
                         marginLeft: "45px",
-
                         flexDirection: "column",
                       }}
                     >
@@ -102,13 +100,8 @@ const Single = () => {
                         <strong>Role</strong>: {userData?.role}
                       </Typography>{" "}
                       <Typography color="textSecondary" variant="body2">
-                        <strong>Verification Status</strong>:
-                        {userData?.verificationStatus === "verified" &&
-                          "Verified"}
-                        {userData?.verificationStatus === "Not_verified" &&
-                          "Not Verified"}{" "}
-                        {userData?.verificationStatus == null &&
-                          "No Verification Data"}
+                        <strong>Verification Status</strong>: &nbsp;
+                        {userData?.verified ? "Verified" : "Not Verified"}
                       </Typography>
                       <Typography color="textSecondary" variant="body2">
                         <strong>Account Created At</strong>: &nbsp;

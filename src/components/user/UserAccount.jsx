@@ -1,8 +1,8 @@
 import {
   Avatar,
   Box,
-  Button,
   Card,
+  Button,
   CardActions,
   CardContent,
   Divider,
@@ -17,12 +17,48 @@ import {
 } from "../../utils/customer";
 import { Navigate, useParams } from "react-router";
 import { useSelector } from "react-redux";
-import { useState } from "react";
+import React, { useState } from "react";
 import { selectUser } from "../../redux/userSlice";
 import { useNavigate } from "react-router";
 import background from "./verified.png";
+import Snackbar from "@mui/material/Snackbar";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import Stack from "@mui/material/Stack";
+import MuiAlert from "@mui/material/Alert";
+// import { Button } from "antd";
 
 export const UserProfile = (props) => {
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+  const [open, setOpen] = React.useState(false);
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+  const action = (
+    <React.Fragment>
+      <Button color="secondary" size="small" onClick={handleClose}>
+        OK
+      </Button>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
+
   let { userId } = useParams();
   let navigate = useNavigate();
   const user = useSelector(selectUser);
@@ -36,6 +72,7 @@ export const UserProfile = (props) => {
         .then((res) => res.json())
         .then((data) => {
           setUserData(data);
+          handleClick();
           window.location.reload();
         })
         .catch((_) => {
@@ -49,6 +86,7 @@ export const UserProfile = (props) => {
         .then((res) => res.json())
         .then((data) => {
           setUserData(data);
+          handleClick();
           window.location.reload();
         })
         .catch((_) => {
@@ -75,6 +113,7 @@ export const UserProfile = (props) => {
         .then((res) => res.json())
         .then((data) => {
           setUserData(data);
+          handleClick();
           window.location.reload();
         })
         .catch((_) => {
@@ -88,6 +127,7 @@ export const UserProfile = (props) => {
         .then((res) => res.json())
         .then((data) => {
           setUserData(data);
+          handleClick();
           window.location.reload();
         })
         .catch((_) => {
@@ -98,11 +138,19 @@ export const UserProfile = (props) => {
 
   return (
     <Card {...props}>
+      <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+        <Alert
+          onClose={handleClose}
+          severity="success"
+          sx={{ width: "100%", boxShadow: "none" }}
+        >
+          Task Completed Successfully
+        </Alert>
+      </Snackbar>
       <CardContent>
         <Box
           sx={{
-            alignItems: "left",
-            marginLeft: "45px",
+            alignItems: "center",
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-around",
@@ -122,14 +170,20 @@ export const UserProfile = (props) => {
               color="textPrimary"
               gutterBottom
               variant="h4"
-              style={{ display: "flex", textTransform: 'capitalize' }}
+              style={{ display: "flex", textTransform: "capitalize" }}
             >
               <span className="fullname">{props.user?.fullName}</span>
               {props.user?.verified ? (
                 <div
                   className="empty"
-                  style={{  backgroundImage: `url(${background})`, width: '25px', height: '25px', backgroundSize: 'contain', alignSelf: 'center', justifySelf: 'center'  }}
-                  
+                  style={{
+                    backgroundImage: `url(${background})`,
+                    width: "25px",
+                    height: "25px",
+                    backgroundSize: "contain",
+                    alignSelf: "center",
+                    justifySelf: "center",
+                  }}
                 ></div>
               ) : (
                 <div className="empty"></div>
@@ -162,16 +216,18 @@ export const UserProfile = (props) => {
             Revoke Verification
           </Button>
         ) : (
-          <Button
-            color="primary"
-            fullWidth
-            variant="text"
-            onClick={() => {
-              handleVerification(props.user._id);
-            }}
-          >
-            Verify Account
-          </Button>
+          <>
+            <Button
+              color="primary"
+              fullWidth
+              variant="text"
+              onClick={() => {
+                handleVerification(props.user._id);
+              }}
+            >
+              Verify Account
+            </Button>
+          </>
         )}
         {props.user?._isUserActive ? (
           <Button

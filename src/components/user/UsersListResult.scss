@@ -1,0 +1,48 @@
+.status_active {
+  color: green !important;
+  display: flex;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 120px;
+  border-radius: 4px;
+  background-color: rgba(0, 128, 0, 0.151);
+  span {
+    padding: 6px;
+  }
+}
+.status_banned {
+  color: rgb(209, 48, 19) !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 120px;
+  border-radius: 4px;
+  background-color: rgba(211, 73, 19, 0.103);
+  span {
+    padding: 6px;
+  }
+}
+.status_verified {
+  color: green !important;
+  background-color: rgba(0, 128, 0, 0.151);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  border-radius: 4px;
+  span {
+    padding: 6px;
+  }
+}
+.status_not_verified {
+  color: rgb(209, 48, 19) !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  border-radius: 4px;
+  background-color: rgba(211, 73, 19, 0.103);
+  span {
+    padding: 6px;
+  }
+}

@@ -9,7 +9,6 @@ import JobList from "./pages/job/JobList";
 import List from "./pages/userList/List";
 import ReportList from "./pages/reportList/ReportList";
 import SingleReport from "./pages/singleReport/SingleReport";
-import NotificationsList from "./pages/notificationsList/NotificationsList";
 import "antd/dist/antd.css";
 import store from "./redux/store";
 import { Provider, useSelector } from "react-redux";
@@ -31,9 +30,6 @@ function App() {
                 <Route path="users">
                   <Route index element={<List />} />
                   <Route path=":userId" element={<Single />} />
-                </Route>
-                <Route path="notifications">
-                  <Route index element={<NotificationsList />} />
                 </Route>
                 <Route path="jobs">
                   <Route index element={<JobList />} />

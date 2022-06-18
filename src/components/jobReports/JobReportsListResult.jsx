@@ -25,15 +25,15 @@ import {
 import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/userSlice";
 import { useNavigate } from "react-router";
-import { deleteUsersById } from "../../utils/customer";
 import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import Stack from "@mui/material/Stack";
 import MuiAlert from "@mui/material/Alert";
 import { Button } from "antd";
-import "./UsersListResult.scss";
+import { deleteJobPostById } from "../../utils/job";
 
-export const UserListResults = ({ customers, searchTerm, ...rest }) => {
+export const JobReportsListResult = ({ jobs, searchTerm, ...rest }) => {
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
@@ -64,53 +64,48 @@ export const UserListResults = ({ customers, searchTerm, ...rest }) => {
     </React.Fragment>
   );
   const user = useSelector(selectUser);
+  // const router = useRouter();
   if (user) {
     var token = user.accessToken;
   }
-  const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
+  const [selectedJobIds, setSelectedJobIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
   const [err, setErr] = useState("");
-  const [userData, setUserData] = useState(null);
+  const [jobData, setJobData] = useState(null);
+
   let navigate = useNavigate();
 
   const handleSelectAll = (event) => {
-    let newSelectedCustomerIds;
+    let newSelectedJobIds;
 
     if (event.target.checked) {
-      newSelectedCustomerIds = customers.map((customer) => customer._id);
+      newSelectedJobIds = jobs.map((job) => job._id);
     } else {
-      newSelectedCustomerIds = [];
+      newSelectedJobIds = [];
     }
 
-    setSelectedCustomerIds(newSelectedCustomerIds);
+    setSelectedJobIds(newSelectedJobIds);
   };
 
   const handleSelectOne = (event, id) => {
-    const selectedIndex = selectedCustomerIds.indexOf(id);
-    let newSelectedCustomerIds = [];
+    const selectedIndex = selectedJobIds.indexOf(id);
+    let newSelectedJobIds = [];
 
     if (selectedIndex === -1) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(
-        selectedCustomerIds,
-        id
-      );
+      newSelectedJobIds = newSelectedJobIds.concat(selectedJobIds, id);
     } else if (selectedIndex === 0) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(
-        selectedCustomerIds.slice(1)
-      );
-    } else if (selectedIndex === selectedCustomerIds.length - 1) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(
-        selectedCustomerIds.slice(0, -1)
-      );
+      newSelectedJobIds = newSelectedJobIds.concat(selectedJobIds.slice(1));
+    } else if (selectedIndex === selectedJobIds.length - 1) {
+      newSelectedJobIds = newSelectedJobIds.concat(selectedJobIds.slice(0, -1));
     } else if (selectedIndex > 0) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(
-        selectedCustomerIds.slice(0, selectedIndex),
-        selectedCustomerIds.slice(selectedIndex + 1)
+      newSelectedJobIds = newSelectedJobIds.concat(
+        selectedJobIds.slice(0, selectedIndex),
+        selectedJobIds.slice(selectedIndex + 1)
       );
     }
 
-    setSelectedCustomerIds(newSelectedCustomerIds);
+    setSelectedJobIds(newSelectedJobIds);
   };
 
   const handleLimitChange = (event) => {
@@ -123,10 +118,10 @@ export const UserListResults = ({ customers, searchTerm, ...rest }) => {
 
   const handleDelete = (id) => {
     try {
-      deleteUsersById(id, user.token)
+      deleteJobPostById(id, user.token)
         .then((res) => res.json())
         .then((data) => {
-          setUserData(data);
+          setJobData(data);
           window.location.reload();
           handleClick();
         })
@@ -145,52 +140,45 @@ export const UserListResults = ({ customers, searchTerm, ...rest }) => {
               <TableRow>
                 <TableCell padding="checkbox">
                   <Checkbox
-                    checked={selectedCustomerIds.length === customers.length}
+                    checked={selectedJobIds.length === jobs.length}
                     color="primary"
                     indeterminate={
-                      selectedCustomerIds.length > 0 &&
-                      selectedCustomerIds.length < customers.length
+                      selectedJobIds.length > 0 &&
+                      selectedJobIds.length < jobs.length
                     }
                     onChange={handleSelectAll}
                   />
                 </TableCell>
-                <TableCell>Name</TableCell>
-                <TableCell>Email</TableCell>
+                <TableCell>Job Title</TableCell>
+                <TableCell>Company Name</TableCell>
                 <TableCell>Location</TableCell>
-                <TableCell>Role</TableCell>
-                <TableCell>Verified</TableCell>
-                <TableCell>Account Status</TableCell>
                 <TableCell>Action</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {customers
+              {jobs
                 .slice(0, limit)
                 .filter((val) => {
                   if (searchTerm == "") {
                     return val;
                   } else if (
-                    val.fullName
+                    val.jobTitle
                       .toLowerCase()
                       .includes(searchTerm.toLowerCase())
                   ) {
                     return val;
                   }
                 })
-                .map((customer) => (
+                .map((job) => (
                   <TableRow
                     hover
-                    key={customer._id}
-                    selected={selectedCustomerIds.indexOf(customer._id) !== -1}
+                    key={job._id}
+                    selected={selectedJobIds.indexOf(job._id) !== -1}
                   >
                     <TableCell padding="checkbox">
                       <Checkbox
-                        checked={
-                          selectedCustomerIds.indexOf(customer._id) !== -1
-                        }
-                        onChange={(event) =>
-                          handleSelectOne(event, customer._id)
-                        }
+                        checked={selectedJobIds.indexOf(job._id) !== -1}
+                        onChange={(event) => handleSelectOne(event, job._id)}
                         value="true"
                       />
                     </TableCell>
@@ -201,74 +189,23 @@ export const UserListResults = ({ customers, searchTerm, ...rest }) => {
                           display: "flex",
                         }}
                       >
-                        {customer.profilePicture ? (
-                          <Avatar
-                            src={customer.profilePicture}
-                            sx={{
-                              backgroundPosition: "center",
-                              mr: 2,
-                              borderRadius: "50%",
-                            }}
-                          ></Avatar>
-                        ) : (
-                          <Avatar
-                            // src={customer.avatarUrl}
-                            sx={{
-                              mr: 2,
-                              backgroundColor: "#BB8D6F",
-                              padding: "4px",
-                            }}
-                          >
-                            {getInitials(customer.fullName)}
-                          </Avatar>
-                        )}
                         <Typography color="textPrimary" variant="body1">
-                          {customer.fullName}
+                          {job.jobTitle}
                         </Typography>
                       </Box>
                     </TableCell>
-                    <TableCell>{customer.email}</TableCell>
+                    <TableCell>{job.companyName}</TableCell>
                     <TableCell
                       style={{ textTransform: "capitalize" }}
-                    >{`${customer.location}`}</TableCell>
-                    <TableCell style={{ textTransform: "capitalize" }}>
-                      {customer.role}
-                    </TableCell>
+                    >{`${job.location}`}</TableCell>
+
                     <TableCell>
-                      {customer.verified ? (
-                        <div className="status_verified">
-                          <span>Yes</span>
-                        </div>
-                      ) : (
-                        <div className="status_not_verified">
-                          <span>No</span>
-                        </div>
-                      )}
-                    </TableCell>{" "}
-                    <TableCell>
-                      {customer._isUserActive ? (
-                        <div className="status_active">
-                          <span>Active</span>
-                        </div>
-                      ) : (
-                        <div className="status_banned">
-                          <span>Banned</span>
-                        </div>
-                      )}
-                    </TableCell>
-                    {/* <TableCell>
-                      {customer._isUserActive ? (
-                        <Chip label="Active" color="success" />
-                      ) : (
-                        <Chip label="Banned" color="error" />
-                      )}
-                    </TableCell> */}
-                    <TableCell>
+                      {" "}
                       <IconButton
                         color="info"
-                        aria-label="more info"
+                        aria-label="more"
                         component="span"
-                        onClick={() => navigate(`/users/${customer._id}`)}
+                        onClick={() => navigate(`/jobs/${job._id}`)}
                       >
                         <MoreHorizSharp />
                       </IconButton>
@@ -289,7 +226,7 @@ export const UserListResults = ({ customers, searchTerm, ...rest }) => {
                         color="error"
                         aria-label="delete user"
                         component="span"
-                        onClick={() => handleDelete(customer._id)}
+                        onClick={() => handleDelete(job._id)}
                       >
                         <DeleteOutlined />
                       </IconButton>
@@ -302,17 +239,17 @@ export const UserListResults = ({ customers, searchTerm, ...rest }) => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={customers.length}
+        count={jobs.length}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
         page={page}
         rowsPerPage={limit}
         rowsPerPageOptions={[5, 10, 25]}
-      />{" "}
+      />
     </Card>
   );
 };
 
-UserListResults.propTypes = {
-  customers: PropTypes.array.isRequired,
+JobReportsListResult.propTypes = {
+  jobs: PropTypes.array.isRequired,
 };

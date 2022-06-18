@@ -10,6 +10,19 @@ export const getUsers = async () => {
   );
   return response;
 };
+export const getAdminProfile = async (token) => {
+  const response = await fetch(
+    "http://localhost:5655/microservice/accountService/admin/current/",
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response;
+};
 
 export const getUsersById = async (id, token) => {
   const response = await fetch(
@@ -104,6 +117,19 @@ export const unverifyUsersById = async (id, token) => {
         id: id,
         verified: "false",
       }),
+    }
+  );
+  return response;
+};
+export const viewReports = async (token) => {
+  const response = await fetch(
+    "http://localhost:5655/microservice/accountService/admin/profile",
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
     }
   );
   return response;

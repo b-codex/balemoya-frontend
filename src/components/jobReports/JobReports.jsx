@@ -14,7 +14,7 @@ import { useSelector } from "react-redux";
 import { useState } from "react";
 import { selectUser } from "../../redux/userSlice";
 
-export const JobProfile = (props) => {
+export const JobReports = (props) => {
   let { userId } = useParams();
   const user = useSelector(selectUser);
   const [userData, setUserData] = useState(null);

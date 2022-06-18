@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Navbar.scss";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import LanguageOutlinedIcon from "@mui/icons-material/LanguageOutlined";
@@ -7,13 +7,30 @@ import FullscreenExitOutlinedIcon from "@mui/icons-material/FullscreenExitOutlin
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
 import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
+import ReportGmailerrorredIcon from "@mui/icons-material/ReportGmailerrorred";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { Avatar } from "@mui/material";
 import { Link } from "react-router-dom";
+import { getInitials } from "../../utils/get-initials";
+import { getAdminProfile } from "../../utils/customer";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../redux/userSlice";
 
 const Navbar = () => {
   const { dispatch } = useContext(DarkModeContext);
-  const signedIn = true;
+  const user = useSelector(selectUser);
+  const [userData, setUserData] = useState(null);
+  const [err, setErr] = useState("");
+  useEffect(() => {
+    getAdminProfile(user.token)
+      .then((res) => res.json())
+      .then((data) => {
+        setUserData(data);
+      })
+      .catch((err) => {
+        setErr("Something went wrong");
+      });
+  }, []);
 
   return (
     <div className="navbar">
@@ -27,24 +44,25 @@ const Navbar = () => {
             />
           </div>
           <div className="item">
-            <FullscreenExitOutlinedIcon className="icon" />
+            <FullscreenExitOutlinedIcon
+              style={{ cursor: "Pointer" }}
+              className="icon"
+            />
           </div>
-          <Link to="/notifications" style={{ textDecoration: "none", color: "inherit" }}>
+          <Link
+            to="/reports"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
             <div className="item">
-              <NotificationsNoneOutlinedIcon className="icon" />
+              <ReportGmailerrorredIcon className="icon" />
+
               <div className="counter">1</div>
             </div>
           </Link>
-
           <div className="item">
-            {signedIn ? (
-              <Avatar
-                style={{ backgroundColor: "orange" }}
-                alt="Remy Sharp"
-                src="/broken-image.jpg"
-              >
-                A
-                {/* TODO:  use prop to pass down the initials from the admin's name (from sign in page) */}
+            {userData?.name ? (
+              <Avatar style={{ backgroundColor: "green" }} sx={{ mr: 2 }}>
+                {getInitials(userData?.name)}
               </Avatar>
             ) : (
               <Avatar src="/broken-image.jpg" />

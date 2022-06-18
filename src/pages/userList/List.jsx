@@ -60,7 +60,6 @@ const List = () => {
             </Box>
           </Container>
         </Box>
-        {/* <Datatable /> */}
       </div>
     </div>
   );

@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import { SearchOutlined } from "@mui/icons-material";
-export const JobListToolbar = (props) => {
+export const JobReportsListToolbar = (props) => {
   return (
     <Box {...props}>
       <Box
@@ -40,7 +40,7 @@ export const JobListToolbar = (props) => {
                     </InputAdornment>
                   ),
                 }}
-                placeholder="Search Jobs"
+                placeholder="Search Reported Users"
                 variant="outlined"
               />
             </Box>

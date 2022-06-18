@@ -61,12 +61,9 @@ const SingleJob = () => {
         >
           <Container maxWidth="lg">
             <Typography sx={{ mb: 3 }} variant="h4">
-              Jobs
+              Detailed Information
             </Typography>
-            <Grid container spacing={3}>
-              {/* <Grid item lg={6} md={6} xs={12}>
-                <UserProfile user={jobData} />
-              </Grid> */}
+            <Grid container spacing={4}>
               <Grid item lg={5} md={5} xs={10}>
                 <Card>
                   <CardContent>
@@ -76,6 +73,7 @@ const SingleJob = () => {
                         marginLeft: "45px",
                         display: "flex",
                         flexDirection: "column",
+                        lineHeight: "54px",
                       }}
                     >
                       <Typography color="textPrimary" gutterBottom variant="h5">
@@ -83,6 +81,9 @@ const SingleJob = () => {
                       </Typography>
                       <Typography color="textSecondary" variant="body2">
                         <strong>Job Title</strong>: {jobData?.jobTitle}
+                      </Typography>{" "}
+                      <Typography color="textSecondary" variant="body2">
+                        <strong>Job ID</strong>: {jobData?._id}
                       </Typography>
                       <Typography color="textSecondary" variant="body2">
                         <strong>Job Type</strong>: {jobData?.jobType}
@@ -91,17 +92,14 @@ const SingleJob = () => {
                         <strong>Job Tag(s)</strong>: {jobData?.tag}
                       </Typography>{" "}
                       <Typography color="textSecondary" variant="body2">
-                        <strong>Salary</strong>: {jobData?.salary}
+                        <strong>Post Created At</strong>: &nbsp;
+                        {moment(jobData?.createdAt).format("MM/DD/YYYY")}
                       </Typography>{" "}
                       <Typography color="textSecondary" variant="body2">
-                        <strong>Post Created At</strong>: {jobData?.createdAt}
-                      </Typography>{" "}
-                      <Typography color="textSecondary" variant="body2">
-                        <strong>Post Last Updated At</strong>:{" "}
-                        {jobData?.updatedAt}
+                        <strong>Post Last Updated At</strong>: &nbsp;
+                        {moment(jobData?.updatedAt).format("MM/DD/YYYY")}
                       </Typography>
-                      <br />
-                      <Typography color="textSecondary" variant="body2">
+                      {/* <Typography color="textSecondary" variant="body2">
                         <strong>Qualification</strong>: {jobData?.qualification}
                       </Typography>
                       <Typography color="textSecondary" variant="body2">
@@ -109,7 +107,7 @@ const SingleJob = () => {
                       </Typography>
                       <Typography color="textSecondary" variant="body2">
                         <strong>Description</strong>: {jobData?.description}
-                      </Typography>
+                      </Typography> */}
                     </Box>
                   </CardContent>
                 </Card>
@@ -137,11 +135,16 @@ const SingleJob = () => {
                       <Typography color="textSecondary" variant="body2">
                         <strong>Company</strong>: {jobData?.companyName}
                       </Typography>
-                      <Typography color="textSecondary" variant="body2">
+                      <Typography
+                        color="textSecondary"
+                        variant="body2"
+                        style={{ textTransform: "capitalize" }}
+                      >
                         <strong>Location</strong>: {jobData?.location}
                       </Typography>
                       <Typography color="textSecondary" variant="body2">
-                        <strong>Account Created At</strong>:{jobData?.createdAt}
+                        <strong>Account Created At</strong>: &nbsp;
+                        {moment(jobData?.createdAt).format("MM/DD/YYYY")}
                       </Typography>
                     </Box>
                   </CardContent>
@@ -149,12 +152,12 @@ const SingleJob = () => {
                 <br></br>
               </Grid>
             </Grid>
-            <Typography sx={{ mb: 3 }} variant="h4">
+            <Typography sx={{ mb: 1 }} variant="h5">
               Reports
             </Typography>
             <Typography color="textSecondary" variant="body2">
-              <strong>Report(s) associated with this account</strong>:
-              {userData?.report_Id}
+              <strong>Total number of report(s) associated with this post</strong>: &nbsp;
+              {userData?.report_Id ? userData?.report_Id.length : 'No Reports'}
             </Typography>
           </Container>
         </Box>

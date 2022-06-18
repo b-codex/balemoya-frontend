@@ -2,15 +2,8 @@ import React, { useContext } from "react";
 import "./Sidebar.scss";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
-import StoreMallDirectoryOutlinedIcon from "@mui/icons-material/StoreMallDirectoryOutlined";
-import CreditCardOutlinedIcon from "@mui/icons-material/CreditCardOutlined";
-import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
 import InsertChartOutlinedIcon from "@mui/icons-material/InsertChartOutlined";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
-import SettingsSystemDaydreamOutlinedIcon from "@mui/icons-material/SettingsSystemDaydreamOutlined";
-import PsychologyOutlinedIcon from "@mui/icons-material/PsychologyOutlined";
-import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import WorkIcon from "@mui/icons-material/Work";
 import { Link } from "react-router-dom";
@@ -18,6 +11,7 @@ import { DarkModeContext } from "../../context/darkModeContext";
 import { useDispatch } from "react-redux";
 import { logout } from "../../redux/userSlice";
 import { useNavigate } from "react-router-dom";
+import ReportGmailerrorredIcon from "@mui/icons-material/ReportGmailerrorred";
 
 const Sidebar = () => {
   const dispatch = useDispatch();
@@ -29,7 +23,7 @@ const Sidebar = () => {
   return (
     <div className="sidebar">
       <div className="top">
-        <span className="admin_logo">Admin</span>
+        <span className="admin_logo">ADMIN</span>
       </div>
       <hr />
       <div className="center">
@@ -58,25 +52,15 @@ const Sidebar = () => {
           <li>
             <InsertChartOutlinedIcon /> <span>Stats</span>
           </li>
-          <Link to="/notifications" style={{ textDecoration: "none", color: "inherit" }}>
+          <Link
+            to="/reports"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
             <li>
-              <NotificationsNoneOutlinedIcon /> <span>Notifications</span>
+              <ReportGmailerrorredIcon /> <span>Reports</span>
             </li>
           </Link>
-          <p className="title">SERVICE</p>
-          {/* <li>
-            <SettingsSystemDaydreamOutlinedIcon /> <span>System Health</span>
-          </li> */}
-          <li>
-            <PsychologyOutlinedIcon /> <span>Logs</span>
-          </li>
-          <li>
-            <SettingsOutlinedIcon /> <span>Settings</span>
-          </li>
-          <p className="title">USER</p>
-          <li>
-            <PermIdentityOutlinedIcon /> <span>Profile</span>
-          </li>
+          <p className="title">SESSION</p>
           <li onClick={handleLogout}>
             <LogoutOutlinedIcon /> <span>Logout</span>
           </li>

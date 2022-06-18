@@ -6,14 +6,48 @@ import { signin } from "../../utils/userUtils";
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/userSlice";
 import { useNavigate } from "react-router-dom";
+import logo from "./logo.png";
+import Snackbar from "@mui/material/Snackbar";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import Stack from "@mui/material/Stack";
+import MuiAlert from "@mui/material/Alert";
+
 const Login = () => {
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+  const [open, setOpen] = React.useState(false);
+  const handleClick = () => {
+    setOpen(true);
+  };
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+  const action = (
+    <React.Fragment>
+      <Button color="secondary" size="small" onClick={handleClose}>
+        OK
+      </Button>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
   const dispatch = useDispatch();
   let navigate = useNavigate();
   const onFinish = (values) => {
     signin(values.email, values.password)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         if (data.success === true) {
           dispatch(
             login({
@@ -26,6 +60,8 @@ const Login = () => {
             })
           );
           navigate(`/`);
+        } else {
+          handleClick();
         }
       })
       .catch((_) => {
@@ -39,7 +75,17 @@ const Login = () => {
     <div className="login">
       <div className="left_div">
         <div className="left_div_text">
-          <div className="logo_div"></div>
+          <div
+            className="logo_div"
+            style={{
+              backgroundImage: `url(${logo})`,
+              width: "280px",
+              height: "90px",
+              backgroundSize: "cover",
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "center",
+            }}
+          ></div>
           <br />
           <br />
           <h1>
@@ -99,7 +145,7 @@ const Login = () => {
             }}
           >
             <Checkbox
-            className="form_checkbox"
+              className="form_checkbox"
               style={{
                 backgroundColor: "#5138ee !important",
                 borderRadius: "8px",
@@ -129,6 +175,17 @@ const Login = () => {
             </Button>
           </Form.Item>
         </Form>
+        <Stack spacing={2} sx={{ width: "100%" }}>
+          <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+            <Alert
+              onClose={handleClose}
+              severity="warning"
+              sx={{ width: "100%" }}
+            >
+              Invalid Credentials!
+            </Alert>
+          </Snackbar>
+        </Stack>
         <div className="left_div_footer">
           @2022 Balemoya. All rights reserved
         </div>

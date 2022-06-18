@@ -3,12 +3,13 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import AccountBalanceOutlinedIcon from "@mui/icons-material/AccountBalanceOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
-import ReportIcon from '@mui/icons-material/Report';
+import ReportIcon from "@mui/icons-material/Report";
+import ReportGmailerrorredIcon from "@mui/icons-material/ReportGmailerrorred";
 
 import React from "react";
 import "./Widget.scss";
 
-const Widget = ({ type }) => {
+const Widget = ({ type, value }) => {
   let data;
 
   const amount = 100;
@@ -18,7 +19,6 @@ const Widget = ({ type }) => {
     case "user":
       data = {
         title: "USERS",
-        isMoney: false,
         link: "Display all users",
         icon: (
           <PersonOutlineOutlinedIcon
@@ -31,29 +31,13 @@ const Widget = ({ type }) => {
         ),
       };
       break;
-    case "employment rate":
-      data = {
-        title: "EMPLOYMENT RATE",
-        isMoney: false,
-        link: "Show details",
-        icon: (
-          <ShoppingCartOutlinedIcon
-            className="icon"
-            style={{
-              color: "goldenrod",
-              backgroundColor: "rgba(218, 165, 32, 0.2)",
-            }}
-          />
-        ),
-      };
-      break;
+
     case "reports":
       data = {
-        title: "USER REPORTS",
-        isMoney: true,
+        title: "REPORTED USERS",
         link: "View reported accounts",
         icon: (
-          <ReportIcon
+          <ReportGmailerrorredIcon
             className="icon"
             style={{
               color: "goldenrod",
@@ -63,9 +47,9 @@ const Widget = ({ type }) => {
         ),
       };
       break;
-    case "revenue":
+    case "job post":
       data = {
-        title: "REVENUE",
+        title: "JOB POSTS",
         isMoney: true,
         link: "See details",
         icon: (
@@ -88,8 +72,8 @@ const Widget = ({ type }) => {
       <div className="left">
         <span className="title">{data.title}</span>
         <span className="counter">
-          {data.isMoney && "$"}
-          {amount}
+          {/* {user._id} */}
+          {value} 
         </span>
         <span className="link">{data.link}</span>
       </div>
@@ -98,7 +82,6 @@ const Widget = ({ type }) => {
           <KeyboardArrowUpIcon />
           {diff}%
         </div>
-        {/* <PersonOutlineOutlinedIcon className="icon" /> */}
         {data.icon}
       </div>
     </div>

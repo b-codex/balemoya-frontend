@@ -8,9 +8,7 @@ import {
   SvgIcon,
   Typography,
 } from "@mui/material";
-import {
-  SearchOutlined
-} from "@mui/icons-material";
+import { SearchOutlined } from "@mui/icons-material";
 export const UserListToolbar = (props) => {
   return (
     <Box {...props}>
@@ -20,28 +18,16 @@ export const UserListToolbar = (props) => {
           display: "flex",
           justifyContent: "space-between",
           flexWrap: "wrap",
-          m: -1,
         }}
       >
         <Typography sx={{ m: 1 }} variant="h4">
           {props.name}
         </Typography>
-        {/* <Box sx={{ m: 1 }}>
-            <Button startIcon={<UploadIcon fontSize="small" />} sx={{ mr: 1 }}>
-              Import
-            </Button>
-            <Button startIcon={<DownloadIcon fontSize="small" />} sx={{ mr: 1 }}>
-              Export
-            </Button>
-            <Button color="primary" variant="contained" onClick={(route) => handleClick(props.route)}>
-              Add {props.name}
-            </Button>
-          </Box> */}
       </Box>
-      <Box sx={{ mt: 3 }}>
+      <Box sx={{ mt: 2 }}>
         <Card>
           <CardContent>
-            <Box sx={{ maxWidth: 500 }}>
+            <Box sx={{ maxWidth: 400 }}>
               <TextField
                 onChange={(event) => props.setSearchTerm(event.target.value)}
                 fullWidth

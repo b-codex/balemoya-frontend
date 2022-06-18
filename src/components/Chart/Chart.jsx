@@ -1,5 +1,5 @@
 import "./Chart.scss";
-import React, { PureComponent } from "react";
+import React, { PureComponent, useEffect, useState } from "react";
 import {
   LineChart,
   Line,
@@ -12,6 +12,7 @@ import {
   AreaChart,
   ResponsiveContainer,
 } from "recharts";
+import { getUsers } from "../../utils/customer";
 
 const data = [
   {
@@ -53,6 +54,22 @@ const data = [
 ];
 
 const Chart = () => {
+  const [users, setUsers] = useState([]);
+  const [err, setErr] = useState("");
+  const [totalUsers, setTotalUsers] = useState(0)
+  useEffect(() => {
+    // add user tokens inside the param
+    getUsers()
+      .then((res) => res.json())
+      .then((data) => {
+        setUsers(data);
+        // setTotalUsers(data.length)
+        console.log('aaa'+data.length());
+      })
+      .catch((_) => {
+        setErr("Something went wrong");
+      });
+  }, []);
   return (
     <div className="chart">
       {/* <ResponsiveContainer> */}
