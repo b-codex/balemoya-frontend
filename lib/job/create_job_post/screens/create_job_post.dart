@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:balemoya/job/create_job_post/bloc/create_job_post_bloc.dart';
 import 'package:balemoya/job/create_job_post/models/models.dart';
+import 'package:balemoya/job/home/bloc/home_bloc.dart';
 import 'package:balemoya/static/widgets/snack_bar.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class CreateJobPost extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _appBar(context),
-      body: _body(context),
+      body: FormBody(),
       // drawer: drawer(
       //   context: context,
       //   pageName: routeName,
@@ -37,7 +38,16 @@ PreferredSizeWidget _appBar(context) {
   );
 }
 
-Widget _body(context) {
+class FormBody extends StatefulWidget {
+  const FormBody({Key? key}) : super(key: key);
+
+  @override
+  State<FormBody> createState() => _FormBodyState();
+}
+
+class _FormBodyState extends State<FormBody> {
+  var _jobTypes = ['Contractual', 'Full-time', 'One-time'];
+  String _selectedJobType = 'Contractual';
   final _formKey = GlobalKey<FormState>();
   TextEditingController _companyNameController = TextEditingController();
   TextEditingController _locationController = TextEditingController();
@@ -49,133 +59,140 @@ Widget _body(context) {
   TextEditingController _tagController = TextEditingController();
   TextEditingController _companySizeController = TextEditingController();
 
-  // get today's time
-  var date = new DateTime.now();
-  var formatter = new DateFormat('MM-dd-yyyy');
-  // ignore: unused_local_variable
-  var formattedDate = formatter.format(date);
+  @override
+  Widget build(BuildContext context) {
+    // get today's time
+    var date = new DateTime.now();
+    var formatter = new DateFormat('MM-dd-yyyy');
+    // ignore: unused_local_variable
+    var formattedDate = formatter.format(date);
 
-  return BlocConsumer<CreateJobPostBloc, CreateJobPostState>(
-    listener: (context, state) {
-      if (state is JobPostCreated) {
-        animatedSnackBar(
-          context: context,
-          message: "Job Post Created.",
-          animatedSnackBarType: AnimatedSnackBarType.success,
-        );
-      }
+    return BlocConsumer<CreateJobPostBloc, CreateJobPostState>(
+      listener: (context, state) {
+        if (state is JobPostCreated) {
+          animatedSnackBar(
+            context: context,
+            message: "Job Post Created.",
+            animatedSnackBarType: AnimatedSnackBarType.success,
+          );
+          final JobBloc = BlocProvider.of<HomeBloc>(context);
+          JobBloc.add(GetJobPosts());
+        }
 
-      if (state is JobPostNotCreated) {
-        animatedSnackBar(
-          context: context,
-          message: "Task Failed. Please Try Again.",
-          animatedSnackBarType: AnimatedSnackBarType.error,
-        );
-      }
-    },
-    builder: (context, state) {
-      var _jobTypes = ['Contractual', 'Permanent', 'One-time'];
-      String _selectedJobType = _jobTypes[0];
-
-      return SingleChildScrollView(
-        child: Form(
-          key: _formKey,
-          child: Column(
-            // mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              _companyName(_companyNameController),
-              _jobTitle(_jobTitleController),
-              _location(_locationController),
-              _salary(_salaryController),
-              _shortDescription(_shortDescriptionController),
-              _requirements(_requirementsController),
-              _qualification(_qualificationController),
-              _tag(_tagController),
-              _companySize(_companySizeController),
-              Container(
-                margin: EdgeInsets.symmetric(
-                  horizontal: 10.0,
-                  vertical: 7.0,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Job Type: '),
-                    DropdownButton(
-                      value: 'Contractual',
-                      items: _jobTypes.map(
-                        (_jobType) {
-                          return DropdownMenuItem(
-                            child: Text(_jobType),
-                            value: _jobType,
-                          );
+        if (state is JobPostNotCreated) {
+          animatedSnackBar(
+            context: context,
+            message: "Task Failed. Please Try Again.",
+            animatedSnackBarType: AnimatedSnackBarType.error,
+          );
+        }
+      },
+      builder: (context, state) {
+        return SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              // mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                _companyName(_companyNameController),
+                _jobTitle(_jobTitleController),
+                _location(_locationController),
+                _salary(_salaryController),
+                _shortDescription(_shortDescriptionController),
+                _requirements(_requirementsController),
+                _qualification(_qualificationController),
+                _tag(_tagController),
+                _companySize(_companySizeController),
+                Container(
+                  margin: EdgeInsets.symmetric(
+                    horizontal: 10.0,
+                    vertical: 7.0,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Job Type: '),
+                      DropdownButton(
+                        value: _selectedJobType,
+                        hint: Text("Select Job Type"),
+                        items: _jobTypes.map(
+                          (_jobType) {
+                            return DropdownMenuItem(
+                              child: Text(_jobType),
+                              value: _jobType,
+                            );
+                          },
+                        ).toList(),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            _selectedJobType = newValue!;
+                          });
                         },
-                      ).toList(),
-                      onChanged: (String? newValue) {
-                        _selectedJobType = newValue!;
-                      },
-                    ),
-                  ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              CompanyLogo.returnWidget(),
-              Container(
-                margin: EdgeInsets.only(
-                  top: 35,
-                ),
-                child: BlocBuilder<CreateJobPostBloc, CreateJobPostState>(
-                  builder: (context, state) {
-                    if (state is CreatingPost) {
+                CompanyLogo.returnWidget(),
+                Container(
+                  margin: EdgeInsets.only(
+                    top: 35,
+                  ),
+                  child: BlocBuilder<CreateJobPostBloc, CreateJobPostState>(
+                    builder: (context, state) {
+                      if (state is CreatingPost) {
+                        return ElevatedButton(
+                          onPressed: null,
+                          child: loading(),
+                          style: ElevatedButton.styleFrom(
+                            fixedSize: const Size(400, 50),
+                          ),
+                        );
+                      }
                       return ElevatedButton(
-                        onPressed: null,
-                        child: loading(),
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            final bloc =
+                                BlocProvider.of<CreateJobPostBloc>(context);
+                            bloc.add(
+                              CreateAJobPostEvent(
+                                createJobPostModel: CreateJobPostModel(
+                                  companyName:
+                                      _companyNameController.text.trim(),
+                                  jobTitle: _jobTitleController.text.trim(),
+                                  location: _locationController.text.trim(),
+                                  salary: _salaryController.text.trim(),
+                                  shortDescription:
+                                      _shortDescriptionController.text.trim(),
+                                  requirements:
+                                      _requirementsController.text.trim(),
+                                  qualification:
+                                      _qualificationController.text.trim(),
+                                  tag: _tagController.text.trim(),
+                                  companySize:
+                                      _companySizeController.text.trim(),
+                                  jobType: _selectedJobType,
+                                  companyLogo: CompanyLogo.getFile(),
+                                ),
+                              ),
+                            );
+                          }
+                        },
+                        child: Text("Post"),
                         style: ElevatedButton.styleFrom(
                           fixedSize: const Size(400, 50),
                         ),
                       );
-                    }
-                    return ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          final bloc =
-                              BlocProvider.of<CreateJobPostBloc>(context);
-                          bloc.add(
-                            CreateAJobPostEvent(
-                              createJobPostModel: CreateJobPostModel(
-                                companyName: _companyNameController.text.trim(),
-                                jobTitle: _jobTitleController.text.trim(),
-                                location: _locationController.text.trim(),
-                                salary: _salaryController.text.trim(),
-                                shortDescription:
-                                    _shortDescriptionController.text.trim(),
-                                requirements:
-                                    _requirementsController.text.trim(),
-                                qualification:
-                                    _qualificationController.text.trim(),
-                                tag: _tagController.text.trim(),
-                                companySize: _companySizeController.text.trim(),
-                                jobType: _selectedJobType,
-                                companyLogo: CompanyLogo.getFile(),
-                              ),
-                            ),
-                          );
-                        }
-                      },
-                      child: Text("Post"),
-                      style: ElevatedButton.styleFrom(
-                        fixedSize: const Size(400, 50),
-                      ),
-                    );
-                  },
+                    },
+                  ),
                 ),
-              ),
-              _helpText(),
-            ],
+                _helpText(),
+              ],
+            ),
           ),
-        ),
-      );
-    },
-  );
+        );
+      },
+    );
+  }
 }
 
 /// _companyName is a function that returns a Container widget that contains a _formField widget.

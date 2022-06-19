@@ -6,6 +6,10 @@ import "package:flutter/material.dart";
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../static/shared_preference.dart';
+import '../../home/bloc/home_bloc.dart';
+import '../data_provider/provider.dart';
+
 class JobDetail extends StatelessWidget {
   /// Declaring a variable called job and assigning it a value of a map.
   final Map job;
@@ -18,7 +22,25 @@ class JobDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: _body(context, job),
+      body: FutureBuilder<dynamic>(
+        future: SharedPreference().getSession(),
+        builder: (context, dataSnapshot) {
+          if (dataSnapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else {
+            if (dataSnapshot.error != null) {
+              return Center(
+                child: Text('An error occured'),
+              );
+            } else {
+              return _body(context, job, dataSnapshot.data![3]);
+            }
+          }
+        },
+      ),
+      // body: _body(context, job),
       // bottomSheet: _applyButton(context),
     );
   }
@@ -31,7 +53,7 @@ class JobDetail extends StatelessWidget {
 ///
 /// Returns:
 ///   A Column widget with two children.
-Widget _body(context, job) {
+Widget _body(context, job, userId) {
   List reviews = [];
   return Column(
     mainAxisSize: MainAxisSize.min,
@@ -43,6 +65,28 @@ Widget _body(context, job) {
 
       _reviewSection(reviews: reviews, role: job['role'], jobID: job['id']),
       _applyButton(context, job),
+      userId == job["postedBy"]
+          ? TextButton(
+              onPressed: () async {
+                final sessionID = await SharedPreference().getSession().then(
+                  (value) {
+                    return value;
+                  },
+                );
+                var res = await JobDetailProvider()
+                    .deleteJob(sessionID: sessionID[1], jobId: job["id"]);
+                if (res == true) {
+                  final bloc = BlocProvider.of<HomeBloc>(context);
+                  bloc.add(GetJobPosts());
+                  Navigator.of(context).pop();
+                } else {
+                  var snackBar =
+                      SnackBar(content: Text("Job couldn't be deleted"));
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                }
+              },
+              child: Text("Delete Job Post"))
+          : Container()
     ],
   );
 }

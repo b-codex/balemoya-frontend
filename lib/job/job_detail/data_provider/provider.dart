@@ -78,4 +78,19 @@ class JobDetailProvider {
       };
     }
   }
+
+  Future<bool> deleteJob(
+      {required String sessionID, required String jobId}) async {
+    final url = "$apiRoute/jobService/employer/jobPost/$jobId";
+    print(url);
+    final response = await http.delete(Uri.parse(url), headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${sessionID}'
+    });
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      return true;
+    }
+    return false;
+  }
 }

@@ -2,6 +2,8 @@ import 'package:filter_list/filter_list.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../search_results/screens/search_results.dart';
+
 /// The class SearchCategory has a property called category that is of type String and is nullable
 class SearchCategory {
   final String? category;
@@ -44,8 +46,17 @@ PreferredSizeWidget employeeScreenAppBar(context) {
             },
             onApplyButtonClick: (list) {
               selectedUserList = List.from(list!);
-              selectedUserList.forEach((c) => print(c.category));
-              Navigator.pop(context);
+              var selectedCategories =
+                  selectedUserList.map((c) => (c.category)).toList();
+              // print(queryString);
+              // Navigator.pop(context);
+              print(queryString);
+              print(selectedCategories);
+              Navigator.of(context).pushNamed(SearchResults.routeName,
+                  arguments: {
+                    "query": queryString,
+                    "jobType": selectedCategories
+                  });
             },
           );
         },

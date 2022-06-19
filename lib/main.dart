@@ -12,7 +12,6 @@ import 'package:balemoya/account/reset_password/repository/repository.dart';
 import 'package:balemoya/auth/login/bloc/login_bloc.dart';
 import 'package:balemoya/auth/login/data_provider/provider.dart';
 import 'package:balemoya/auth/login/repository/repository.dart';
-import 'package:balemoya/auth/login/screens/login_screen.dart';
 import 'package:balemoya/auth/register/bloc/register_bloc.dart';
 import 'package:balemoya/auth/register/data_provider/provider.dart';
 import 'package:balemoya/auth/register/repository/repository.dart';
@@ -29,12 +28,11 @@ import 'package:balemoya/job/home/repository/repository.dart';
 import 'package:balemoya/job/job_detail/bloc/job_detail_bloc.dart';
 import 'package:balemoya/job/job_detail/data_provider/provider.dart';
 import 'package:balemoya/job/job_detail/repository/repository.dart';
-import 'package:balemoya/static/classes/socket.dart';
 import 'package:balemoya/static/routes/routes.dart';
-import 'package:balemoya/static/screens/intro_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:balemoya/static/classes/socket.dart';
 
 /// The `main()` function is the entry point of the app
 void main() {
@@ -195,7 +193,7 @@ class _MyAppState extends State<MyApp> {
             textTheme: GoogleFonts.montserratTextTheme(),
           ),
           debugShowCheckedModeBanner: false,
-          home: LoginScreen(),
+          home: LoadingScreen(),
           // initialRoute: RouteManager.loading_screen,
           onGenerateRoute: RouteManager.generateRoute,
         ),

@@ -6,7 +6,8 @@ import 'package:http/http.dart' as http;
 import 'package:balemoya/static/variables/static_variables.dart';
 
 /// A variable that is storing the url of the api.
-final String url = "$apiRoute/accountService/users/login";
+final String api = apiRoute;
+final String url = "$api/accountService/users/login";
 
 /// > This class is a provider for the login page
 class LoginProvider {

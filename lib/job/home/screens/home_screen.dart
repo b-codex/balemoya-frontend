@@ -207,11 +207,7 @@ Widget futureBuilder({
       /// function.
       if (role == "employee") {
         return employeeScreen(
-          context: context,
-          role: role,
-          profilePicture: "",
-          jobs: jobs,
-        );
+            context: context, role: role, profilePicture: "", jobs: jobs);
       }
 
       /// else, meaning if it is an employer role

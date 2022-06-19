@@ -2,6 +2,8 @@ import 'package:filter_list/filter_list.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../search_results/screens/search_results.dart';
+
 /// The class SearchCategory has a property called category that is of type String and is nullable
 class SearchCategory {
   final String? category;
@@ -44,9 +46,17 @@ PreferredSizeWidget employerScreenAppBar(context) {
             },
             onApplyButtonClick: (list) {
               selectedUserList = List.from(list!);
-              // selectedUserList.forEach((c) => print(c.category));
+              var selectedCategories =
+                  selectedUserList.map((c) => (c.category)).toList();
               // print(queryString);
-              Navigator.pop(context);
+              // Navigator.pop(context);
+              print(queryString);
+              print(selectedCategories);
+              Navigator.of(context).pushNamed(SearchResults.routeName,
+                  arguments: {
+                    "query": queryString,
+                    "jobType": selectedCategories
+                  });
             },
           );
         },
@@ -109,7 +119,6 @@ Widget employerScreenBody(context, role, jobs) {
         //     ),
         //   ),
         // ),
-        
         SizedBox(
           height: 10,
         ),
@@ -287,7 +296,6 @@ Widget employerScreenPopularUsersCard(context) {
 /// Returns:
 ///   A widget.
 Widget employerScreenPostedJobs(context, jobs, role) {
-  
   return Container(
     margin: EdgeInsets.symmetric(
       horizontal: 7,
@@ -325,21 +333,21 @@ Widget employerScreenPostedJobs(context, jobs, role) {
               ),
             );
             return employerScreenJobsCard(
-              context: context,
-              id: job["_id"],
-              jobTitle: job["jobTitle"],
-              companyName: job["companyName"],
-              salary: job["salary"],
-              qualification: job["qualification"],
-              jobType: job["jobType"],
-              description: job["description"],
-              companySize: job["companySize"],
-              tag: job["tag"],
-              location: job["location"],
-              requirements: job["requirements"],
-              postedDate: postedDate,
-              role: role,
-            );
+                context: context,
+                id: job["_id"],
+                jobTitle: job["jobTitle"],
+                companyName: job["companyName"],
+                salary: job["salary"],
+                qualification: job["qualification"],
+                jobType: job["jobType"],
+                description: job["description"],
+                companySize: job["companySize"],
+                tag: job["tag"],
+                location: job["location"],
+                requirements: job["requirements"],
+                postedDate: postedDate,
+                role: role,
+                postedBy: job["postedBy"]);
           }).toList(),
         ),
       ],
@@ -371,6 +379,7 @@ Widget employerScreenJobsCard({
   required String requirements,
   required String postedDate,
   required String role,
+  required postedBy,
 }) {
   return GestureDetector(
     onTap: () {
@@ -387,7 +396,8 @@ Widget employerScreenJobsCard({
         "tag": tag,
         "requirements": requirements,
         "postedDate": postedDate,
-        "role" : role,
+        "role": role,
+        "postedBy": postedBy
       });
     },
     child: Container(
