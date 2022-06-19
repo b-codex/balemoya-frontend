@@ -4,6 +4,9 @@
     flex: 5;
     .widgets,
     .charts {
+      margin-left: 1%;
+      justify-content: start;
+      align-items: center;
       display: flex;
       padding: 20px;
       gap: 20px;
@@ -14,6 +17,9 @@
     }
     .charts {
       padding: 5px 20px;
+    }
+    .chart{
+      margin-top: 2%;
     }
   }
 }

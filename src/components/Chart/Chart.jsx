@@ -13,50 +13,12 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { getUsers } from "../../utils/customer";
-
-const data = [
-  {
-    name: "May",
-    "Male Users": 40,
-    "Female Users": 24,
-    amt: 2400,
-  },
-  {
-    name: "June",
-    "Male Users": 32,
-    "Female Users": 48,
-    amt: 2210,
-  },
-  {
-    name: "July",
-    "Male Users": 156,
-    "Female Users": 192,
-    amt: 2290,
-  },
-  {
-    name: "August",
-    "Male Users": 84,
-    "Female Users": 74,
-    amt: 2000,
-  },
-  {
-    name: "September",
-    "Male Users": 180,
-    "Female Users": 160,
-    amt: 2181,
-  },
-  {
-    name: "October",
-    "Male Users": 290,
-    "Female Users": 310,
-    amt: 2500,
-  },
-];
+import moment from "moment";
 
 const Chart = () => {
   const [users, setUsers] = useState([]);
   const [err, setErr] = useState("");
-  const [totalUsers, setTotalUsers] = useState(0)
+  const [totalUsers, setTotalUsers] = useState(0);
   useEffect(() => {
     // add user tokens inside the param
     getUsers()
@@ -64,12 +26,72 @@ const Chart = () => {
       .then((data) => {
         setUsers(data);
         // setTotalUsers(data.length)
-        console.log('aaa'+data.length());
+        console.log("aaa" + data.length());
       })
       .catch((_) => {
         setErr("Something went wrong");
       });
   }, []);
+
+  const chartData = [];
+  const employee = [];
+  const employer = [];
+  const accountType = () => {
+    for (var i = 0; i < users.length; i++) {
+      chartData.push(users[i].role);
+      if (users[i].role == "employee") {
+        employee.push(users[i].role);
+      } else if (users[i].role == "employer") {
+        employer.push(users[i].role);
+      }
+    }
+  };
+  accountType();
+
+  const creationList = [];
+  const momented = [];
+  const createdAt = () => {
+    for (var i = 0; i < users.length; i++) {
+      creationList.push(users[i].createdAt);
+      momented.push(moment(users[i].createdAt).format("MM/DD/YYYY"));
+    }
+  };
+  createdAt();
+
+  const uniqueCreationDates = [...new Set(momented)];
+
+  const accountsPerDay = () => {
+    for (var i = 0; i < creationList; i++) {
+      if (creationList[i] in creationList[i + 1]) {
+        console.log("uessefsdas");
+      } else {
+        console.log("nooo");
+      }
+    }
+  };
+  accountsPerDay();
+
+  createdAt();
+  let today = new Date().toLocaleDateString();
+  const firstSignup = moment(creationList[0]).format("MM/DD/YYYY");
+  const data = [
+    {
+      name: uniqueCreationDates[0],
+      Employees: employee.length,
+      Companies: employer.length,
+    },
+    {
+      name: uniqueCreationDates[1],
+      Employees: employee.length,
+      Companies: employer.length,
+    },
+    {
+      name: today,
+      Employees: employee.length,
+      Companies: employer.length,
+    },
+  ];
+
   return (
     <div className="chart">
       {/* <ResponsiveContainer> */}
@@ -92,11 +114,11 @@ const Chart = () => {
         <Legend />
         <Line
           type="monotone"
-          dataKey="Female Users"
+          dataKey="Employees"
           stroke="#8884d8"
           activeDot={{ r: 8 }}
         />
-        <Line type="monotone" dataKey="Male Users" stroke="#82ca9d" />
+        <Line type="monotone" dataKey="Companies" stroke="#82ca9d" />
       </LineChart>
       {/* </ResponsiveContainer> */}
     </div>

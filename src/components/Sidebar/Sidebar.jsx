@@ -49,9 +49,6 @@ const Sidebar = () => {
             </li>
           </Link>
           <p className="title">USEFUL</p>
-          <li>
-            <InsertChartOutlinedIcon /> <span>Stats</span>
-          </li>
           <Link
             to="/reports"
             style={{ textDecoration: "none", color: "inherit" }}

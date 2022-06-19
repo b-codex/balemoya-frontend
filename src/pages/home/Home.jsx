@@ -123,7 +123,7 @@ const Home = (props) => {
         </div>
         <div className="charts">
           <Featured />
-          <Chart />
+          <Chart className="charts_chart" />
           <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
             <Alert
               onClose={handleClose}

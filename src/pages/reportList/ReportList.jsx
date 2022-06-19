@@ -73,7 +73,7 @@ const JobList = () => {
               {reports?.length ? (
                 <JobReportsListResult jobs={reports} searchTerm={searchTerm} />
               ) : (
-                <div className="no_reports">No Report was found</div>
+                <div className="no_reports">No reports were found</div>
               )}
             </Box>
           </Container>
