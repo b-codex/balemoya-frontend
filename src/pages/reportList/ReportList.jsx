@@ -16,6 +16,7 @@ import { Box, Container } from "@mui/material";
 import { getJobs } from "../../utils/job";
 import { viewReports } from "../../utils/customer";
 
+
 const JobList = () => {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
@@ -30,27 +31,30 @@ const JobList = () => {
   const [reports, setReports] = useState([]);
   const [err, setErr] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [reportLength, setReportLength] = useState("");
 
   useEffect(() => {
-    // add user tokens inside the param
-    viewReports()
+    viewReports(user.token)
       .then((res) => res.json())
       .then((data) => {
         setReports(data);
+        setReportLength(data["report"].length);
       })
       .catch((_) => {
         setErr("Something went wrong");
       });
   }, []);
 
-  const listItem = () => {
-    for (var i = 0; i < reports.length; i++) {
-      if (reports[i].reportId) {
-        console.log("User has been reported before");
-      }
+  // const jobss = reports["report"]?.[0];
+  // console.log(reports["report"]?.[0]['reportee']);
+  // console.log(reports["report"]?.[0]);
+
+  const setLengthBool = () => {
+    if (reportLength >= "0") {
+      return true;
     }
+    return false;
   };
-  listItem();
 
   return (
     <div className="list">
@@ -70,8 +74,11 @@ const JobList = () => {
               setSearchTerm={setSearchTerm}
             />
             <Box sx={{ mt: 3 }}>
-              {reports?.length ? (
-                <JobReportsListResult jobs={reports} searchTerm={searchTerm} />
+              {setLengthBool ? (
+                <JobReportsListResult
+                  jobs={reports}
+                  searchTerm={searchTerm}
+                />
               ) : (
                 <div className="no_reports">No reports were found</div>
               )}

@@ -7,12 +7,16 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { getUsers } from "../../utils/customer";
 import moment from "moment";
+import { selectUser } from "../../redux/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+
 
 const Featured = () => {
+  const user = useSelector(selectUser);
   const [users, setUsers] = useState([]);
   const [err, setErr] = useState("");
   useEffect(() => {
-    getUsers()
+    getUsers(user.token)
       .then((res) => res.json())
       .then((data) => {
         setUsers(data);

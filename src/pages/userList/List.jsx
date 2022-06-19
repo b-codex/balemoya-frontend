@@ -29,10 +29,9 @@ const List = () => {
   const [users, setUsers] = useState([]);
   const [err, setErr] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-
   useEffect(() => {
     // add user tokens inside the param
-    getUsers()
+    getUsers(user.token)
       .then((res) => res.json())
       .then((data) => {
         setUsers(data);

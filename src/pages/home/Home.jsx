@@ -12,7 +12,6 @@ import { useNavigate } from "react-router-dom";
 import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import Stack from "@mui/material/Stack";
 import MuiAlert from "@mui/material/Alert";
 import { Button } from "antd";
 import { getUsers, viewReports } from "../../utils/customer";
@@ -57,6 +56,8 @@ const Home = (props) => {
   const [err, setErr] = useState("");
   const [jobs, setJobs] = useState([]);
   const [reports, setReports] = useState([]);
+  const [reportLength, setReportLength] = useState("");
+
   useEffect(() => {
     if (user == null) {
       dispatch(logout());
@@ -66,7 +67,7 @@ const Home = (props) => {
     }
   }, []);
   useEffect(() => {
-    getUsers()
+    getUsers(user.token)
       .then((res) => res.json())
       .then((data) => {
         setUsers(data);
@@ -74,7 +75,7 @@ const Home = (props) => {
       .catch((_) => {
         setErr("Something went wrong");
       });
-    getJobs()
+    getJobs(user.token)
       .then((res) => res.json())
       .then((data) => {
         setJobs(data);
@@ -82,15 +83,17 @@ const Home = (props) => {
       .catch((_) => {
         setErr("Something went wrong");
       });
-    viewReports()
+    viewReports(user.token)
       .then((res) => res.json())
       .then((data) => {
         setReports(data);
+        setReportLength(data["report"].length);
       })
       .catch((_) => {
         setErr("Something went wrong");
       });
   }, []);
+
 
   return (
     <div className="home">
@@ -111,7 +114,7 @@ const Home = (props) => {
             to="/reports"
             style={{ textDecoration: "none", color: "inherit" }}
           >
-            <Widget type="reports" value={reports.length} />
+            <Widget type="reports" value={reportLength} />
           </Link>
           <Link
             className="links"

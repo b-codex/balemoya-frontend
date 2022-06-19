@@ -31,8 +31,7 @@ const JobList = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    // add user tokens inside the param
-    getJobs()
+    getJobs(user.token)
       .then((res) => res.json())
       .then((data) => {
         setJobs(data);
@@ -41,7 +40,6 @@ const JobList = () => {
         setErr("Something went wrong");
       });
   }, []);
- 
 
   return (
     <div className="list">
@@ -55,7 +53,7 @@ const JobList = () => {
             py: 2,
           }}
         >
-          <Container  maxWidth={false}>
+          <Container maxWidth={false}>
             <JobListToolbar name="Jobs" setSearchTerm={setSearchTerm} />
             <Box sx={{ mt: 3 }}>
               <JobListResults jobs={jobs} searchTerm={searchTerm} />

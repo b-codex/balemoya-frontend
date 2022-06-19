@@ -1,0 +1,26 @@
+.more_button {
+  .status_verified {
+    color: green !important;
+    background-color: rgba(0, 128, 0, 0.151);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25px;
+    border-radius: 4px;
+    span {
+      padding: 6px;
+    }
+  }
+  .status_not_verified {
+    color: rgb(209, 48, 19) !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25px;
+    border-radius: 4px;
+    background-color: rgba(211, 73, 19, 0.103);
+    span {
+      padding: 6px;
+    }
+  }
+}

@@ -1,18 +1,20 @@
-export const getUsers = async () => {
+export const getUsers = async (token) => {
   const response = await fetch(
-    "http://localhost:5655/microservice/accountService/users/",
+    "http://localhost:8000/microservice/accountService/admin/users",
     {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     }
   );
+
   return response;
 };
 export const getAdminProfile = async (token) => {
   const response = await fetch(
-    "http://localhost:5655/microservice/accountService/admin/current/",
+    "http://localhost:8000/microservice/accountService/admin/profile",
     {
       method: "GET",
       headers: {
@@ -26,7 +28,8 @@ export const getAdminProfile = async (token) => {
 
 export const getUsersById = async (id, token) => {
   const response = await fetch(
-    "http://localhost:5655/microservice/accountService/users/" + id,
+    "http://localhost:8000/microservice/accountService/users/singleUser/" + id,
+
     {
       method: "GET",
       headers: {
@@ -37,9 +40,10 @@ export const getUsersById = async (id, token) => {
   );
   return response;
 };
+
 export const banUsersById = async (id, token) => {
   const response = await fetch(
-    "http://localhost:5655/microservice/accountService/admin/banning-user/",
+    "http://localhost:8000/microservice/accountService/admin/banning-user/",
     {
       method: "PATCH",
       headers: {
@@ -54,7 +58,7 @@ export const banUsersById = async (id, token) => {
 };
 export const unbanUsersById = async (id, token) => {
   const response = await fetch(
-    "http://localhost:5655/microservice/accountService/admin/unbanning-user/",
+    "http://localhost:8000/microservice/accountService/admin/unBanning-user/",
     {
       method: "PATCH",
       headers: {
@@ -70,7 +74,7 @@ export const unbanUsersById = async (id, token) => {
 
 export const deleteUsersById = async (id, token) => {
   const response = await fetch(
-    "http://localhost:5655/microservice/accountService/admin/delete/user",
+    "http://localhost:8000/microservice/accountService/admin/delete/user",
     {
       method: "DELETE",
       headers: {
@@ -87,7 +91,7 @@ export const deleteUsersById = async (id, token) => {
 
 export const verifyUsersById = async (id, token) => {
   const response = await fetch(
-    "http://localhost:5655/microservice/accountService/admin/verifying-user/",
+    "http://localhost:8000/microservice/accountService/admin/verifying-user/",
     {
       method: "PATCH",
       headers: {
@@ -105,7 +109,7 @@ export const verifyUsersById = async (id, token) => {
 };
 export const unverifyUsersById = async (id, token) => {
   const response = await fetch(
-    "http://localhost:5655/microservice/accountService/admin/UnVerifying-user",
+    "http://localhost:8000/microservice/accountService/admin/UnVerifying-user",
     {
       method: "PATCH",
       headers: {
@@ -123,7 +127,7 @@ export const unverifyUsersById = async (id, token) => {
 };
 export const viewReports = async (token) => {
   const response = await fetch(
-    "http://localhost:5655/microservice/accountService/admin/profile",
+    "http://localhost:8000/microservice/accountService/admin/profile",
     {
       method: "GET",
       headers: {

@@ -32,6 +32,7 @@ const Single = () => {
         setErr("Something went wrong");
       });
   }, [userId]);
+
   return (
     <div className="list">
       <Sidebar />
@@ -113,12 +114,12 @@ const Single = () => {
                 <br></br>
               </Grid>
             </Grid>
-            <Typography sx={{ mb: 3 }} variant="h4">
+            <Typography sx={{ mb: 3, mt: 3 }} variant="h4">
               Reports
             </Typography>
             <Typography color="textSecondary" variant="body2">
-              <strong>Report(s) associated with this account</strong>:
-              {userData?.report_Id + " "}
+              <strong>Report(s) associated with this account</strong>: &nbsp;
+              {userData?.report_Id.length + " "}
             </Typography>
           </Container>
         </Box>

@@ -24,28 +24,17 @@ const SingleJob = () => {
   const [jobData, setJobData] = useState(null);
   const [err, setErr] = useState("");
   const [userData, setUserData] = useState(null);
-  useEffect(
-    () => {
-      getJobsById(jobId)
-        .then((res) => res.json())
-        .then((data) => {
-          setJobData(data);
-        })
-        .catch((err) => {
-          setErr("Something went wrong");
-        });
-    },
-
-    // getUsersById(jobData?.postedBy, user.token)
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     setUserData(data);
-    //   })
-    //   .catch((err) => {
-    //     setErr("Something went wrong");
-    //   })
-    [jobId]
-  );
+  console.log(jobId);
+  useEffect(() => {
+    getJobsById(jobId, user.token)
+      .then((res) => res.json())
+      .then((data) => {
+        setJobData(data);
+      })
+      .catch((err) => {
+        setErr("Something went wrong");
+      });
+  }, [jobId]);
 
   return (
     <div className="list">
@@ -156,8 +145,11 @@ const SingleJob = () => {
               Reports
             </Typography>
             <Typography color="textSecondary" variant="body2">
-              <strong>Total number of report(s) associated with this post</strong>: &nbsp;
-              {userData?.report_Id ? userData?.report_Id.length : 'No Reports'}
+              <strong>
+                Total number of report(s) associated with this post
+              </strong>
+              : &nbsp;
+              {userData?.report_Id ? userData?.report_Id.length : "No Reports"}
             </Typography>
           </Container>
         </Box>

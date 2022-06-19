@@ -34,6 +34,7 @@ import { Button } from "antd";
 import { deleteJobPostById } from "../../utils/job";
 
 export const JobListResults = ({ jobs, searchTerm, ...rest }) => {
+  console.log(jobs)
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });

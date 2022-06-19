@@ -1,33 +1,24 @@
-export const getJobs = async () => {
+export const getJobs = async (token) => {
   const response = await fetch(
-    "http://localhost:5655/microservice/jobService/employer/jobPost/",
+    "http://localhost:8000/microservice/jobService/employer/jobPost",
+
     {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     }
   );
   return response;
 };
 
-export const getJobsById = async (id) => {
+export const getJobsById = async (id, token) => {
   const response = await fetch(
-    "http://localhost:5655/microservice/jobService/employer/jobPost/" + id,
+    "http://localhost:8000/microservice/jobService/employer/jobPost/singlePost/" +
+      id,
     {
       method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  );
-  return response;
-};
-export const deleteJobsById = async (id, token) => {
-  const response = await fetch(
-    "http://localhost:5655/microservice/jobService/employer/jobPost/" + id,
-    {
-      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -39,7 +30,7 @@ export const deleteJobsById = async (id, token) => {
 
 export const deleteJobPostById = async (id, token) => {
   const response = await fetch(
-    "http://localhost:5655/microservice/jobService/employer/jobPost/" + id,
+    "http://localhost:8000/microservice/jobService/employer/jobPost/" + id,
     {
       method: "DELETE",
       headers: {
@@ -50,4 +41,3 @@ export const deleteJobPostById = async (id, token) => {
   );
   return response;
 };
-

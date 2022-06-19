@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import PropTypes from "prop-types";
+import "./JobReportsListResult.scss";
 import { format } from "date-fns";
 import {
   Avatar,
@@ -32,8 +33,13 @@ import Stack from "@mui/material/Stack";
 import MuiAlert from "@mui/material/Alert";
 import { Button } from "antd";
 import { deleteJobPostById } from "../../utils/job";
+import moment from "moment";
+import { getUsersById } from "../../utils/customer";
+import { useParams } from "react-router";
 
 export const JobReportsListResult = ({ jobs, searchTerm, ...rest }) => {
+  // console.log(reports["report"]?.[0]['reportee']);
+  const reportLength = jobs["report"]?.length;
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
@@ -73,6 +79,8 @@ export const JobReportsListResult = ({ jobs, searchTerm, ...rest }) => {
   const [page, setPage] = useState(0);
   const [err, setErr] = useState("");
   const [jobData, setJobData] = useState(null);
+  const [userData, setUserData] = useState(null);
+  let { userId } = useParams();
 
   let navigate = useNavigate();
 
@@ -80,7 +88,7 @@ export const JobReportsListResult = ({ jobs, searchTerm, ...rest }) => {
     let newSelectedJobIds;
 
     if (event.target.checked) {
-      newSelectedJobIds = jobs.map((job) => job._id);
+      newSelectedJobIds = jobs["report"]?.map((job) => job._id);
     } else {
       newSelectedJobIds = [];
     }
@@ -131,6 +139,17 @@ export const JobReportsListResult = ({ jobs, searchTerm, ...rest }) => {
     } catch (error) {}
   };
 
+  // useEffect(() => {
+  //   getUsersById(userId, user.token)
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setUserData(data);
+  //     })
+  //     .catch((err) => {
+  //       setErr("Something went wrong");
+  //     });
+  // }, [userId]);
+
   return (
     <Card {...rest}>
       <PerfectScrollbar>
@@ -140,24 +159,28 @@ export const JobReportsListResult = ({ jobs, searchTerm, ...rest }) => {
               <TableRow>
                 <TableCell padding="checkbox">
                   <Checkbox
-                    checked={selectedJobIds.length === jobs.length}
+                    checked={selectedJobIds.length === jobs["report"]?.length}
                     color="primary"
                     indeterminate={
                       selectedJobIds.length > 0 &&
-                      selectedJobIds.length < jobs.length
+                      selectedJobIds.length < jobs["report"]?.length
                     }
                     onChange={handleSelectAll}
                   />
                 </TableCell>
-                <TableCell>Job Title</TableCell>
-                <TableCell>Company Name</TableCell>
-                <TableCell>Location</TableCell>
+                <TableCell>Reporter ID</TableCell>
+                <TableCell>Reportee ID</TableCell>
+                <TableCell>Report ID</TableCell>
+                <TableCell>Report Status</TableCell>
+                <TableCell>Report Created</TableCell>
+                <TableCell>Reporter Details</TableCell>
+                <TableCell>Reportee Details</TableCell>
                 <TableCell>Action</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {jobs
-                .slice(0, limit)
+              {jobs["report"]
+                ?.slice(0, limit)
                 .filter((val) => {
                   if (searchTerm == "") {
                     return val;
@@ -190,25 +213,53 @@ export const JobReportsListResult = ({ jobs, searchTerm, ...rest }) => {
                         }}
                       >
                         <Typography color="textPrimary" variant="body1">
-                          {job.jobTitle}
+                          {job.reporter}
                         </Typography>
                       </Box>
                     </TableCell>
-                    <TableCell>{job.companyName}</TableCell>
-                    <TableCell
-                      style={{ textTransform: "capitalize" }}
-                    >{`${job.location}`}</TableCell>
-
+                    <TableCell>{job.reportee} </TableCell>
+                    <TableCell>{job._id}</TableCell>
+                    <TableCell>{job.reportStatus}</TableCell>
                     <TableCell>
-                      {" "}
+                      {moment(job.createdAt).format("MM/DD/YYYY")}
+                    </TableCell>
+                    <TableCell>
                       <IconButton
                         color="info"
                         aria-label="more"
                         component="span"
-                        onClick={() => navigate(`/jobs/${job._id}`)}
+                        sx={{
+                          border: "none",
+                          fontSize: "14px",
+                          justifyContent: "start",
+                        }}
+                        // onClick={() => navigate(`/jobs/${job._id}`)}
+                        onClick={() => navigate(`/users/${job.reporter}`)}
                       >
-                        <MoreHorizSharp />
+                        <div className="status_active">
+                          <span>Reporter</span>
+                        </div>
                       </IconButton>
+                    </TableCell>{" "}
+                    <TableCell>
+                      <IconButton
+                        color="info"
+                        aria-label="more"
+                        component="span"
+                        sx={{
+                          border: "none",
+                          fontSize: "14px",
+                          justifyContent: "start",
+                        }}
+                        // onClick={() => navigate(`/jobs/${job._id}`)}
+                        onClick={() => navigate(`/users/${job.reportee}`)}
+                      >
+                        <div className="status_banned">
+                          <span>Reportee</span>
+                        </div>
+                      </IconButton>
+                    </TableCell>
+                    <TableCell>
                       <Snackbar
                         open={open}
                         autoHideDuration={3000}
@@ -226,7 +277,7 @@ export const JobReportsListResult = ({ jobs, searchTerm, ...rest }) => {
                         color="error"
                         aria-label="delete user"
                         component="span"
-                        onClick={() => handleDelete(job._id)}
+                        onClick={() => handleDelete(job.reportee)}
                       >
                         <DeleteOutlined />
                       </IconButton>
@@ -239,7 +290,7 @@ export const JobReportsListResult = ({ jobs, searchTerm, ...rest }) => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={jobs.length}
+        count={jobs["report"]?.length}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
         page={page}
