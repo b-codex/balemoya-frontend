@@ -9,11 +9,11 @@ class ProfileProvider {
   /// It returns a Future object.
   Future<Object> getProfileInfo({required String sessionID}) async {
     final url = "$apiRoute/accountService/users/profile";
-    final response = await http.get(Uri.parse(url), headers: {
+    final response = await http.get(Uri.parse(url),headers: {
       // "Content-Type": "application/json",
       'Content-Type': 'application/x-www-form-urlencoded',
       'Authorization': 'Bearer $sessionID'
-    });
+    }).timeout(Duration(seconds: 120));
 
     if (response.statusCode == 200) {
       return {

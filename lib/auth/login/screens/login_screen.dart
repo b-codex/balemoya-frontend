@@ -40,7 +40,6 @@ class LoginScreen extends StatelessWidget {
             if (state.role == "employee") {}
             if (state.role == "employer") {}
 
-            
             Navigator.of(context).pushNamedAndRemoveUntil(
                 '/home_screen', (route) => false,
                 arguments: {
@@ -58,6 +57,7 @@ class LoginScreen extends StatelessWidget {
           }
         },
         builder: (context, state) {
+          print(state);
           return Form(
             key: _formKey,
             child: Center(
@@ -137,7 +137,7 @@ class LoginScreen extends StatelessWidget {
 
 /// _loginImageAndText() returns a Container that contains a Column that contains a Container that
 /// contains an Image and a Text.
-/// 
+///
 /// Returns:
 ///   A widget that is a container with a column inside of it.
 Widget _loginImageAndText() {
@@ -168,10 +168,10 @@ Widget _loginImageAndText() {
 }
 
 /// _email is a function that takes a controller as an argument and returns a widget.
-/// 
+///
 /// Args:
 ///   _emailController: TextEditingController
-/// 
+///
 /// Returns:
 ///   A Container widget with a margin of 5 pixels on all sides.
 Widget _email(_emailController) {
@@ -187,10 +187,10 @@ Widget _email(_emailController) {
 }
 
 /// _password() is a function that returns a Container widget that contains a _formField() widget.
-/// 
+///
 /// Args:
 ///   _passwordController: TextEditingController
-/// 
+///
 /// Returns:
 ///   A Container widget with a margin of 5 pixels on all sides.
 Widget _password(_passwordController) {
@@ -207,10 +207,10 @@ Widget _password(_passwordController) {
 
 /// _dontHaveAnAccountButton() is a function that returns a Container widget that contains a TextButton
 /// widget that contains a Text widget that contains the text 'Don\'t Have An Account?'.
-/// 
+///
 /// Args:
 ///   context: The context of the widget.
-/// 
+///
 /// Returns:
 ///   A Container widget with a TextButton widget as a child.
 Widget _dontHaveAnAccountButton(context) {
@@ -231,10 +231,10 @@ Widget _dontHaveAnAccountButton(context) {
 /// _resetAccountButton() is a function that returns a Container widget that contains a TextButton
 /// widget that has a child Text widget that has a String value of 'Forgot Password?' and when pressed,
 /// navigates to the '/reset_password' route.
-/// 
+///
 /// Args:
 ///   context: The context of the widget.
-/// 
+///
 /// Returns:
 ///   A Container widget with a TextButton widget as a child.
 Widget _resetAccountButton(context) {
@@ -251,13 +251,13 @@ Widget _resetAccountButton(context) {
 }
 
 /// _formField() is a function that returns a TextFormField widget.
-/// 
+///
 /// Args:
 ///   _controller: TextEditingController
 ///   _formLabel: The label of the form field.
 ///   _prefixIcon: Icon(Icons.email)
 ///   _obscureText: bool
-/// 
+///
 /// Returns:
 ///   A TextFormField widget.
 Widget _formField(_controller, _formLabel, _prefixIcon, _obscureText) {
@@ -282,7 +282,7 @@ Widget _formField(_controller, _formLabel, _prefixIcon, _obscureText) {
 }
 
 /// It returns a LoadingIndicator widget.
-/// 
+///
 /// Returns:
 ///   A widget that is a loading indicator.
 loading() {

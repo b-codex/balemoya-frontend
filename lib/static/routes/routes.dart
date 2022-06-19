@@ -3,6 +3,7 @@ import 'package:balemoya/account/profile/screens/profile_screen.dart';
 import 'package:balemoya/account/reset_password/screens/reset_password.dart';
 import 'package:balemoya/auth/login/screens/login_screen.dart';
 import 'package:balemoya/auth/register/screens/register_screen.dart';
+import 'package:balemoya/chat/screens/chat_page.dart';
 import 'package:balemoya/job/bookmarks/screens/bookmarks.dart';
 import 'package:balemoya/job/home/screens/home_screen.dart';
 import 'package:balemoya/job/job_detail/screens/job_detail.dart';
@@ -27,6 +28,7 @@ class RouteManager {
   static const String search_results = '/search_results';
   static const String employee_profile_view = '/employee_profile_view';
   static const String employer_profile_view = '/employer_profile_screen';
+  static const String chat_page = '/chat_page';
 
   /// It takes a RouteSettings object as an argument and returns a Route object
   ///
@@ -110,17 +112,11 @@ class RouteManager {
           builder: (context) => EmployeeProfileView(),
         );
 
-      // case employer_profile_screen:
-      //   return MaterialPageRoute(
-      //     builder: (context) => EmployerProfileView(),
-      //   );
+      case chat_page:
+        return MaterialPageRoute(
+          builder: (context) => ChatPage.returnWidget(),
+        );
 
-      // case favZoomedImage:
-      //   return MaterialPageRoute(
-      //     builder: (context) => FavZoomedImageScreen(
-      //       imageURL: values['imageURL'],
-      //     ),
-      //   );
       default:
         throw FormatException('Route Not Found!');
     }

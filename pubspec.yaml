@@ -43,6 +43,7 @@ dependencies:
   http: ^0.13.4
   loading_indicator: ^3.0.3
   numberpicker: ^2.1.1
+  socket_io_client: ^2.0.0-beta.4-nullsafety.0
 
 dev_dependencies:
   flutter_test:

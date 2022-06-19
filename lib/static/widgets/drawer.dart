@@ -117,6 +117,13 @@ Widget drawer({
               return SizedBox();
             }()),
             ListTile(
+              leading: Icon(Icons.message),
+              title: Text('Chat'),
+              onTap: () {
+                Navigator.of(context).pushNamed('/chat_page');
+              },
+            ),
+            ListTile(
               // leading: Icon(Icons.bookmark),
               title: Text('Search Results'),
               onTap: () {

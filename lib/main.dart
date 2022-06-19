@@ -1,15 +1,14 @@
+import 'dart:math';
+
 import 'package:balemoya/account/employeeProfileView/bloc/employee_profile_view_bloc.dart';
 import 'package:balemoya/account/employeeProfileView/data_provider/provider.dart';
 import 'package:balemoya/account/employeeProfileView/repository/repository.dart';
-import 'package:balemoya/account/employeeProfileView/screens/employee_profile_view.dart';
 import 'package:balemoya/account/profile/bloc/profile_bloc.dart';
 import 'package:balemoya/account/profile/data_provider/provider.dart';
 import 'package:balemoya/account/profile/repository/repository.dart';
-import 'package:balemoya/account/profile/screens/profile_screen.dart';
 import 'package:balemoya/account/reset_password/bloc/reset_password_bloc.dart';
 import 'package:balemoya/account/reset_password/data_provider/provider.dart';
 import 'package:balemoya/account/reset_password/repository/repository.dart';
-import 'package:balemoya/account/reset_password/screens/reset_password.dart';
 import 'package:balemoya/auth/login/bloc/login_bloc.dart';
 import 'package:balemoya/auth/login/data_provider/provider.dart';
 import 'package:balemoya/auth/login/repository/repository.dart';
@@ -24,29 +23,31 @@ import 'package:balemoya/auth/session/screens/loading_screen.dart';
 import 'package:balemoya/job/create_job_post/bloc/create_job_post_bloc.dart';
 import 'package:balemoya/job/create_job_post/data_provider/provider.dart';
 import 'package:balemoya/job/create_job_post/repository/repository.dart';
-import 'package:balemoya/job/create_job_post/screens/create_job_post.dart';
 import 'package:balemoya/job/home/bloc/home_bloc.dart';
 import 'package:balemoya/job/home/data_provider/provider.dart';
 import 'package:balemoya/job/home/repository/repository.dart';
-import 'package:balemoya/job/home/screens/home_screen.dart';
 import 'package:balemoya/job/job_detail/bloc/job_detail_bloc.dart';
 import 'package:balemoya/job/job_detail/data_provider/provider.dart';
 import 'package:balemoya/job/job_detail/repository/repository.dart';
+import 'package:balemoya/static/classes/socket.dart';
 import 'package:balemoya/static/routes/routes.dart';
+import 'package:balemoya/static/screens/intro_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:introduction_screen/introduction_screen.dart';
 
 /// The `main()` function is the entry point of the app
 void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class MyApp extends StatefulWidget {
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
 
-  // session repository
+class _MyAppState extends State<MyApp> {
+  // This widget is the root of your application.
   final SessionRepository sessionRepository = SessionRepository(
     sessionProvider: SessionProvider(),
   );
@@ -91,10 +92,21 @@ class MyApp extends StatelessWidget {
     createJobPostProvider: CreateJobPostProvider(),
   );
 
-/// Creating a new instance of the `JobDetailRepository` and passing the `jobDetailProvider` to it.
+  /// Creating a new instance of the `JobDetailRepository` and passing the `jobDetailProvider` to it.
   final JobDetailRepository jobDetailRepository = JobDetailRepository(
     jobDetailProvider: JobDetailProvider(),
   );
+
+  @override
+
+  /// It sets the sender name to a random name from the list of names.
+  void initState() {
+    List names = <String>["Bisrat", "Dan", "Abiy", "Sinte", "Kriss"];
+
+    Socket.setSender(names[Random().nextInt(names.length)]);
+    // Socket.connectSocket();
+    super.initState();
+  }
 
   @override
 
@@ -183,7 +195,7 @@ class MyApp extends StatelessWidget {
             textTheme: GoogleFonts.montserratTextTheme(),
           ),
           debugShowCheckedModeBanner: false,
-          home: LoadingScreen(),
+          home: LoginScreen(),
           // initialRoute: RouteManager.loading_screen,
           onGenerateRoute: RouteManager.generateRoute,
         ),
