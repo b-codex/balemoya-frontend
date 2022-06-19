@@ -35,7 +35,6 @@ class EmployeeProfileViewBloc
         sessionID: sessionID,
       ) as Map;
 
-      print(response);
       if (response['success']) {
         emit(AccountReported());
       } else {

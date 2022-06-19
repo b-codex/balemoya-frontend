@@ -1,5 +1,12 @@
 import 'dart:math';
 
+import 'package:balemoya/auth/login/screens/login_screen.dart';
+import 'package:balemoya/chat/bloc/chat_bloc.dart';
+import 'package:balemoya/chat/provider/provider.dart';
+import 'package:balemoya/chat/repository/repository.dart';
+import 'package:balemoya/static/screens/intro_screen.dart';
+import 'package:flutter/material.dart';
+
 import 'package:balemoya/account/employeeProfileView/bloc/employee_profile_view_bloc.dart';
 import 'package:balemoya/account/employeeProfileView/data_provider/provider.dart';
 import 'package:balemoya/account/employeeProfileView/repository/repository.dart';
@@ -28,11 +35,10 @@ import 'package:balemoya/job/home/repository/repository.dart';
 import 'package:balemoya/job/job_detail/bloc/job_detail_bloc.dart';
 import 'package:balemoya/job/job_detail/data_provider/provider.dart';
 import 'package:balemoya/job/job_detail/repository/repository.dart';
+import 'package:balemoya/static/classes/socket.dart';
 import 'package:balemoya/static/routes/routes.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:balemoya/static/classes/socket.dart';
 
 /// The `main()` function is the entry point of the app
 void main() {
@@ -93,6 +99,11 @@ class _MyAppState extends State<MyApp> {
   /// Creating a new instance of the `JobDetailRepository` and passing the `jobDetailProvider` to it.
   final JobDetailRepository jobDetailRepository = JobDetailRepository(
     jobDetailProvider: JobDetailProvider(),
+  );
+
+  /// Creating a new instance of the `ChatRepository` and passing the `chatProvider` to it.
+  final ChatRepository chatRepository = ChatRepository(
+    chatProvider: ChatProvider(),
   );
 
   @override
@@ -181,6 +192,11 @@ class _MyAppState extends State<MyApp> {
             jobDetailRepository: jobDetailRepository,
           ),
         ),
+
+        /// Creating a new instance of the `ChatBloc` and passing the `chatRepository` to it.
+        BlocProvider(
+          create: (context) => ChatBloc(chatRepository: chatRepository),
+        ),
       ],
 
       /// A provider that provides the `sessionRepository` to the `MaterialApp` widget.
@@ -193,7 +209,7 @@ class _MyAppState extends State<MyApp> {
             textTheme: GoogleFonts.montserratTextTheme(),
           ),
           debugShowCheckedModeBanner: false,
-          home: LoadingScreen(),
+          home: LoginScreen(),
           // initialRoute: RouteManager.loading_screen,
           onGenerateRoute: RouteManager.generateRoute,
         ),

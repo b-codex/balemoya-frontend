@@ -1,16 +1,18 @@
+import 'package:flutter/material.dart';
+
 import 'package:balemoya/account/employeeProfileView/screens/employee_profile_view.dart';
 import 'package:balemoya/account/profile/screens/profile_screen.dart';
 import 'package:balemoya/account/reset_password/screens/reset_password.dart';
 import 'package:balemoya/auth/login/screens/login_screen.dart';
 import 'package:balemoya/auth/register/screens/register_screen.dart';
+import 'package:balemoya/auth/session/screens/loading_screen.dart';
+import 'package:balemoya/chat/screens/chat_page.dart';
 import 'package:balemoya/job/bookmarks/screens/bookmarks.dart';
+import 'package:balemoya/job/create_job_post/screens/create_job_post.dart';
 import 'package:balemoya/job/home/screens/home_screen.dart';
 import 'package:balemoya/job/job_detail/screens/job_detail.dart';
-import 'package:balemoya/job/create_job_post/screens/create_job_post.dart';
 import 'package:balemoya/job/search_results/screens/search_results.dart';
 import 'package:balemoya/static/screens/intro_screen.dart';
-import 'package:balemoya/auth/session/screens/loading_screen.dart';
-import 'package:flutter/material.dart';
 
 /// It's a class that contains all the routes of the app and it's used to navigate between them
 class RouteManager {
@@ -27,6 +29,7 @@ class RouteManager {
   static const String search_results = '/search_results';
   static const String employee_profile_view = '/employee_profile_view';
   static const String employer_profile_view = '/employer_profile_screen';
+  static const String chat_page = '/chat_page';
 
   /// It takes a RouteSettings object as an argument and returns a Route object
   ///
@@ -112,6 +115,10 @@ class RouteManager {
           builder: (context) => EmployeeProfileView(),
         );
 
+      case chat_page:
+        return MaterialPageRoute(
+          builder: (context) => ChatPage.returnWidget(),
+        );
       // case employer_profile_screen:
       //   return MaterialPageRoute(
       //     builder: (context) => EmployerProfileView(),

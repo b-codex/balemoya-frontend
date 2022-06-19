@@ -6,7 +6,6 @@ import 'package:balemoya/static/variables/static_variables.dart';
 
 /// > This class is a provider for the register page
 class RegisterProvider {
-
   /// A variable that holds the api route.
   final String api = apiRoute;
 
@@ -16,20 +15,23 @@ class RegisterProvider {
   ///   registerModel (RegisterModel): The model that contains the data to be sent to the server.
   Future<Object> registerEmployee(RegisterModel registerModel) async {
     final String url = "$api/accountService/users/register-userEmployee";
-
+    final reqBody = {
+      "fullName": registerModel.name,
+      "email": registerModel.email,
+      "password": registerModel.password,
+      "phoneNumber": registerModel.phone,
+      "location": registerModel.location,
+    };
     final response = await http.post(
       Uri.parse(url),
-      body: {
-        "fullName": registerModel.name,
-        "email": registerModel.email,
-        "password": registerModel.password,
-        "phoneNumber": registerModel.phone,
-        "location": registerModel.location,
+      body: json.encode(reqBody),
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
       },
     );
 
     final body = jsonDecode(response.body) as Map;
-
 
     if (body['success']) {
       return {
@@ -43,13 +45,13 @@ class RegisterProvider {
     };
   }
 
-/// It takes a RegisterModel object, and sends it to the server
-/// 
-/// Args:
-///   registerModel (RegisterModel): 
-/// 
-/// Returns:
-///   A map with a status and a message.
+  /// It takes a RegisterModel object, and sends it to the server
+  ///
+  /// Args:
+  ///   registerModel (RegisterModel):
+  ///
+  /// Returns:
+  ///   A map with a status and a message.
   Future<Object> registerOrganization(RegisterModel registerModel) async {
     final String url = "$api/accountService/users/register-userCompany";
 

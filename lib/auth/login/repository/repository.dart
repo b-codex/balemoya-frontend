@@ -7,7 +7,7 @@ class LoginRepository {
   LoginRepository({required this.loginProvider});
 
   Future<Object> attemptLogin(LoginModel loginModel) async {
-    final response = await loginProvider.attemptLogin(loginModel);
+    final response = await loginProvider.attemptLogin(loginModel) as Map;
     return response;
   }
 }

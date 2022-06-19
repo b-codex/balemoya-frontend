@@ -41,7 +41,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       if (sessionID == null) {
         emit(GetJobPostsFailed());
       }
-      print(sessionID);
       final response =
           await homeRepository.getJobPosts(sessionID: sessionID) as Map;
 

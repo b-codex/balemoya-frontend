@@ -1,9 +1,24 @@
+import 'package:balemoya/chat/bloc/chat_bloc.dart';
+import 'package:balemoya/chat/repository/repository.dart';
+import 'package:balemoya/chat/screens/chat_page.dart';
 import 'package:flutter/material.dart';
 import 'package:balemoya/chat/models/models.dart';
-import 'package:balemoya/static/classes/socket.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../provider/provider.dart';
 
 class ChatDetailPage extends StatefulWidget {
-  const ChatDetailPage({Key? key}) : super(key: key);
+  final String chatWith;
+  final String sID;
+  final String cID;
+  final String token;
+
+  const ChatDetailPage({
+    Key? key,
+    required this.chatWith,
+    required this.sID,
+    required this.cID,
+    required this.token,
+  }) : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
@@ -13,14 +28,16 @@ class ChatDetailPage extends StatefulWidget {
 class _ChatDetailPageState extends State<ChatDetailPage> {
   @override
   Widget build(BuildContext context) {
-    List<ChatMessage> messages = [];
-
-    TextEditingController messageController = TextEditingController();
-    sendMessage() {
-      Socket.socket.emit("message", {
-        'message': messageController.text.trim(),
-      });
-      messageController.clear();
+    bool sentBy({required senderID}) {
+      // print("sender id is $senderID");
+      // print("current user from chat page is ${ChatPage.getCurrentUser()}");
+      // print("get id from chat page is ${ChatPage.getId()}");
+      // print('rID id ${widget.rID}');
+      if (senderID != ChatPage.getCurrentUser()) {
+        return true;
+      } else {
+        return false;
+      }
     }
 
     return Scaffold(
@@ -47,7 +64,8 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                 ),
                 const CircleAvatar(
                   backgroundImage: NetworkImage(
-                      "https://flyinryanhawks.org/wp-content/uploads/2016/08/profile-placeholder.png"),
+                    "https://flyinryanhawks.org/wp-content/uploads/2016/08/profile-placeholder.png",
+                  ),
                   maxRadius: 20,
                 ),
                 const SizedBox(
@@ -58,19 +76,19 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      const Text(
-                        "Kriss Benwat",
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w600),
+                      Text(
+                        widget.chatWith,
+                        style: const TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w600),
                       ),
                       const SizedBox(
                         height: 6,
                       ),
-                      Text(
-                        "Online",
-                        style: TextStyle(
-                            color: Colors.grey.shade600, fontSize: 13),
-                      ),
+                      // Text(
+                      //   "Online",
+                      //   style: TextStyle(
+                      //       color: Colors.grey.shade600, fontSize: 13),
+                      // ),
                     ],
                   ),
                 ),
@@ -83,98 +101,143 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
           ),
         ),
       ),
-      body: Stack(
-        children: <Widget>[
-          ListView.builder(
-            itemCount: messages.length,
-            shrinkWrap: true,
-            padding: const EdgeInsets.only(top: 10, bottom: 10),
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              return Container(
-                padding: const EdgeInsets.only(
-                    left: 14, right: 14, top: 10, bottom: 10),
-                child: Align(
-                  alignment: (messages[index].messageType == "receiver"
-                      ? Alignment.topLeft
-                      : Alignment.topRight),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: (messages[index].messageType == "receiver"
-                          ? Colors.grey.shade200
-                          : Colors.blue[200]),
-                    ),
-                    padding: const EdgeInsets.all(16),
-                    child: Text(
-                      messages[index].message,
-                      style: const TextStyle(fontSize: 15),
+      body: FutureBuilder(
+        builder: ((context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else {
+            if (snapshot.hasData && !snapshot.hasError) {
+              TextEditingController messageController = TextEditingController();
+
+              var response = snapshot.data as List;
+              List<ChatMessage> messages = [];
+
+              for (var message in response) {
+                messages.add(
+                  ChatMessage(
+                    message: message['text'],
+                    senderID: message['sender'],
+                    sentByMe: sentBy(senderID: message['sender']),
+                  ),
+                );
+              }
+
+              return Stack(
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 40),
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: ListView.builder(
+                        // reverse: true,
+                        itemCount: messages.length,
+                        shrinkWrap: true,
+                        padding: const EdgeInsets.only(top: 10, bottom: 10),
+                        itemBuilder: (context, index) {
+                          return Container(
+                            padding: const EdgeInsets.only(
+                                left: 14, right: 14, top: 10, bottom: 10),
+                            child: Align(
+                              alignment: (messages[index].sentByMe
+                                  ? Alignment.topLeft
+                                  : Alignment.topRight),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: (messages[index].sentByMe
+                                      ? Colors.grey.shade200
+                                      : Colors.indigo[200]),
+                                ),
+                                padding: const EdgeInsets.all(16),
+                                child: Text(
+                                  messages[index].message,
+                                  style: const TextStyle(fontSize: 15),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ),
-                ),
-              );
-            },
-          ),
-          Align(
-            alignment: Alignment.bottomLeft,
-            child: Container(
-              padding: const EdgeInsets.only(left: 10, bottom: 10, top: 10),
-              height: 60,
-              width: double.infinity,
-              color: Colors.white,
-              child: Row(
-                children: <Widget>[
-                  GestureDetector(
-                    onTap: () {},
+                  Align(
+                    alignment: Alignment.bottomLeft,
                     child: Container(
-                      height: 30,
-                      width: 30,
-                      decoration: BoxDecoration(
-                        color: Colors.lightBlue,
-                        borderRadius: BorderRadius.circular(30),
+                      padding: const EdgeInsets.only(
+                        left: 10,
+                        bottom: 10,
+                        top: 10,
                       ),
-                      child: const Icon(
-                        Icons.add,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 15,
-                  ),
-                  Expanded(
-                    child: TextFormField(
-                      controller: messageController,
-                      decoration: const InputDecoration(
-                        hintText: "Write message...",
-                        hintStyle: TextStyle(color: Colors.black54),
-                        border: InputBorder.none,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 15,
-                  ),
-                  FloatingActionButton(
-                    onPressed: () {
-                      if (messageController.text.trim().isNotEmpty) {
-                        sendMessage();
-                      }
-                    },
-                    backgroundColor: Colors.blue,
-                    elevation: 0,
-                    child: const Icon(
-                      Icons.send,
+                      height: 60,
+                      width: double.infinity,
                       color: Colors.white,
-                      size: 18,
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: TextFormField(
+                              controller: messageController,
+                              decoration: const InputDecoration(
+                                hintText: "Write message...",
+                                hintStyle: TextStyle(color: Colors.black54),
+                                border: InputBorder.none,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 15,
+                          ),
+                          FloatingActionButton(
+                            onPressed: () {
+                              if (messageController.text.trim().isNotEmpty) {
+                                // print('sender id is ${ChatPage.getCurrentUser()}');
+                                final bloc = BlocProvider.of<ChatBloc>(context);
+                                bloc.add(
+                                  SendMessage(
+                                    sendMessageModel: SendMessageModel(
+                                      cID: widget.cID,
+                                      message: messageController.text.trim(),
+                                      senderID: ChatPage.getCurrentUser(),
+                                      token: widget.token,
+                                    ),
+                                  ),
+                                );
+
+                                // sendMessage(
+                                //   message: messageController.text.trim(),
+                                //   cID: widget.cID,
+                                //   token: widget.token,
+                                //   senderID: ChatPage.getCurrentUser(),
+                                // ).then((value) => messageController.clear());
+                              }
+                            },
+                            backgroundColor: Colors.indigo,
+                            elevation: 0,
+                            child: const Icon(
+                              Icons.send,
+                              color: Colors.white,
+                              size: 18,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
-              ),
-            ),
+              );
+            }
+            return const Center(
+              child: Text("Nothing Yet."),
+            );
+          }
+        }),
+        future: ChatRepository.getPreviousConversations(
+          getPreviousConversationsModel: GetPreviousConversationsModel(
+            token: widget.token,
+            cID: widget.cID,
           ),
-        ],
+        ),
       ),
     );
   }

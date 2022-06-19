@@ -3,17 +3,18 @@ import 'package:balemoya/chat/screens/chat_detail_page.dart';
 
 class ConversationList extends StatefulWidget {
   final String name;
-  final String messageText;
   final String imageUrl;
-  final String time;
-  final bool isMessageRead;
+  final String sID;
+  final String cID;
+  final String token;
+
   const ConversationList({
     Key? key,
     required this.name,
-    required this.messageText,
     required this.imageUrl,
-    required this.time,
-    required this.isMessageRead,
+    required this.sID,
+    required this.cID,
+    required this.token,
   }) : super(key: key);
   @override
   // ignore: library_private_types_in_public_api
@@ -23,10 +24,16 @@ class ConversationList extends StatefulWidget {
 class _ConversationListState extends State<ConversationList> {
   @override
   Widget build(BuildContext context) {
+
     return GestureDetector(
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return const ChatDetailPage();
+          return ChatDetailPage(
+            chatWith: widget.name,
+            sID: widget.sID,
+            cID: widget.cID,
+            token: widget.token,
+          );
         }));
       },
       child: Container(
@@ -57,29 +64,12 @@ class _ConversationListState extends State<ConversationList> {
                           const SizedBox(
                             height: 6,
                           ),
-                          Text(
-                            widget.messageText,
-                            style: TextStyle(
-                                fontSize: 13,
-                                color: Colors.grey.shade600,
-                                fontWeight: widget.isMessageRead
-                                    ? FontWeight.bold
-                                    : FontWeight.normal),
-                          ),
                         ],
                       ),
                     ),
                   ),
                 ],
               ),
-            ),
-            Text(
-              widget.time,
-              style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: widget.isMessageRead
-                      ? FontWeight.bold
-                      : FontWeight.normal),
             ),
           ],
         ),

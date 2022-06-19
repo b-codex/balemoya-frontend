@@ -1,107 +1,48 @@
-import 'package:balemoya/chat/models/models.dart';
-import 'package:balemoya/chat/screens/conversation_list.dart';
 import 'package:flutter/material.dart';
+
+import 'package:balemoya/chat/models/models.dart';
+import 'package:balemoya/chat/repository/repository.dart';
+import 'package:balemoya/chat/screens/conversation_list.dart';
 
 class ChatPage {
   static List<ChatUsers> chatUsers = [
     ChatUsers(
-        name: "Jane Russel",
-        messageText: "Awesome Setup",
-        imageURL: "images/userImage1.jpeg",
-        time: "Now"),
-    ChatUsers(
-        name: "Glady's Murphy",
-        messageText: "That's Great",
-        imageURL: "images/userImage2.jpeg",
-        time: "Yesterday"),
-    ChatUsers(
-        name: "Jorge Henry",
-        messageText: "Hey where are you?",
-        imageURL: "images/userImage3.jpeg",
-        time: "31 Mar"),
-    ChatUsers(
-        name: "Philip Fox",
-        messageText: "Busy! Call me in 20 mins",
-        imageURL: "images/userImage4.jpeg",
-        time: "28 Mar"),
-    ChatUsers(
-        name: "Debra Hawkins",
-        messageText: "Thankyou, It's awesome",
-        imageURL: "images/userImage5.jpeg",
-        time: "23 Mar"),
-    ChatUsers(
-        name: "Jacob Pena",
-        messageText: "will update you in evening",
-        imageURL: "images/userImage6.jpeg",
-        time: "17 Mar"),
-    ChatUsers(
-        name: "Andre Jones",
-        messageText: "Can you please share the file?",
-        imageURL: "images/userImage7.jpeg",
-        time: "24 Feb"),
-    ChatUsers(
-        name: "John Wick",
-        messageText: "How are you?",
-        imageURL: "images/userImage8.jpeg",
-        time: "18 Feb"),
+      name: "currentUser",
+      imageURL: "images/userImage1.jpeg",
+    ),
   ];
+
+  static late String currentUser;
+  static late String token;
+
+  static setCurrentUser(String user) {
+    currentUser = user;
+  }
+
+  static setToken(String token) {
+    ChatPage.token = token;
+  }
+
+  static getCurrentUser() {
+    return currentUser;
+  }
 
   static returnWidget() {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Conversations"),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            // SafeArea(
-            //   child: Padding(
-            //     padding: const EdgeInsets.only(left: 16, right: 16, top: 10),
-            //     child: Row(
-            //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //       children: <Widget>[
-            //         const Text(
-            //           "Conversations",
-            //           style:
-            //               TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-            //         ),
-            //         Container(
-            //           padding: const EdgeInsets.only(
-            //               left: 8, right: 8, top: 2, bottom: 2),
-            //           height: 30,
-            //           decoration: BoxDecoration(
-            //             borderRadius: BorderRadius.circular(30),
-            //             color: Colors.pink[50],
-            //           ),
-            //           child: Row(
-            //             children: const <Widget>[
-            //               Icon(
-            //                 Icons.add,
-            //                 color: Colors.pink,
-            //                 size: 20,
-            //               ),
-            //               SizedBox(
-            //                 width: 2,
-            //               ),
-            //               Text(
-            //                 "Add New",
-            //                 style: TextStyle(
-            //                     fontSize: 14, fontWeight: FontWeight.bold),
-            //               ),
-            //             ],
-            //           ),
-            //         )
-            //       ],
-            //     ),
-            //   ),
-            // ),
             Padding(
               padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
               child: TextField(
                 decoration: InputDecoration(
-                  hintText: "Search...",
+                  hintText: "Search... $currentUser",
                   hintStyle: TextStyle(color: Colors.grey.shade600),
                   prefixIcon: Icon(
                     Icons.search,
@@ -117,22 +58,81 @@ class ChatPage {
                 ),
               ),
             ),
-            ListView.builder(
-              itemCount: chatUsers.length,
-              shrinkWrap: true,
-              padding: const EdgeInsets.only(top: 16),
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) {
-                return ConversationList(
-                  name: chatUsers[index].name,
-                  messageText: chatUsers[index].messageText,
-                  // imageUrl: chatUsers[index].imageURL,
-                  imageUrl: "https://flyinryanhawks.org/wp-content/uploads/2016/08/profile-placeholder.png",
-                  time: chatUsers[index].time,
-                  isMessageRead: (index == 0 || index == 3) ? true : false,
-                );
+
+            FutureBuilder(
+              // future: getConversation(token: token, id: getCurrentUser()),
+              future: ChatRepository.getConversation(
+                getConversationsModel: GetConversationsModel(
+                  token: token,
+                  id: getCurrentUser(),
+                ),
+              ),
+              builder: (context, snapshot) {
+                //check waiting state
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                if (snapshot.hasData) {
+                  var res = snapshot.data as Map;
+                  var chatList = res['body'];
+                  var rNames = res['rNames'];
+                  print(rNames);
+
+                  if (chatList.isNotEmpty) {
+                    return ListView.builder(
+                      itemCount: chatUsers.length,
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.only(top: 16),
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        // print(chatList[index]);
+
+                        final String cID = chatList[index]["_id"];
+                        final String sID = chatList[index]["members"][0];
+
+                        return ConversationList(
+                          // name: rNames[index],
+                          name: '',
+                          imageUrl:
+                              "https://flyinryanhawks.org/wp-content/uploads/2016/08/profile-placeholder.png",
+                          sID: sID,
+                          cID: cID,
+                          token: token,
+                        );
+                      },
+                    );
+                  } else {
+                    return Column(
+                      children: [
+                        const Center(
+                          child: Text("No Conversations"),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            // startChat(
+                            //   senderID: currentUser,
+                            //   receiverID: '62aeeb5c5877361e6569c59d',
+                            //   token: token,
+                            // ).then((value) {
+                            //   print(value);
+                            // });
+                          },
+                          child: const Text("Start Chat"),
+                        )
+                      ],
+                    );
+                  }
+                } else {
+                  return const Center(
+                    child: Text("No Conversations"),
+                  );
+                }
               },
             ),
+
+            //future builder to get conversations
           ],
         ),
       ),

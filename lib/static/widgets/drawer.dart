@@ -1,9 +1,10 @@
+import 'package:flutter/material.dart';
+
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:balemoya/account/profile/bloc/profile_bloc.dart';
 import 'package:balemoya/job/home/bloc/home_bloc.dart';
 import 'package:balemoya/static/shared_preference.dart';
 import 'package:balemoya/static/widgets/snack_bar.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 /// It's a drawer that has a logout button
@@ -40,6 +41,7 @@ Widget drawer({
             animatedSnackBarType: AnimatedSnackBarType.info,
           );
         }
+
         /// It's showing a snackbar if the logout fails.
         if (state is LoggingOutFailed) {
           animatedSnackBar(
@@ -110,6 +112,7 @@ Widget drawer({
                   leading: Icon(Icons.post_add),
                   title: Text('Create Job Post'),
                   onTap: () {
+                    Navigator.of(context).pop();
                     Navigator.of(context).pushNamed('/create_job_post');
                   },
                 );
@@ -120,6 +123,7 @@ Widget drawer({
               leading: Icon(Icons.message),
               title: Text('Chat'),
               onTap: () {
+                Navigator.of(context).pop();
                 Navigator.of(context).pushNamed('/chat_page');
               },
             ),
@@ -127,6 +131,7 @@ Widget drawer({
               // leading: Icon(Icons.bookmark),
               title: Text('Search Results'),
               onTap: () {
+                Navigator.of(context).pop();
                 Navigator.of(context).pushNamed('/search_results');
               },
             ),
@@ -138,7 +143,7 @@ Widget drawer({
                 ListTile(
                   leading: Icon(Icons.exit_to_app),
                   title: Text('Logout'),
-                  onTap: () async{
+                  onTap: () async {
                     SharedPreference _prefs = SharedPreference();
                     await _prefs.clearSession();
 

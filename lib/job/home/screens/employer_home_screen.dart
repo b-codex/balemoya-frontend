@@ -50,8 +50,6 @@ PreferredSizeWidget employerScreenAppBar(context) {
                   selectedUserList.map((c) => (c.category)).toList();
               // print(queryString);
               // Navigator.pop(context);
-              print(queryString);
-              print(selectedCategories);
               Navigator.of(context).pushNamed(SearchResults.routeName,
                   arguments: {
                     "query": queryString,

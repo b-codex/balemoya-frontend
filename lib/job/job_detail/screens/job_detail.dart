@@ -1,4 +1,7 @@
 import 'package:animated_snack_bar/animated_snack_bar.dart';
+import 'package:balemoya/chat/bloc/chat_bloc.dart';
+import 'package:balemoya/chat/models/models.dart';
+import 'package:balemoya/chat/screens/chat_page.dart';
 import 'package:balemoya/job/job_detail/bloc/job_detail_bloc.dart';
 import 'package:balemoya/job/job_detail/models/model.dart';
 import 'package:balemoya/static/widgets/snack_bar.dart';
@@ -20,8 +23,45 @@ class JobDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    late String token;
+    String receiverID = job['postedBy'];
+
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        actions: [
+          /// The above code is showing a popup menu button with a list of options.
+          PopupMenuButton(
+            child: Icon(Icons.more_vert),
+            itemBuilder: (context) {
+              return <PopupMenuEntry>[
+                PopupMenuItem(
+                  value: 'Start Chat With User',
+                  child: Text(
+                    'Start Chat With User',
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ),
+              ];
+            },
+            onSelected: (clicked) async {
+              if (clicked == 'Start Chat With User') {
+                final bloc = BlocProvider.of<ChatBloc>(context);
+                bloc.add(
+                  StartChat(
+                    createConversationModel: CreateConversationModel(
+                      senderID: ChatPage.getCurrentUser(),
+                      receiverID: receiverID,
+                      token: token,
+                    ),
+                  ),
+                );
+                Navigator.of(context).pop();
+                Navigator.of(context).pushNamed('/chat_page');
+              }
+            },
+          ),
+        ],
+      ),
       body: FutureBuilder<dynamic>(
         future: SharedPreference().getSession(),
         builder: (context, dataSnapshot) {
@@ -32,9 +72,10 @@ class JobDetail extends StatelessWidget {
           } else {
             if (dataSnapshot.error != null) {
               return Center(
-                child: Text('An error occured'),
+                child: Text('An error occurred'),
               );
             } else {
+              token = dataSnapshot.data[1];
               return _body(context, job, dataSnapshot.data![3]);
             }
           }
@@ -80,9 +121,11 @@ Widget _body(context, job, userId) {
                   bloc.add(GetJobPosts());
                   Navigator.of(context).pop();
                 } else {
-                  var snackBar =
-                      SnackBar(content: Text("Job couldn't be deleted"));
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  animatedSnackBar(
+                    context: context,
+                    message: "Job couldn't be deleted",
+                    animatedSnackBarType: AnimatedSnackBarType.error,
+                  );
                 }
               },
               child: Text("Delete Job Post"))

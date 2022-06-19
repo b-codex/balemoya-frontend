@@ -50,8 +50,8 @@ PreferredSizeWidget employeeScreenAppBar(context) {
                   selectedUserList.map((c) => (c.category)).toList();
               // print(queryString);
               // Navigator.pop(context);
-              print(queryString);
-              print(selectedCategories);
+              // print(queryString);
+              // print(selectedCategories);
               Navigator.of(context).pushNamed(SearchResults.routeName,
                   arguments: {
                     "query": queryString,
@@ -75,28 +75,6 @@ PreferredSizeWidget employeeScreenAppBar(context) {
 /// The String is a variable.
 ///
 /// The variable is a parameter of the function.
-///
-/// The function is a parameter of the widget.
-///
-/// The widget is a parameter of the function.
-///
-/// The function is a parameter of the widget.
-///
-/// The widget is a parameter of the function.
-///
-/// The function is a parameter of the widget.
-///
-/// The widget is a parameter of the function.
-///
-/// The function is a parameter of the widget.
-///
-/// The widget is a parameter of the function.
-///
-/// The function is a parameter of the widget.
-///
-/// The widget is a parameter of the function.
-///
-/// The function is a parameter of the widget.
 ///
 /// Args:
 ///   context: BuildContext
@@ -193,15 +171,15 @@ Widget employeeScreenPopularJobs(context, jobs, role) {
                 fontSize: 20,
               ),
             ),
-            TextButton(
-              onPressed: () {},
-              child: Text(
-                'See all',
-                style: TextStyle(
-                  fontSize: 13,
-                ),
-              ),
-            ),
+            // TextButton(
+            //   onPressed: () {},
+            //   child: Text(
+            //     'See all',
+            //     style: TextStyle(
+            //       fontSize: 13,
+            //     ),
+            //   ),
+            // ),
           ],
         ),
         SingleChildScrollView(
@@ -213,6 +191,7 @@ Widget employeeScreenPopularJobs(context, jobs, role) {
                   job['createdAt'],
                 ),
               );
+
               return employeeScreenPopularJobsCard(
                 context: context,
                 id: job["_id"],
@@ -228,6 +207,7 @@ Widget employeeScreenPopularJobs(context, jobs, role) {
                 requirements: job["requirements"],
                 postedDate: postedDate,
                 role: role,
+                postedBy: job['postedBy'] ?? '',
               );
             }).toList(),
           ),
@@ -260,6 +240,7 @@ Widget employeeScreenPopularJobsCard({
   required String requirements,
   required String postedDate,
   required String role,
+  required String postedBy,
 }) {
   return GestureDetector(
     onTap: () {
@@ -278,6 +259,7 @@ Widget employeeScreenPopularJobsCard({
         "requirements": requirements,
         "postedDate": postedDate,
         "role": role,
+        "postedBy": postedBy,
       });
     },
     child: Container(
@@ -417,15 +399,15 @@ Widget employeeScreenLatestJobs(context, jobs, role) {
                 fontSize: 20,
               ),
             ),
-            TextButton(
-              onPressed: () {},
-              child: Text(
-                'See all',
-                style: TextStyle(
-                  fontSize: 13,
-                ),
-              ),
-            ),
+            // TextButton(
+            //   onPressed: () {},
+            //   child: Text(
+            //     'See all',
+            //     style: TextStyle(
+            //       fontSize: 13,
+            //     ),
+            //   ),
+            // ),
           ],
         ),
         SizedBox(
@@ -455,6 +437,7 @@ Widget employeeScreenLatestJobs(context, jobs, role) {
               requirements: job['requirements'],
               postedDate: postedDate,
               role: role,
+              postedBy: job['postedBy'] ?? '',
             );
           }).toList(),
         ),
@@ -487,6 +470,7 @@ Widget employeeScreenLatestJobsCard({
   required String requirements,
   required String postedDate,
   required String role,
+  required String postedBy,
 }) {
   return GestureDetector(
     onTap: () {
@@ -504,6 +488,7 @@ Widget employeeScreenLatestJobsCard({
         "requirements": requirements,
         "postedDate": postedDate,
         "role": role,
+        "postedBy": postedBy,
       });
     },
     child: Container(

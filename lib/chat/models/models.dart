@@ -1,79 +1,74 @@
-class GetConversationsForUser {
-  final String userID;
-  final String sessionID;
+class GetConversationsModel {
+  final String token;
+  final String id;
 
-  GetConversationsForUser({required this.userID, required this.sessionID});
+  GetConversationsModel({required this.token, required this.id});
 }
 
-class GetBothUsers {
-  final String userOneID;
-  final String userTwoID;
+class GetNameModel {
+  final String token;
+  final String receiverID;
 
-  GetBothUsers({
-    required this.userOneID,
-    required this.userTwoID,
-  });
+  GetNameModel({required this.token, required this.receiverID});
 }
 
-class CreateConversation {
+class GetPreviousConversationsModel {
+  final String token;
+  final String cID;
+
+  GetPreviousConversationsModel({required this.token, required this.cID});
+}
+
+class CreateConversationModel {
   final String senderID;
   final String receiverID;
-  final String sessionID;
+  final String token;
 
-  CreateConversation({
+  CreateConversationModel({
     required this.senderID,
     required this.receiverID,
-    required this.sessionID,
+    required this.token,
   });
 }
 
-class SendMessage {
-  final String conversationID;
-  final String text;
+class SendMessageModel {
+  final String cID;
+  final String message;
   final String senderID;
-  final String sessionID;
+  final String token;
 
-  SendMessage({
-    required this.conversationID,
-    required this.text,
+  SendMessageModel({
+    required this.cID,
+    required this.message,
     required this.senderID,
-    required this.sessionID,
+    required this.token,
   });
 }
 
 class ChatMessage {
   final String message;
-  final String senderUsername;
-  final DateTime sentAt;
-  final String messageType;
+  final String senderID;
+  final bool sentByMe;
   ChatMessage({
     required this.message,
-    required this.senderUsername,
-    required this.sentAt,
-    required this.messageType,
+    required this.senderID,
+    this.sentByMe = false,
   });
+  //get sessionID from shared preferences
 
   factory ChatMessage.fromJson(Map<String, dynamic> json) {
     return ChatMessage(
       message: json['message'] as String,
-      senderUsername: json['senderUsername'] as String,
-      sentAt: DateTime.fromMillisecondsSinceEpoch(json['sentAt'] * 1000),
-      // messageType: json['messageType'] ? "receiver" : "sender",
-      messageType: "sender",
+      senderID: json['senderID'] as String,
     );
   }
 }
 
 class ChatUsers {
   String name;
-  String messageText;
   String imageURL;
-  String time;
   ChatUsers({
     required this.name,
-    required this.messageText,
     required this.imageURL,
-    required this.time,
   });
 }
-

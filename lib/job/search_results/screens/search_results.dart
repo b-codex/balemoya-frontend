@@ -40,7 +40,6 @@ class _SearchResultsState extends State<SearchResults> {
   void initState() {
     super.initState();
     searchResult = getSearchResults();
-    print("WOW INI");
   }
 
   @override
