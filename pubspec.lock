@@ -289,7 +289,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.3"
-<<<<<<< HEAD
   logging:
     dependency: transitive
     description:
@@ -297,8 +296,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
-=======
->>>>>>> Front
   matcher:
     dependency: transitive
     description:

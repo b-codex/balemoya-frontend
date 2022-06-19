@@ -63,16 +63,16 @@ class LoginProvider {
   }
 }
 
-/// _saveSession() is an async function that takes in two required parameters, name and sessionID. It
-/// then calls the saveSession() function from the SharedPreference class and returns the response
-///
+/// _saveSession() is a function that saves the session of the user
+/// 
 /// Args:
-///   name (String): The name of the session.
-///   sessionID (String): The session ID is a unique identifier that is generated for authenticating
-/// users.
-///
+///   fullName (String): The user's full name
+///   sessionID (String): This is the session ID that is returned from the server.
+///   role (String): is the role of the user,
+///   userID (String): The user's ID
+/// 
 /// Returns:
-///   A bool;
+///   A Future&lt;bool&gt;
 _saveSession({
   required String fullName,
   required String sessionID,
