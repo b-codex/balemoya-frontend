@@ -115,7 +115,7 @@ class ChatProvider {
     }
   }
 
-  Future startChat(
+  static Future startChat(
       {required CreateConversationModel createConversationModel}) async {
     var body = {
       "senderId": createConversationModel.senderID,
@@ -132,7 +132,7 @@ class ChatProvider {
           "Authorization": "Bearer ${createConversationModel.token}"
         });
 
-    print(body);
+    // print(body);
     if (response.statusCode == 200) {
       return json.decode(response.body);
     } else {

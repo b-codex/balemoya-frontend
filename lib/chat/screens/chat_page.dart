@@ -78,7 +78,7 @@ class ChatPage {
                   var res = snapshot.data as Map;
                   var chatList = res['body'];
                   var rNames = res['rNames'];
-                  print(rNames);
+                  // print(rNames);
 
                   if (chatList.isNotEmpty) {
                     return ListView.builder(

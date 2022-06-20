@@ -14,7 +14,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
       final response =
           await loginRepository.attemptLogin(event.loginModel) as Map;
-      print(response);
+
       if (response['status'] == 200) {
         emit(
           LoginSuccess(

@@ -49,5 +49,24 @@ class JobDetailBloc extends Bloc<JobDetailEvent, JobDetailState> {
         ReviewNotPosted();
       }
     });
+
+    on<EditJobPostEvent>((event, emit) async {
+      final sessionID = await sharedPreference.getSession().then(
+        (value) {
+          return value;
+        },
+      );
+
+      final response = await jobDetailRepository.editJobPost(
+        editJobPostModel: event.editJobPostModel,
+        sessionID: sessionID,
+      ) as Map;
+
+      if (response['success']) {
+        emit(JobPostEdited());
+      } else {
+        emit(JobPostNotEdited());
+      }
+    });
   }
 }

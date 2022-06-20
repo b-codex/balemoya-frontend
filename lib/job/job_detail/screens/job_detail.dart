@@ -1,9 +1,12 @@
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:balemoya/chat/bloc/chat_bloc.dart';
 import 'package:balemoya/chat/models/models.dart';
+import 'package:balemoya/chat/provider/provider.dart';
+import 'package:balemoya/chat/screens/chat_detail_page.dart';
 import 'package:balemoya/chat/screens/chat_page.dart';
 import 'package:balemoya/job/job_detail/bloc/job_detail_bloc.dart';
 import 'package:balemoya/job/job_detail/models/model.dart';
+import 'package:balemoya/job/job_detail/screens/edit_job_post.dart';
 import 'package:balemoya/static/widgets/snack_bar.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -55,8 +58,35 @@ class JobDetail extends StatelessWidget {
                     ),
                   ),
                 );
+                print('posted by id is ${job['postedBy']}');
+                var chatWith = await ChatProvider.getName(
+                    getNameModel: GetNameModel(
+                  receiverID: job['postedBy'],
+                  token: token,
+                ));
+
+                print('chatWith is $chatWith');
+
+                var cID = await ChatProvider.startChat(
+                  createConversationModel: CreateConversationModel(
+                    senderID: ChatPage.getCurrentUser(),
+                    receiverID: receiverID,
+                    token: token,
+                  ),
+                );
+
                 Navigator.of(context).pop();
-                Navigator.of(context).pushNamed('/chat_page');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ChatDetailPage(
+                      chatWith: chatWith ?? '',
+                      sID: ChatPage.getCurrentUser() ?? '',
+                      cID: cID['_id'] ?? '',
+                      token: token,
+                    ),
+                  ),
+                );
               }
             },
           ),
@@ -129,6 +159,31 @@ Widget _body(context, job, userId) {
                 }
               },
               child: Text("Delete Job Post"))
+          : Container(),
+      userId == job["postedBy"]
+          ? TextButton(
+              onPressed: () async {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return EditJobPost(
+                        id: job["_id"],
+                        companyName: job['companyName'],
+                        location: job['location'],
+                        salary: job['salary'],
+                        shortDescription: job['shortDescription'],
+                        requirements: job['requirements'],
+                        qualification: job['qualification'],
+                        jobTitle: job['jobTitle'],
+                        tag: job['tag'],
+                        companySize: job['companySize'],
+                        jobType: job['jobType'],
+                      );
+                    },
+                  ),
+                );
+              },
+              child: Text("Edit Job Post"))
           : Container()
     ],
   );

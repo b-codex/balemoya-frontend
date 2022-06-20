@@ -14,3 +14,9 @@ class PostReviewEvent extends JobDetailEvent {
 
   PostReviewEvent({required this.postReviewModel});
 }
+
+class EditJobPostEvent extends JobDetailEvent {
+  final EditJobPostModel editJobPostModel;
+
+  EditJobPostEvent({required this.editJobPostModel});
+}

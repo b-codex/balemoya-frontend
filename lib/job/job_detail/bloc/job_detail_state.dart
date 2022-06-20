@@ -12,3 +12,7 @@ class NotAppliedToJobPost extends JobDetailState {}
 class ReviewPosted extends JobDetailState {}
 
 class ReviewNotPosted extends JobDetailState {}
+
+class JobPostEdited extends JobDetailState {}
+
+class JobPostNotEdited extends JobDetailState {}

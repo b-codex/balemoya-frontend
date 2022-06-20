@@ -1,3 +1,4 @@
+import 'package:balemoya/job/job_detail/screens/edit_job_post.dart';
 import 'package:flutter/material.dart';
 
 import 'package:balemoya/account/employeeProfileView/screens/employee_profile_view.dart';
@@ -30,6 +31,7 @@ class RouteManager {
   static const String employee_profile_view = '/employee_profile_view';
   static const String employer_profile_view = '/employer_profile_screen';
   static const String chat_page = '/chat_page';
+  static const String edit_job_post = '/edit_job_post';
 
   /// It takes a RouteSettings object as an argument and returns a Route object
   ///
@@ -119,6 +121,13 @@ class RouteManager {
         return MaterialPageRoute(
           builder: (context) => ChatPage.returnWidget(),
         );
+
+      // case edit_job_post:
+      //   return MaterialPageRoute(
+      //     builder: (context) => EditJobPost(
+      //       job: values['job'],
+      //     ),
+      //   );
       // case employer_profile_screen:
       //   return MaterialPageRoute(
       //     builder: (context) => EmployerProfileView(),

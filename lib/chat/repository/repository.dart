@@ -10,16 +10,22 @@ class ChatRepository {
     return await chatProvider.sendMessage(sendMessageModel: sendMessageModel);
   }
 
-  static Future getConversation({required GetConversationsModel getConversationsModel}) async {
-    return await ChatProvider.getConversation(getConversationsModel: getConversationsModel);
+  static Future getConversation(
+      {required GetConversationsModel getConversationsModel}) async {
+    return await ChatProvider.getConversation(
+        getConversationsModel: getConversationsModel);
   }
 
-  static Future getPreviousConversations({required GetPreviousConversationsModel getPreviousConversationsModel}) async {
-    return await ChatProvider.getPreviousConversations(getPreviousConversationsModel: getPreviousConversationsModel);
+  static Future getPreviousConversations(
+      {required GetPreviousConversationsModel
+          getPreviousConversationsModel}) async {
+    return await ChatProvider.getPreviousConversations(
+        getPreviousConversationsModel: getPreviousConversationsModel);
   }
 
-  Future startChat({required CreateConversationModel createConversationModel}) async {
-    return await chatProvider.startChat(createConversationModel: createConversationModel);
+  Future startChat(
+      {required CreateConversationModel createConversationModel}) async {
+    return await ChatProvider.startChat(
+        createConversationModel: createConversationModel);
   }
-
 }
