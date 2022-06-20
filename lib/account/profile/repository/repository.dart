@@ -39,9 +39,10 @@ class ProfileRepository {
     };
   }
 
-  Future<Object> changeProfilePicture({required String filePath}) async {
+  Future<Object> changeProfilePicture({required String filePath, required String sessionID}) async {
     final response = await profileProvider.changeProfilePicture(
       filePath: filePath,
+      sessionID: sessionID,
     ) as Map;
 
     if (response['status'] == 200) {

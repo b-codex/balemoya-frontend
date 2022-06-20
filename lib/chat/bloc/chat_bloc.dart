@@ -11,7 +11,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   ChatBloc({required this.chatRepository}) : super(ChatInitial()) {
     on<SendMessage>((event, emit) async{
       final response = await chatRepository.sendMessage(sendMessageModel: event.sendMessageModel);
-      if(response.statusCode == 200){
+      if(response != null){
         emit(MessageSent());
       } else {
         emit(MessageNotSent());

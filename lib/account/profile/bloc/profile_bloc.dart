@@ -46,8 +46,14 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     });
 
     on<ChangeProfilePictureEvent>(((event, emit) async {
+      final sessionID = await sharedPreference.getSession().then(
+        (value) {
+          return value;
+        },
+      );
       final response = await profileRepository.changeProfilePicture(
         filePath: event.filePath,
+        sessionID: sessionID[1],
       ) as Map;
 
       if (response['success'] == true) {
@@ -193,6 +199,4 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       }
     });
   }
-
-  
 }

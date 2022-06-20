@@ -1,6 +1,7 @@
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:balemoya/account/reset_password/bloc/reset_password_bloc.dart';
 import 'package:balemoya/account/reset_password/models/models.dart';
+import 'package:balemoya/auth/login/screens/login_screen.dart';
 import 'package:balemoya/static/widgets/snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,9 +40,14 @@ PreferredSizeWidget _appBar() {
 ///   A BlocConsumer widget.
 Widget _body(context) {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey2 = GlobalKey<FormState>();
   var _fullNameController = TextEditingController();
   var _emailController = TextEditingController();
   var _phoneNumberController = TextEditingController();
+  var _securityQuestionController1 = TextEditingController();
+  var _securityQuestionController2 = TextEditingController();
+  var _securityQuestionController3 = TextEditingController();
+  var _newPasswordController = TextEditingController();
 
   return BlocConsumer<ResetPasswordBloc, ResetPasswordState>(
     listener: (context, state) {
@@ -49,31 +55,45 @@ Widget _body(context) {
       if (state is PasswordResetSuccess) {
         animatedSnackBar(
           context: context,
-          message: "Password Changed Successfully.",
+          message: "Your Password has been reset successfully",
           animatedSnackBarType: AnimatedSnackBarType.success,
         );
-        var _alertDialog = AlertDialog(
-          title: Text('Confirmation'),
-          content: Text(
-              'Your information has been validated. Please check your email for password reset link.\nDon\'t forget to check spam folder.'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                  "/login",
-                  (route) => false,
-                );
-              },
-              child: Text('Ok'),
-            ),
-          ],
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (context) => LoginScreen(),
+          ),
+          (route) => false,
         );
-        showDialog(
-          context: context,
-          builder: (BuildContext ctx) {
-            return _alertDialog;
-          },
-        );
+        // var _alertDialog = AlertDialog(
+        //   title: Text('Your New Password?'),
+        //   content: Form(
+        //     key: _formKey2,
+        //     child: _formField(
+        //       _newPasswordController,
+        //       "New Password",
+        //       Icon(Icons.security),
+        //       TextInputType.text,
+        //     ),
+        //   ),
+        //   actions: [
+        //     TextButton(
+        //       onPressed: () {
+        //         if (_formKey2.currentState!.validate()) {}
+        //         Navigator.of(context).pushNamedAndRemoveUntil(
+        //           "/login",
+        //           (route) => false,
+        //         );
+        //       },
+        //       child: Text('Ok'),
+        //     ),
+        //   ],
+        // );
+        // showDialog(
+        //   context: context,
+        //   builder: (BuildContext ctx) {
+        //     return _alertDialog;
+        //   },
+        // );
       }
 
       /// Showing a snackbar when the password reset fails.
@@ -124,6 +144,10 @@ Widget _body(context) {
               _fullName(_fullNameController),
               _email(_emailController),
               _phone(_phoneNumberController),
+              _newPassword(_newPasswordController),
+              _securityQuestion1(_securityQuestionController1),
+              _securityQuestion2(_securityQuestionController2),
+              _securityQuestion3(_securityQuestionController3),
               Container(
                 margin: EdgeInsets.only(
                   top: 35,
@@ -142,6 +166,13 @@ Widget _body(context) {
                             fullName: _fullNameController.text.trim(),
                             email: _emailController.text.trim(),
                             phoneNumber: _phoneNumberController.text.trim(),
+                            securityQuestion1:
+                                _securityQuestionController1.text.trim(),
+                            securityQuestion2:
+                                _securityQuestionController2.text.trim(),
+                            securityQuestion3:
+                                _securityQuestionController3.text.trim(),
+                            newPassword: _newPasswordController.text.trim(),
                           ),
                         ),
                       );
@@ -224,6 +255,66 @@ Widget _phone(_phoneNumberController) {
       "Phone Number",
       Icon(Icons.phone),
       TextInputType.phone,
+    ),
+  );
+}
+
+Widget _newPassword(_newPasswordController) {
+  return Container(
+    margin: EdgeInsets.symmetric(
+      vertical: 5,
+      horizontal: 10,
+    ),
+    child: _formField(
+      _newPasswordController,
+      "New Password",
+      Icon(Icons.security),
+      TextInputType.visiblePassword,
+    ),
+  );
+}
+
+Widget _securityQuestion1(_securityQuestion1Controller) {
+  return Container(
+    margin: EdgeInsets.symmetric(
+      vertical: 5,
+      horizontal: 10,
+    ),
+    child: _formField(
+      _securityQuestion1Controller,
+      "Favorite Place",
+      Icon(Icons.question_answer),
+      TextInputType.text,
+    ),
+  );
+}
+
+Widget _securityQuestion2(_securityQuestion2Controller) {
+  return Container(
+    margin: EdgeInsets.symmetric(
+      vertical: 5,
+      horizontal: 10,
+    ),
+    child: _formField(
+      _securityQuestion2Controller,
+      "Childhood Memory",
+      Icon(Icons.question_answer),
+      TextInputType.text,
+    ),
+  );
+}
+
+Widget _securityQuestion3(_securityQuestion3Controller) {
+  return Container(
+    margin: EdgeInsets.symmetric(
+      vertical: 5,
+      horizontal: 10,
+    ),
+    child: _formField(
+      _securityQuestion3Controller,
+      "Mother's Maiden Name",
+      Icon(Icons.question_answer),
+      TextInputType.text,
     ),
   );
 }

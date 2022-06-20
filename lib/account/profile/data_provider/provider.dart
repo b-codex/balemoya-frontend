@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:balemoya/account/profile/data_provider/create_resume.dart';
 import 'package:balemoya/account/profile/models/models.dart';
@@ -41,20 +42,33 @@ class ProfileProvider {
     return {};
   }
 
-  Future<Object> changeProfilePicture({required String filePath}) async {
-    final url = "http://account-service-1.herokuapp.com/";
-    final request = http.MultipartRequest('POST', Uri.parse(url));
+  Future<Object> changeProfilePicture({
+    required String filePath,
+    required String sessionID,
+  }) async {
+    final url = "$apiRoute/microservice/accountService/users/update";
+    // final request = http.MultipartRequest('PU', Uri.parse(url));
 
-    request.files.add(
-      await http.MultipartFile.fromPath(
-        'profile picture',
-        filePath,
-        // contentType: MediaType('application', 'x-tar'),
-      ),
-    );
+    // request.files.add(
+    //   await http.MultipartFile.fromPath(
+    //     'profile picture',
+    //     filePath,
+    //     // contentType: MediaType('application', 'x-tar'),
+    //   ),
+    // );
 
-    final response = await request.send();
+    // final response = await request.send();
 
+
+    List<int> imageBytes = await File(filePath).readAsBytes();
+    String base64Image = base64Encode(imageBytes);
+
+    final response = await http.put(Uri.parse(url), headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': 'Bearer $sessionID'
+    }, body: {
+      'profilePicture': base64Image,
+    });
     if (response.statusCode == 200) {
       return {
         'status': 200,
@@ -238,7 +252,6 @@ class ProfileProvider {
   }
 
   Future buildResume({required String sessionID}) async {
-
     final res = await createPDF() as Map<String, dynamic>;
     if (res['success'] == true) {
       return {

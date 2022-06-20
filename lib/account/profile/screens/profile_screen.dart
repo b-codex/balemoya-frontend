@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:balemoya/account/profile/bloc/profile_bloc.dart';
 import 'package:balemoya/account/profile/models/models.dart';
@@ -97,22 +99,22 @@ class ProfileScreen extends StatelessWidget {
 
         /// Checking if the state is UploadCVSuccess, if it is, it will show a snackbar with the message
         /// 'CV Uploaded.'
-        if (state is UploadCVSuccess) {
-          animatedSnackBar(
-            context: context,
-            message: 'CV Uploaded.',
-            animatedSnackBarType: AnimatedSnackBarType.success,
-          );
-        }
+        // if (state is UploadCVSuccess) {
+        //   animatedSnackBar(
+        //     context: context,
+        //     message: 'CV Uploaded.',
+        //     animatedSnackBarType: AnimatedSnackBarType.success,
+        //   );
+        // }
 
-        /// Checking if the state is UploadCVFailed, if it is, it will show an error message.
-        if (state is UploadCVFailed) {
-          animatedSnackBar(
-            context: context,
-            message: 'CV Upload Failed.',
-            animatedSnackBarType: AnimatedSnackBarType.error,
-          );
-        }
+        // /// Checking if the state is UploadCVFailed, if it is, it will show an error message.
+        // if (state is UploadCVFailed) {
+        //   animatedSnackBar(
+        //     context: context,
+        //     message: 'CV Upload Failed.',
+        //     animatedSnackBarType: AnimatedSnackBarType.error,
+        //   );
+        // }
 
         /// Checking if the state is PortfolioUpdateSuccess, if it is, it will show a snackbar with the
         /// message "Portfolio Update Success" and then it will call the LoadProfileEvent.
@@ -269,13 +271,13 @@ PreferredSizeWidget _appBar(context) {
                 style: TextStyle(color: Colors.black),
               ),
             ),
-            PopupMenuItem(
-              value: 'Upload CV',
-              child: Text(
-                'Upload CV',
-                style: TextStyle(color: Colors.black),
-              ),
-            ),
+            // PopupMenuItem(
+            //   value: 'Upload CV',
+            //   child: Text(
+            //     'Upload CV',
+            //     style: TextStyle(color: Colors.black),
+            //   ),
+            // ),
             PopupMenuItem(
               value: 'Resume Builder',
               child: Text(
@@ -331,21 +333,21 @@ PreferredSizeWidget _appBar(context) {
           }
 
           /// Uploading a file to the server.
-          if (clicked == 'Upload CV') {
-            final _filePath = await _uploadCV().then(
-              (value) {
-                return value as Map;
-              },
-            );
+          // if (clicked == 'Upload CV') {
+          //   final _filePath = await _uploadCV().then(
+          //     (value) {
+          //       return value as Map;
+          //     },
+          //   );
 
-            if (_filePath['chosen'] == true) {
-              profileBloc.add(
-                UploadCVEvent(
-                  filePath: _filePath['filePath'],
-                ),
-              );
-            }
-          }
+          //   if (_filePath['chosen'] == true) {
+          //     profileBloc.add(
+          //       UploadCVEvent(
+          //         filePath: _filePath['filePath'],
+          //       ),
+          //     );
+          //   }
+          // }
 
           /// Checking if the button is clicked, if it is, it will navigate to the reset password page.
           if (clicked == 'Reset Password') {
@@ -486,6 +488,7 @@ Widget _body({required context, required ProfileModel profileModel}) {
 /// Returns:
 ///   A widget.
 Widget _profilePicture({required String profilePicture}) {
+  var decoded_image = Image.memory(base64Decode(profilePicture));
   return Center(
     child: Container(
       margin: EdgeInsets.only(
