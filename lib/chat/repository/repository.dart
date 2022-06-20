@@ -19,7 +19,7 @@ class ChatRepository {
   }
 
   Future startChat({required CreateConversationModel createConversationModel}) async {
-    return await chatProvider.startChat(createConversationModel: createConversationModel);
+    return await ChatProvider.startChat(createConversationModel: createConversationModel);
   }
 
 }

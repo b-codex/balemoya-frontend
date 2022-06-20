@@ -1,10 +1,10 @@
+import 'package:flutter/material.dart';
+
 import 'package:balemoya/chat/bloc/chat_bloc.dart';
+import 'package:balemoya/chat/models/models.dart';
 import 'package:balemoya/chat/repository/repository.dart';
 import 'package:balemoya/chat/screens/chat_page.dart';
-import 'package:flutter/material.dart';
-import 'package:balemoya/chat/models/models.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../provider/provider.dart';
 
 class ChatDetailPage extends StatefulWidget {
   final String chatWith;
@@ -19,6 +19,8 @@ class ChatDetailPage extends StatefulWidget {
     required this.cID,
     required this.token,
   }) : super(key: key);
+
+  static const routeName = '/chat_detail_page';
 
   @override
   // ignore: library_private_types_in_public_api
@@ -203,7 +205,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                                     ),
                                   ),
                                 );
-
+                                setState(() {});
                                 // sendMessage(
                                 //   message: messageController.text.trim(),
                                 //   cID: widget.cID,

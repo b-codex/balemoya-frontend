@@ -18,7 +18,7 @@ Future<UserResume> fetchPost({required sessionID}) async {
         'Authorization':
             'Bearer $sessionID[1]' // sessionID[1] is the sessionID
       }).timeout(Duration(seconds: 120));
-  print(response.body);
+  // print(response.body);
 
   if (response.statusCode == 200) {
     final parsed = json.decode(response.body);

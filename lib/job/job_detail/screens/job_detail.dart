@@ -1,6 +1,8 @@
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:balemoya/chat/bloc/chat_bloc.dart';
 import 'package:balemoya/chat/models/models.dart';
+import 'package:balemoya/chat/provider/provider.dart';
+import 'package:balemoya/chat/screens/chat_detail_page.dart';
 import 'package:balemoya/chat/screens/chat_page.dart';
 import 'package:balemoya/job/job_detail/bloc/job_detail_bloc.dart';
 import 'package:balemoya/job/job_detail/models/model.dart';
@@ -56,8 +58,35 @@ class JobDetail extends StatelessWidget {
                     ),
                   ),
                 );
+                print('posted by id is ${job['postedBy']}');
+                var chatWith = await ChatProvider.getName(
+                    getNameModel: GetNameModel(
+                  receiverID: job['postedBy'],
+                  token: token,
+                ));
+
+                print('chatWith is $chatWith');
+
+                var cID = await ChatProvider.startChat(
+                  createConversationModel: CreateConversationModel(
+                    senderID: ChatPage.getCurrentUser(),
+                    receiverID: receiverID,
+                    token: token,
+                  ),
+                );
+
                 Navigator.of(context).pop();
-                Navigator.of(context).pushNamed('/chat_page');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ChatDetailPage(
+                      chatWith: chatWith ?? '',
+                      sID: ChatPage.getCurrentUser() ?? '',
+                      cID: cID['_id'] ?? '',
+                      token: token,
+                    ),
+                  ),
+                );
               }
             },
           ),
@@ -134,12 +163,6 @@ Widget _body(context, job, userId) {
       userId == job["postedBy"]
           ? TextButton(
               onPressed: () async {
-                final sessionID = await SharedPreference().getSession().then(
-                  (value) {
-                    return value;
-                  },
-                );
-
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) {
@@ -159,8 +182,6 @@ Widget _body(context, job, userId) {
                     },
                   ),
                 );
-
-
               },
               child: Text("Edit Job Post"))
           : Container()
