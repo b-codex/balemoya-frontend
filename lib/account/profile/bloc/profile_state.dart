@@ -54,3 +54,7 @@ class VerificationRequestFailed extends ProfileState {}
 class ReferenceAdded extends ProfileState {}
 
 class ReferenceNotAdded extends ProfileState {}
+
+class ResumeBuilt extends ProfileState {}
+
+class ResumeBuildingFailed extends ProfileState {}

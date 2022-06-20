@@ -1,4 +1,3 @@
-
 class ProfileModel {
   final String profilePicture;
   final String fullName;
@@ -56,4 +55,36 @@ class EducationModel {
     required this.startedDate,
     required this.endDate,
   });
+}
+
+class UserResume {
+  final String fullName;
+  final List<dynamic> educationalBackground;
+  final List<dynamic> profession;
+  final String email;
+  final String phoneNumber;
+  final String description;
+  final List<dynamic> previousExperience;
+  UserResume({
+    required this.fullName,
+    required this.educationalBackground,
+    required this.profession,
+    required this.email,
+    required this.phoneNumber,
+    required this.description,
+    required this.previousExperience,
+  });
+
+  factory UserResume.fromJson(Map<String, dynamic> json) {
+    // print(json);
+    return UserResume(
+      fullName: json["fullName"],
+      educationalBackground: json["educationalBackground"],
+      profession: json["profession"] ?? "",
+      description: json["description"] ?? "",
+      phoneNumber: json["phoneNumber"],
+      email: json["email"],
+      previousExperience: json["previousExperience"],
+    );
+  }
 }

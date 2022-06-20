@@ -35,7 +35,6 @@ class LoginProvider {
         /// Decoding the response body to a map.
         final body = jsonDecode(response.body) as Map;
 
-
         /// Saving the session.
         _saveSession(
           fullName: body['fullName'],
@@ -60,7 +59,6 @@ class LoginProvider {
         'status': 404,
       };
     } catch (error) {
-
       /// Returning a map with a status of 404.
       return {
         'status': 404,

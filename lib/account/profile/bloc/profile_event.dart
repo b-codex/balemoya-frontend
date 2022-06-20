@@ -65,3 +65,5 @@ class AddReferenceEvent extends ProfileEvent {
 
   AddReferenceEvent({required this.fullName, required this.phoneNumber});
 }
+
+class BuildResumeEvent extends ProfileEvent {}

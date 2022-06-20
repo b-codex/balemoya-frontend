@@ -175,5 +175,24 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         emit(ReferenceNotAdded());
       }
     });
+
+    on<BuildResumeEvent>((event, emit) async {
+      final sessionID = await sharedPreference.getSession().then(
+        (value) {
+          return value;
+        },
+      );
+      final response = await profileRepository.buildResume(
+        sessionID: sessionID,
+      ) as Map;
+
+      if (response['success'] == true) {
+        emit(ResumeBuilt());
+      } else {
+        emit(ResumeBuildingFailed());
+      }
+    });
   }
+
+  
 }

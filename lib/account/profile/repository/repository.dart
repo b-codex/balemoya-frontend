@@ -137,4 +137,12 @@ class ProfileRepository {
 
     return response;
   }
+
+  Future buildResume({required String sessionID}) async {
+    final response = await profileProvider.buildResume(
+      sessionID: sessionID[1],
+    );
+    return response;
+  }
+
 }

@@ -93,8 +93,8 @@ class ChatPage {
                         final String sID = chatList[index]["members"][0];
 
                         return ConversationList(
-                          // name: rNames[index],
-                          name: '',
+                          name: rNames[index],
+                          // name: '',
                           imageUrl:
                               "https://flyinryanhawks.org/wp-content/uploads/2016/08/profile-placeholder.png",
                           sID: sID,

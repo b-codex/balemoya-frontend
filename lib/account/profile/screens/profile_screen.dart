@@ -196,6 +196,20 @@ class ProfileScreen extends StatelessWidget {
             animatedSnackBarType: AnimatedSnackBarType.error,
           );
         }
+        if (state is ResumeBuilt) {
+          animatedSnackBar(
+            context: context,
+            message: "Resume Built And Saved To Storage.",
+            animatedSnackBarType: AnimatedSnackBarType.success,
+          );
+        }
+        if (state is ResumeBuildingFailed) {
+          animatedSnackBar(
+            context: context,
+            message: "Something Went Wrong. Please Try Again.",
+            animatedSnackBarType: AnimatedSnackBarType.error,
+          );
+        }
       },
       builder: (context, state) {
         /// Checking if the state is ProfileInitial, if it is, then it will call the LoadProfileEvent.
@@ -312,7 +326,9 @@ PreferredSizeWidget _appBar(context) {
             }
           }
 
-          if (clicked == 'Resume Builder') {}
+          if (clicked == 'Resume Builder') {
+            profileBloc.add(BuildResumeEvent());
+          }
 
           /// Uploading a file to the server.
           if (clicked == 'Upload CV') {

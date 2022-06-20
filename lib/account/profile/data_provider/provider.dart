@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:balemoya/account/profile/data_provider/create_resume.dart';
 import 'package:balemoya/account/profile/models/models.dart';
 import 'package:http/http.dart' as http;
 import 'package:balemoya/static/variables/static_variables.dart';
@@ -212,8 +213,7 @@ class ProfileProvider {
     required String phoneNumber,
     required List sessionID,
   }) async {
-    final url =
-        "$apiRoute/accountService/employee/reference/reference";
+    final url = "$apiRoute/accountService/employee/reference/reference";
 
     final response = await http.post(
       Uri.parse(url),
@@ -229,6 +229,21 @@ class ProfileProvider {
     if (response.statusCode == 201) {
       return {
         "success": true,
+      };
+    } else {
+      return {
+        "success": false,
+      };
+    }
+  }
+
+  Future buildResume({required String sessionID}) async {
+
+    final res = await createPDF();
+    if (res['success'] == true) {
+      return {
+        "success": true,
+        "response": res['response'],
       };
     } else {
       return {
