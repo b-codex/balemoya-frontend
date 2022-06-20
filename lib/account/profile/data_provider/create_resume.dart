@@ -28,7 +28,7 @@ Future<UserResume> fetchPost({required sessionID}) async {
   }
 }
 
-Future<void> createPDF() async {
+Future<Object> createPDF() async {
   PdfDocument document = PdfDocument();
   final page = document.pages.add();
   UserResume userResumeData = await fetchPost(sessionID: 'sessionID');
@@ -269,6 +269,7 @@ Future<void> createPDF() async {
   document.dispose();
 
   saveAndLaunchFile(bytes, "Output.pdf");
+  return {'success': true};
 }
 
 Future<void> saveAndLaunchFile(List<int> bytes, String fileName) async {

@@ -29,4 +29,16 @@ class JobDetailRepository {
 
     return response;
   }
+
+  Future<Object> editJobPost({
+    required EditJobPostModel editJobPostModel,
+    required List sessionID,
+  }) async {
+    final response = await jobDetailProvider.editJobPost(
+      editJobPostModel: editJobPostModel,
+      sessionID: sessionID[1],
+    );
+
+    return response;
+  }
 }

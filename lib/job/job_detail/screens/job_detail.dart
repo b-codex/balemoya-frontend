@@ -4,6 +4,7 @@ import 'package:balemoya/chat/models/models.dart';
 import 'package:balemoya/chat/screens/chat_page.dart';
 import 'package:balemoya/job/job_detail/bloc/job_detail_bloc.dart';
 import 'package:balemoya/job/job_detail/models/model.dart';
+import 'package:balemoya/job/job_detail/screens/edit_job_post.dart';
 import 'package:balemoya/static/widgets/snack_bar.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -129,6 +130,39 @@ Widget _body(context, job, userId) {
                 }
               },
               child: Text("Delete Job Post"))
+          : Container(),
+      userId == job["postedBy"]
+          ? TextButton(
+              onPressed: () async {
+                final sessionID = await SharedPreference().getSession().then(
+                  (value) {
+                    return value;
+                  },
+                );
+
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return EditJobPost(
+                        id: job["_id"],
+                        companyName: job['companyName'],
+                        location: job['location'],
+                        salary: job['salary'],
+                        shortDescription: job['shortDescription'],
+                        requirements: job['requirements'],
+                        qualification: job['qualification'],
+                        jobTitle: job['jobTitle'],
+                        tag: job['tag'],
+                        companySize: job['companySize'],
+                        jobType: job['jobType'],
+                      );
+                    },
+                  ),
+                );
+
+
+              },
+              child: Text("Edit Job Post"))
           : Container()
     ],
   );

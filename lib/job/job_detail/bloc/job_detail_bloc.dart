@@ -1,3 +1,4 @@
+import 'package:balemoya/job/create_job_post/models/models.dart';
 import 'package:balemoya/job/job_detail/models/model.dart';
 import 'package:balemoya/job/job_detail/repository/repository.dart';
 import 'package:balemoya/static/shared_preference.dart';
@@ -47,6 +48,25 @@ class JobDetailBloc extends Bloc<JobDetailEvent, JobDetailState> {
         emit(ReviewPosted());
       } else {
         ReviewNotPosted();
+      }
+    });
+
+    on<EditJobPostEvent>((event, emit) async {
+      final sessionID = await sharedPreference.getSession().then(
+        (value) {
+          return value;
+        },
+      );
+
+      final response = await jobDetailRepository.editJobPost(
+        editJobPostModel: event.editJobPostModel,
+        sessionID: sessionID,
+      ) as Map;
+
+      if (response['success']) {
+        emit(JobPostEdited());
+      } else {
+        emit(JobPostNotEdited());
       }
     });
   }

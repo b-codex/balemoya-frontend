@@ -1,5 +1,3 @@
-
-
 class CreateJobPostModel {
   final String companyName;
   final String jobTitle;

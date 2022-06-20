@@ -239,7 +239,7 @@ class ProfileProvider {
 
   Future buildResume({required String sessionID}) async {
 
-    final res = await createPDF();
+    final res = await createPDF() as Map<String, dynamic>;
     if (res['success'] == true) {
       return {
         "success": true,

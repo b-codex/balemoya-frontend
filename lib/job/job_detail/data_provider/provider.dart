@@ -79,10 +79,33 @@ class JobDetailProvider {
     }
   }
 
-  Future<bool> deleteJob(
-      {required String sessionID, required String jobId}) async {
+  Future<bool> deleteJob({
+    required String sessionID,
+    required String jobId,
+  }) async {
     final url = "$apiRoute/jobService/employer/jobPost/$jobId";
     final response = await http.delete(Uri.parse(url), headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $sessionID'
+    });
+    if (response.statusCode == 200) {
+      return true;
+    }
+    return false;
+  }
+
+  Future editJobPost({
+    required EditJobPostModel editJobPostModel,
+    required String sessionID,
+  }) async {
+    final url = "$apiRoute/jobService/employer/jobPost/${editJobPostModel.id}";
+    final response = await http.patch(Uri.parse(url), body: {
+      "title": editJobPostModel.jobTitle,
+      "description": editJobPostModel.shortDescription,
+      "salary": editJobPostModel.salary,
+      "location": editJobPostModel.location,
+      "jobType": editJobPostModel.jobType,
+    }, headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $sessionID'
     });
