@@ -59,21 +59,6 @@ bash
 flask run
 
 
-## References
-https://www.freecodecamp.org/news/build-a-chat-app-ui-with-flutter/
-
-https://www.youtube.com/watch?v=ZGT7eLPs59E
-
-https://socket.io/get-started/chat
-
-https://youtu.be/tMM9ty4Wfq0
-
-https://www.youtube.com/watch?v=S6jFBiiP0Mc
-
-https://www.youtube.com/results?search_query=bloc+unit+test+flutter
-
-https://resocoder.com/2019/11/29/bloc-test-tutorial-easier-way-to-test-blocs-in-dart-flutter/
-
 
 ## UIs For The Application
 
@@ -94,4 +79,18 @@ https://resocoder.com/2019/11/29/bloc-test-tutorial-easier-way-to-test-blocs-in-
 <img src="screenshots/employeeProfileView.jpg" width="210"> <img src="screenshots/employeeProfileViewReport.jpg" width="210"> 
 
 
+## References
 
+https://www.freecodecamp.org/news/build-a-chat-app-ui-with-flutter/
+
+https://www.youtube.com/watch?v=ZGT7eLPs59E
+
+https://socket.io/get-started/chat
+
+https://youtu.be/tMM9ty4Wfq0
+
+https://www.youtube.com/watch?v=S6jFBiiP0Mc
+
+https://www.youtube.com/results?search_query=bloc+unit+test+flutter
+
+https://resocoder.com/2019/11/29/bloc-test-tutorial-easier-way-to-test-blocs-in-dart-flutter/
