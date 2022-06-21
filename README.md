@@ -2,13 +2,13 @@
 
 ### Team members name
 
-Abiy Menberu
+ - Abiy Menberu
 
-Bisrat Fekede 
+ - Bisrat Fekede 
 
-Dan Mekonnen
+ - Dan Mekonnen
 
-Sintayehu Sermessa
+ - Sintayehu Sermessa
 
 ### Advisor name
 
@@ -20,12 +20,10 @@ BaleMoya is a multi-disciplinary platform that provides access to any profession
 
 
 ## Tools used
-- Flutter - 
+- Flutter 
 - GitHub for version control
 - Vs Code and it's extensions for collaborated coding, and snippets
 - Trello board
-
-## Setup procedure
 
 
 ### Requirements
@@ -36,8 +34,17 @@ BaleMoya is a multi-disciplinary platform that provides access to any profession
 
 ### Run the app
 
-Install all dependencies
-flutter pub get 
+To install all dependencies
+
+cmd
+flutter pub get
+
+
+To Start the app
+
+cmd
+
+flutter run
 
 ## UIs For The Application
 
