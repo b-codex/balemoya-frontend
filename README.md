@@ -68,15 +68,15 @@ flask run
 
 <img src="screenshots/login.jpg" width="210"> <img src="screenshots/registerEmployee.jpg" width="210"> <img src="screenshots/registerEmployer.jpg" width="210"> <img src="screenshots/resetPassword.jpg" width="210"> 
 
-<img src="screenshots/employeeHomeScreen.jpg" width="210"> <img src="screenshots/jobDetail.jpg" width="210"> 
+<img src="screenshots/employeeHomeScreen.jpg" width="210"> 
 
 <img src="screenshots/search.jpg" width="210"> <img src="screenshots/searchResults.jpg" width="210"> 
 
-<img src="screenshots/bookmarks.jpg" width="210"> <img src="screenshots/createJobPosts.jpg" width="210"> 
+ <img src="screenshots/createJobPosts.jpg" width="210"> 
 
 <img src="screenshots/profileScreen1.jpg" width="210"> <img src="screenshots/profileScreen2.jpg" width="210"> <img src="screenshots/editPortfolio.jpg" width="210"> 
 
-<img src="screenshots/employeeProfileView.jpg" width="210"> <img src="screenshots/employeeProfileViewReport.jpg" width="210"> 
+
 
 
 ## References
