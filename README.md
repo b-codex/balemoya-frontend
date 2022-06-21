@@ -66,8 +66,9 @@ flask run
   <source src="screenshots/introductionScreen.mp4" type="video/mp4">
 </video>
 
-<img src="screenshots/login.jpg" width="210"> <img src="screenshots/registerEmployee.jpg" width="210"> <img src="screenshots/registerEmployer.jpg" width="210"> 
-<img src="screenshots/resetPassword.jpg" width="210"> <img src="screenshots/employeeHomeScreen.jpg" width="210"> 
+<img src="screenshots/login.jpg" width="210"> <img src="screenshots/registerEmployee.jpg" width="210">
+<img src="screenshots/registerEmployer.jpg" width="210"> 
+<img src="screenshots/employeeHomeScreen.jpg" width="210"> 
 
 <img src="screenshots/search.jpg" width="210"> <img src="screenshots/searchResults.jpg" width="210"> 
 
