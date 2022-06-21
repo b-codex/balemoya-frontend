@@ -37,28 +37,7 @@ BaleMoya is a multi-disciplinary platform that provides access to any profession
 ### Run the app
 
 Install all dependencies
-
-bash
-pip install -r requirement.txt
-
-
-To Start the app
-export api/**init**.py
-
-cmd
-export FLASK_APP=API/__init__.py
-
-
-
-./run.sh
-
-
-or
-
-bash
-flask run
-
-
+flutter pub get 
 
 ## UIs For The Application
 
