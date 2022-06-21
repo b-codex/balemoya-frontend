@@ -30,21 +30,21 @@ BaleMoya is a multi-disciplinary platform that provides access to any profession
 
 - Flutter SDK
 - Android SDK (it comes with Android Studio)
-- Device Emulator AVD
+- Mobile Device / Device Emulator AVD  
 
 ### Run the app
 
 To install all dependencies
 
-cmd
-flutter pub get
+On the command line
+```flutter pub get```
 
 
 To Start the app
 
-cmd
+On the command line
 
-flutter run
+```flutter run```
 
 ## UIs For The Application
 
