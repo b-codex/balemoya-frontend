@@ -46,22 +46,6 @@ On the command line
 
 ```flutter run```
 
-## UIs For The Application
-
-<video width="480" height="320" controls="controls">
-  <source src="screenshots/introductionScreen.mp4" type="video/mp4">
-</video>
-
-<img src="screenshots/login.jpg" width="210"> <img src="screenshots/registerEmployee.jpg" width="210">
-<img src="screenshots/registerEmployer.jpg" width="210"> 
-<img src="screenshots/employeeHomeScreen.jpg" width="210"> 
-
-<img src="screenshots/search.jpg" width="210"> <img src="screenshots/searchResults.jpg" width="210"> 
-
- <img src="screenshots/createJobPosts.jpg" width="210">  <img src="screenshots/profileScreen2.jpg" width="210">
-
-
-
 
 ## References
 
